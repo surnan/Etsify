@@ -348,7 +348,7 @@ Returns all the Items inside the Current User's Shopping Cart.
 Add a Product to the Current User's Shopping Cart and Returns the Product.
 
 - Require Authentication: True
-- Request
+- Request:
 
   - Method: POST
   - URL: `/api/users/current/cart/`
@@ -399,7 +399,7 @@ Add a Product to the Current User's Shopping Cart and Returns the Product.
 Searches for All Products with the Product ID and removes one.
 
 - Require Authentication: True
-- Request
+- Request:
 
   - Method: DELETE
   - URL: `/api/users/current/cart/:productId`
@@ -420,7 +420,7 @@ Searches for All Products with the Product ID and removes one.
 - Error Response:
 
   - Status Code: 401
-
+  - Body: 
     ```json
     {
       "message": "Authentication required"
@@ -428,6 +428,7 @@ Searches for All Products with the Product ID and removes one.
     ```
 
   - Status Code: 404
+  - Body:
     ```json
     {
       "message": "Product not found in cart"
@@ -435,3 +436,105 @@ Searches for All Products with the Product ID and removes one.
     ```
 
 ## Orders
+
+### Get all The Orders for the Current User
+
+Get a list of orders for the current User.
+
+- Require Authentication: True
+- Request:
+
+  - Method: POST
+  - URL: `/api/users/current/orders/`
+  - Body: None
+
+- Successful Response:
+
+  - Status Code: 200
+  - Body:
+    ```json
+    {
+      "orders": [
+        {
+          "id": 1,
+          "totalPrice": 59.98,
+          "products": [
+            {
+              "id": 1,
+              "name": "Product 1",
+              "price": 29.99,
+              "quantity": 2,
+              "images": [
+                {
+                  "id": 1,
+                  "imageUrl": "https://example.com/image1.jpg"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    ```
+
+- Error Response:
+  - Status Code: 401
+  - Body:
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+### Get the Details of a Specific Order by Order ID
+
+- Require Authentication: True
+- Request:
+
+  - Method: GET
+  - URL: `/api/users/current/orders/:orderId`
+  - Body; None
+
+- Successful Response:
+
+  - Status Code: 200
+  - Body:
+  ```json
+  {
+    "order": {
+      "id": 1,
+      "totalPrice": 59.98,
+      "products": [
+        {
+          "id": 1,
+          "name": "Product 1",
+          "price": 29.99,
+          "quantity": 2,
+          "images": [
+            {
+              "id": 1,
+              "imageUrl": "https://example.com/image1.jpg"
+            }
+          ]
+        }]
+    }
+  }
+  ```
+
+- Error Response:
+  - Status Code: 401 (If the user is not logged in)
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+- Error Response:
+  - Status Code: 404 (If the order is not found or does not belong to the user)
+  ```json
+  {
+    "message": "Order not found"
+  }
+  ```
+
+<!-- Other Endpoints like Remove an Order and Edit an Order, and also Endpoints related to Order Processing are going to be developed later -->
