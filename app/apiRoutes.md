@@ -6,12 +6,13 @@
 
 All endpoints that require a current user to be logged in.
 
-* Request: endpoints that require authentication
-* Error Response: Require authentication
-  * Status Code: 401
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Request: endpoints that require authentication
+- Error Response: Require authentication
+
+  - Status Code: 401
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -24,12 +25,13 @@ All endpoints that require a current user to be logged in.
 All endpoints that require authentication and the current user does not have the
 correct role(s) or permission(s).
 
-* Request: endpoints that require proper authorization
-* Error Response: Require proper authorization
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Request: endpoints that require proper authorization
+- Error Response: Require proper authorization
+
+  - Status Code: 403
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -41,17 +43,19 @@ correct role(s) or permission(s).
 
 Returns the information about the current user that is logged in.
 
-* Require Authentication: true
-* Request
-  * Method: GET
-  * URL: `/api/session`
-  * Body: none
+- Require Authentication: true
+- Request
 
-* Successful Response when there is a logged in user
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: GET
+  - URL: `/api/session`
+  - Body: none
+
+- Successful Response when there is a logged in user
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -65,11 +69,12 @@ Returns the information about the current user that is logged in.
     }
     ```
 
-* Successful Response when there is no logged in user
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response when there is no logged in user
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -82,13 +87,14 @@ Returns the information about the current user that is logged in.
 Logs in a current user with valid credentials and returns the current user's
 information.
 
-* Require Authentication: false
-* Request
-  * Method: POST
-  * URL: `/api/session`
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Authentication: false
+- Request
+
+  - Method: POST
+  - URL: `/api/session`
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -97,11 +103,12 @@ information.
     }
     ```
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -115,11 +122,12 @@ information.
     }
     ```
 
-* Error Response: Invalid credentials
-  * Status Code: 401
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Invalid credentials
+
+  - Status Code: 401
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -127,11 +135,12 @@ information.
     }
     ```
 
-* Error response: Body validation errors
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Body validation errors
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -147,36 +156,39 @@ information.
 
 Logs out the current User and returns a confirmation message.
 
-* Require Authentication: true
-* Request
-   * Method: DELETE
-   * URL: `/api/users`
-   * Body: none
+- Require Authentication: true
+- Request
 
-* Successful Response:
-    * Status Code: 200
-    * Headers:
-        * Content-Type: application/json
-    * Body:
+  - Method: DELETE
+  - URL: `/api/users`
+  - Body: none
 
-     ```json
-     {
-        "message": "User logged out successfully."
-     }
-     ```
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "User logged out successfully."
+    }
+    ```
 
 ### Sign Up a User
 
 Creates a new user, logs them in as the current user, and returns the current
 user's information.
 
-* Require Authentication: false
-* Request
-  * Method: POST
-  * URL: `/api/users`
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Authentication: false
+- Request
+
+  - Method: POST
+  - URL: `/api/users`
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -188,11 +200,12 @@ user's information.
     }
     ```
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -206,11 +219,12 @@ user's information.
     }
     ```
 
-* Error response: User already exists with the specified email
-  * Status Code: 500
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: User already exists with the specified email
+
+  - Status Code: 500
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -221,11 +235,12 @@ user's information.
     }
     ```
 
-* Error response: User already exists with the specified username
-  * Status Code: 500
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: User already exists with the specified username
+
+  - Status Code: 500
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -236,11 +251,12 @@ user's information.
     }
     ```
 
-* Error response: Body validation errors
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Body validation errors
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -254,3 +270,168 @@ user's information.
     }
     ```
 
+## PRODUCTS
+
+## SHOPPING CART
+
+### Get the Current User's Shopping Cart with all the Products
+
+Returns all the Items inside the Current User's Shopping Cart.
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - URL: `/api/users/current/cart/`
+  - Body: None
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "Products": [
+        {
+          "id": 1,
+          "name": "Product 1",
+          "description": "Description of Product 1",
+          "price": 29.99,
+          "quantity": 2,
+          "images": [
+            {
+              "id": 1,
+              "imageUrl": "https://example.com/image1.jpg"
+            },
+            {
+              "id": 2,
+              "imageUrl": "https://example.com/image2.jpg"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Product 2",
+          "description": "Description of Product 2",
+          "price": 29.99,
+          "quantity": 1,
+          "images": [
+            {
+              "id": 3,
+              "imageUrl": "https://example.com/image3.jpg"
+            },
+            {
+              "id": 4,
+              "imageUrl": "https://example.com/image4.jpg"
+            }
+          ]
+        }
+      ]
+    }
+    ```
+
+- Error Response:
+
+  - Status Code: 401
+
+    ```json
+    {
+      "message": "Authentication Required"
+    }
+    ```
+
+### Add a Product to the Current User's Shopping Cart
+
+Add a Product to the Current User's Shopping Cart and Returns the Product.
+
+- Require Authentication: True
+- Request
+
+  - Method: POST
+  - URL: `/api/users/current/cart/`
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "productId": 1
+    }
+    ```
+
+- Successful Response:
+
+  - Status Code: 200
+  - Body:
+    ```json
+    {
+      "message": "Product Added to Cart"
+    }
+    ```
+
+- Error Response:
+
+  - Status Code: 401
+
+    ```json
+    {
+      "message": "Authentication required"
+    }
+    ```
+
+  - Status Code: 400
+
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "productId": "Product ID is required",
+        "quantity": "Quantity is required"
+      }
+    }
+    ```
+
+### Remove a Product From the Shopping Cart based on Product ID
+
+Searches for All Products with the Product ID and removes one.
+
+- Require Authentication: True
+- Request
+
+  - Method: DELETE
+  - URL: `/api/users/current/cart/:productId`
+  - Headers:
+    - Content-Type: application/json
+  - Body: None
+
+- Successful Response:
+
+  - Status Code: 200
+  - Body:
+    ```json
+    {
+      "message": "Product removed from Cart"
+    }
+    ```
+
+- Error Response:
+
+  - Status Code: 401
+
+    ```json
+    {
+      "message": "Authentication required"
+    }
+    ```
+
+  - Status Code: 404
+    ```json
+    {
+      "message": "Product not found in cart"
+    }
+    ```
+
+## Orders
