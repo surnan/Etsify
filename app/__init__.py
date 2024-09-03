@@ -10,6 +10,9 @@ from .api.auth_routes import auth_routes
 from .seeds import seed_commands
 from .config import Config
 
+from app.routes.shopping_cart_routes import shopping_cart_bp
+from app.routes.order_routes import order_bp
+
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
 # Setup login manager
@@ -28,6 +31,8 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(shopping_cart_bp)
+app.register_blueprint(order_bp)
 db.init_app(app)
 Migrate(app, db)
 
