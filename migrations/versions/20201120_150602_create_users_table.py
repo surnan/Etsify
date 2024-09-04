@@ -32,6 +32,67 @@ def upgrade():
     sa.UniqueConstraint('username')
     )
 
+    op.create_table('cartproducts',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('shoppingCartId', sa.Integer(), nullable=False),
+    sa.Column('productId', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('favorites',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('productId', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('orders',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('orderproducts',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('orderId', sa.Integer(), nullable=False),
+    sa.Column('productId', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('products',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('sellerId', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=255), nullable=False),
+    sa.Column('description', sa.String(length=255), nullable=False),
+    sa.Column('price', sa.Float(), nullable=False),
+    sa.Column('stock', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('productimages',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('productId', sa.Integer(), nullable=False),
+    sa.Column('image_url', sa.String(length=255), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('reviews',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('stars', sa.Integer(), nullable=False),
+    sa.Column('review', sa.String(length=255), nullable=False),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('productId', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('shoppingcarts',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+
+
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###qqqqqqqqq

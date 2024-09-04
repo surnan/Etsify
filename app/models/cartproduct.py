@@ -18,7 +18,6 @@ class CartProduct(db.Model):
         return {
             'id': self.id,
             'shoppingCartId': self.shoppingCartId,
-            'productId': self.productId,
-            'created_at': self.created_at
+            'productId': self.productId
         }
 

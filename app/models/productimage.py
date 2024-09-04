@@ -1,5 +1,4 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from datetime import datetime
 
 
 class ProductImage(db.Model):
@@ -11,7 +10,6 @@ class ProductImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationship
     product = db.relationship('Products', back_populates='product_images')
@@ -20,6 +18,5 @@ class ProductImage(db.Model):
         return {
             'id': self.id,
             'productId': self.productId,
-            'image_url': self.image_url,
-            'created_at': self.created_at
+            'image_url': self.image_url
         }
