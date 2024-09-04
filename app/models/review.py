@@ -24,6 +24,5 @@ class Review(db.Model):
             'stars': self.stars,
             'review': self.review,
             'userId': self.userId,
-            'productId': self.productId,
-            'created_at': self.created_at
+            'productId': self.productId
         }

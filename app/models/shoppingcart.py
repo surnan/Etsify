@@ -17,6 +17,5 @@ class ShoppingCart(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'userId': self.userId,
-            'created_at': self.created_at
+            'userId': self.userId
         }

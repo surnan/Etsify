@@ -20,5 +20,4 @@ class OrderProduct(db.Model):
             'id': self.id,
             'orderId': self.orderId,
             'productId': self.productId,
-            'created_at': self.created_at
         }

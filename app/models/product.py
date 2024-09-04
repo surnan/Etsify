@@ -27,6 +27,5 @@ class Product(db.Model):
             'name': self.name,
             'description': self.description,
             'price': self.price,
-            'stock': self.stock,
-            'created_at': self.created_at
+            'stock': self.stock
         }

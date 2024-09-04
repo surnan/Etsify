@@ -1,6 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
-
 class Favorite(db.Model):
     __tablename__ = 'favorites'
 
@@ -18,6 +17,5 @@ class Favorite(db.Model):
         return {
             'id': self.id,
             'userId': self.userId,
-            'productId': self.productId,
-            'created_at': self.created_at
+            'productId': self.productId
         }

@@ -18,6 +18,5 @@ class ProductImage(db.Model):
         return {
             'id': self.id,
             'productId': self.productId,
-            'image_url': self.image_url,
-            'created_at': self.created_at
+            'image_url': self.image_url
         }
