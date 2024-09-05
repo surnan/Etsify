@@ -1,4 +1,4 @@
-from app.models import db, reviews, environment, SCHEMA
+from app.models import db, review, environment, SCHEMA
 from reviews import Review
 from sqlalchemy.sql import text
 
