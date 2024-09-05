@@ -1,25 +1,23 @@
-
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 
-class Favorite(db.Model):
-    __tablename__ = 'favorites'
+class CartProduct(db.Model):
+    __tablename__ = 'cartproducts'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-
-
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    shoppingCartId = db.Column(db.Integer, db.ForeignKey('shoppingcarts.id'), nullable=False)
     productId = db.Column(db.Integer, nullable=False)
 
     # Relationship
-    user = db.relationship('User', back_populates='favorites')
+    shopping_cart = db.relationship('ShoppingCart', back_populates='cart_products')
 
     def to_dict(self):
         return {
             'id': self.id,
-            'userId': self.userId,
+            'shoppingCartId': self.shoppingCartId,
             'productId': self.productId
         }
+
