@@ -16,7 +16,7 @@ def seed_favorites():
     db.session.add(bobbieFav)
     db.session.commit()
 
-def undo_users():
+def undo_favorites():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.favorites RESTART IDENTITY CASCADE;")
     else:
