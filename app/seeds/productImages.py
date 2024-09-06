@@ -1,5 +1,4 @@
-from app.models import db, productImage, environment, SCHEMA
-from productImages import ProductImage
+from app.models import db, ProductImage, environment, SCHEMA
 from sqlalchemy.sql import text
 
 

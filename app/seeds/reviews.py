@@ -1,5 +1,5 @@
-from app.models import db, review, environment, SCHEMA
-from reviews import Review
+from app.models import db, Review, environment, SCHEMA
+
 from sqlalchemy.sql import text
 
 
