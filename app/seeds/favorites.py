@@ -2,14 +2,14 @@ from app.models import db, Favorite, User, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_favorites():
-    demoFav = User(
-        userId='1', product_id='1'
+    demoFav = Favorite(
+        userId='1', productId='1'
     )
-    marnieFav = User(
-        userId='2', product_id='2'
+    marnieFav = Favorite(
+        userId='2', productId='2'
     )
-    bobbieFav = User(
-        userId='3', product_id='3'
+    bobbieFav = Favorite(
+        userId='3', productId='3'
     )
     db.session.add(demoFav)
     db.session.add(marnieFav)
