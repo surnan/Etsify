@@ -8,7 +8,7 @@ order_bp = Blueprint('orders', __name__)
 @order_bp.route('/api/users/current/orders/', methods=['GET'])
 @login_required
 def get_user_orders():
-    orders = Order.query.filter_by(user_id=current_user.id).all()
+    orders = Order.query.filter_by(userId=current_user.id).all()
 
     if not orders:
         return jsonify({"orders": []}), 200
@@ -32,7 +32,7 @@ def get_user_orders():
 @order_bp.route('/api/users/current/orders/<int:orderId>', methods=['GET'])
 @login_required
 def get_order_details(orderId):
-    order = Order.query.filter_by(id=orderId, user_id=current_user.id).first()
+    order = Order.query.filter_by(id=orderId, userId=current_user.id).first()
 
     if not order:
         return jsonify({"message": "Order not found"}), 404

@@ -12,7 +12,7 @@ class ProductImage(db.Model):
     image_url = db.Column(db.String(255), nullable=False)
 
     # Relationship
-    product = db.relationship('Products', back_populates='product_images')
+    product = db.relationship('Product', back_populates='product_images')
 
     def to_dict(self):
         return {
