@@ -1,5 +1,5 @@
 # api/product_routes.py
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, redirect, render_template
 from app.models import db, Product
 
 product_routes = Blueprint('products', __name__)
