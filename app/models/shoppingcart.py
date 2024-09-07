@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-
+from .cartproduct import CartProduct
+# from app.models.cartproduct import CartProduct
 
 class ShoppingCart(db.Model):
     __tablename__ = 'shoppingcarts'
@@ -11,8 +12,11 @@ class ShoppingCart(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
 
     # Relationships
-    user = db.relationship('User', back_populates='shopping_cart')
-    cart_products = db.relationship('CartProducts', back_populates='shopping_cart', cascade='all, delete-orphan')
+    # user = db.relationship('User', back_populates='shopping_cart')
+    user = db.relationship('User', back_populates='shoppingcarts')
+
+    # cart_products = db.relationship('CartProducts', back_populates='shopping_cart', cascade='all, delete-orphan')
+    cart_products = db.relationship('CartProduct', back_populates='shopping_cart', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
