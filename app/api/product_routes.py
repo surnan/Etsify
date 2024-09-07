@@ -1,3 +1,4 @@
+# api/product_routes.py
 from flask import Blueprint, jsonify
 from app.models import db, Product
 
@@ -5,12 +6,14 @@ product_routes = Blueprint('products', __name__)
 
 
 # Get All Products
-@product_routes.route('/api/products/all', methods=['GET'])
+@product_routes.route('/', methods=['GET'])
 def get_all_products():
-    return jsonify({"products": "hello world!!"}), 200
+    print('Going down route=/api/products')
+    return "<h1>Hellow World</h1>"
 
 
 # Get Details of a Specific product
-@product_routes.route('/api/product/<int:productId>', methods=['GET'])
+@product_routes.route('/<int:productId>', methods=['GET'])
 def get_one_product_details(productId):
-    return jsonify({"productId": "hello world -ID-"}), 200
+    print('/api/product/<int:productId>')
+    return "<h1>Hellow World - ProductId</h1>"
