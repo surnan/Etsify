@@ -272,6 +272,55 @@ user's information.
 
 ## PRODUCTS
 
+### Get a page with information about an existing product
+
+Returns all the info about a particular product.
+
+- Require Authentication: false
+- Request
+
+  - Method: GET
+  - URL: `/api/products/:productId`
+  - Body: None
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+ ```json
+ "Product": 
+        {
+          "id": 1,
+          "name": "Product 1",
+          "description": "Description of Product 1",
+          "price": 29.99,
+          "quantity": 2,
+          "images": [
+            {
+              "id": 1,
+              "imageUrl": "https://example.com/image1.jpg"
+            },
+            {
+              "id": 2,
+              "imageUrl": "https://example.com/image2.jpg"
+            }
+          ]
+        }
+      ```
+
+      - Error Response:
+
+ - Status Code: 404
+
+   ```json
+   {
+     "message": "Product Not Fount"
+   }
+   ```
+
 ## SHOPPING CART
 
 ### Get the Current User's Shopping Cart with all the Products
