@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Products Table Entries</h1>
+    {% for product in all_products %}
+        <div>id = {{ product.id }}</div>
+        <div>sellerId = {{ product.sellerId }}</div>
+        <div>name = {{ product.name }}</div>
+        <div>description = {{ product.description }}</div>
+        <div>price = {{ product.price }}</div>
+        <div>stock = {{ product.stock }}</div>
+        <p>"==================="</p>
+    {% endfor %}
+</body>
+</html>
