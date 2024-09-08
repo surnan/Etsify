@@ -17,12 +17,7 @@ def add_review():
     userId = data.get("userId")
     productId = data.get("productId")
     new_review = Review(stars=stars, review=review, userId=userId, productId=productId)
-    print('new_review ', new_review)
-    print('new_review id ', new_review.id)
-    print('new_review stars ', new_review.stars)
-    print('new_review userId ', new_review.userId)
-    print('new_review productId', new_review.productId)
-
+   
     try:
         db.session.add(new_review)
         db.session.commit()
@@ -36,6 +31,22 @@ def add_review():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+@review_routes.route('/<int:reviewId>', methods=['DELETE'])
+def delete_review(reviewId):
+    review = Review.query.get(reviewId)
+
+    if not review:
+        return jsonify({"error": "Product not found"}), 404
     
+    try:
+        db.session.delete(review)
+        db.session.commit()
+        return jsonify({"message": f"Review with ID {reviewId} has been deleted."}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
 
 #test comment
