@@ -8,7 +8,7 @@ shopping_cart_bp = Blueprint('shopping_cart', __name__)
 @shopping_cart_bp.route('/api/users/current/cart/', methods=['GET'])
 @login_required
 def get_shopping_cart():
-    shopping_cart = ShoppingCart.query.filter_by(user_id=current_user.id).first()
+    shopping_cart = ShoppingCart.query.filter_by(userId=current_user.id).first()
 
     if not shopping_cart:
         return jsonify({"Products": []}), 200
@@ -44,10 +44,10 @@ def add_product_to_cart():
     if not product:
         return jsonify({"message": "Product not found"}), 404
 
-    shopping_cart = ShoppingCart.query.filter_by(user_id=current_user.id).first()
+    shopping_cart = ShoppingCart.query.filter_by(userId=current_user.id).first()
 
     if not shopping_cart:
-        shopping_cart = ShoppingCart(user_id=current_user.id)
+        shopping_cart = ShoppingCart(userId=current_user.id)
         db.session.add(shopping_cart)
         db.session.commit()
 
@@ -68,7 +68,7 @@ def add_product_to_cart():
 @shopping_cart_bp.route('/api/users/current/cart/<int:productId>', methods=['DELETE'])
 @login_required
 def remove_product_from_cart(productId):
-    shopping_cart = ShoppingCart.query.filter_by(user_id=current_user.id).first()
+    shopping_cart = ShoppingCart.query.filter_by(userId=current_user.id).first()
 
     if not shopping_cart:
         return jsonify({"message": "Product not found in cart"}), 404

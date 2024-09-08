@@ -4,16 +4,15 @@ from sqlalchemy.sql import text
 def seed_cart_products():
     cart_product1 = CartProduct(
         shoppingCartId=1, 
-        productId=1, 
-        # created_at=???
+        productId=1
     )
     cart_product2 = CartProduct(
         shoppingCartId=1, 
-        productId=2, 
+        productId=2
     )
     cart_product3 = CartProduct(
         shoppingCartId=2, 
-        productId=3, 
+        productId=3
     )
 
     db.session.add(cart_product1)

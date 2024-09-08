@@ -12,10 +12,14 @@ class ShoppingCart(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
 
     # Relationships
+<<<<<<< HEAD
     # user = db.relationship('User', back_populates='shopping_cart')
     user = db.relationship('User', back_populates='shoppingcarts')
 
     # cart_products = db.relationship('CartProducts', back_populates='shopping_cart', cascade='all, delete-orphan')
+=======
+    user = db.relationship('User', back_populates='shopping_cart')
+>>>>>>> 1c8379e765166df55f6a5b447f4723898e0ea6d5
     cart_products = db.relationship('CartProduct', back_populates='shopping_cart', cascade='all, delete-orphan')
 
     def to_dict(self):

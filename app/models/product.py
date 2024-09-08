@@ -1,4 +1,5 @@
-from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .db import db, environment,  SCHEMA, add_prefix_for_prod
+
 
 
 class Product(db.Model):
@@ -17,9 +18,8 @@ class Product(db.Model):
     # Relationships
     seller = db.relationship('User', back_populates='products')
     reviews = db.relationship('Review', back_populates='product', cascade='all, delete-orphan')
-    product_images = db.relationship('ProductImages', back_populates='product', cascade='all, delete-orphan')
-    order_products = db.relationship('OrderProduct', back_populates='product', cascade='all, delete-orphan')
-
+    product_images = db.relationship('ProductImage', back_populates='product', cascade='all, delete-orphan')
+  
     def to_dict(self):
         return {
             'id': self.id,
