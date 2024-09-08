@@ -46,6 +46,52 @@ def delete_review(reviewId):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+@review_routes.route('/<int:reviewId>', methods=['PUT'])
+def update_review(reviewId):
+    review = Review.query.get(reviewId)
+    print("The review is, ", review)
+    
+    if not review:
+        return jsonify({"error": "Review not found"}), 404
+    data = request.get_json()
+    stars = data.get('stars', review.stars)
+    review_text = data.get('review', review.review)
+    userId = data.get('userId', review.userId)
+    productId = data.get('productId', review.productId)
+
+    review.stars = stars
+    print('stars ',review.stars)
+    review.review = review_text
+    print('review ', review.review)
+    review.userId = userId
+    print('userId ', review.userId)
+    review.productId = productId
+    print('product ', review.productId)
+
+    # review = {
+    #     "stars": stars,
+    #     "review": review,
+    #     "userId": userId,
+    #     "productId":productId
+    # }
+
+  
+   
+    try:
+        db.session.commit()
+        return jsonify({"message": "Review updated successfully", "review": {
+            "id": review.id,
+            "stars": review.stars,
+            "review": review.review,
+            "userId": review.userId,
+            "productId": review.productId
+        }})
+        # return render_template('review_page.html', all_reviews=[new_review])
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
 
 
 
