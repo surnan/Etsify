@@ -1,9 +1,4 @@
 from app.models import db, Review, environment, SCHEMA
-<<<<<<< HEAD
-# from reviews import Review
-=======
-
->>>>>>> 1c8379e765166df55f6a5b447f4723898e0ea6d5
 from sqlalchemy.sql import text
 
 

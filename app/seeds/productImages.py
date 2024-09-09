@@ -1,8 +1,4 @@
 from app.models import db, ProductImage, environment, SCHEMA
-<<<<<<< HEAD
-# from productImages import ProductImage
-=======
->>>>>>> 1c8379e765166df55f6a5b447f4723898e0ea6d5
 from sqlalchemy.sql import text
 
 
