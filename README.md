@@ -27,7 +27,7 @@ POST   api/products = add new product & id has auto-incrmement
 UPDATE api/products/5 = update the product with id=5
 ```
 
-POST & UPDATE require JSON with following body:
+POST & UPDATE product routes require JSON with following body:
 ```
 {
     "sellerId": 3,
@@ -37,6 +37,29 @@ POST & UPDATE require JSON with following body:
     "stock": 20
 }
 ```
+
+```
+@review_routes.route('/', methods = ['GET'])
+GET api/reviews = return all reviews
+```
+
+```
+@review_routes.route('/<int:reviewId>', methods=['DELETE'])
+DELETE api/reviews/3 = delete review with id=3
+```
+
+```
+POST api/reviews = post review
+PUT api/reviews/3 = update review with id=3
+```
+
+POST & UPDATE review routes require JSON with following body:
+```
+{
+    <Michelle copy/paste your postman body here>
+}
+```
+
 
 
 
