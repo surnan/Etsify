@@ -1,19 +1,21 @@
-import { NavLink } from "react-router-dom";
-import ProfileButton from "./ProfileButton";
-import "./Navigation.css";
+import { useSelector } from 'react-redux';
+import ProfileButton from './ProfileButton';
+import './Navigation.css';
+import NavLogo from './NavLogo';
 
 function Navigation() {
-  return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
+    const sessionUser = useSelector(state => state.session.user);
 
-      <li>
-        <ProfileButton />
-      </li>
-    </ul>
-  );
+    return (
+        <div className='navigation-list'>
+            <NavLogo />
+            {/* <Filters /> */}
+            <div className='profile-container'>
+                {/* <NavBarLinks /> */}
+                <ProfileButton user={sessionUser} />
+            </div>
+        </div>
+    );
 }
 
 export default Navigation;
