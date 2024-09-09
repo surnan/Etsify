@@ -7,6 +7,8 @@ from flask_login import LoginManager
 from .models import db, User, Favorite, Review
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.javier_review_routes import review_productID_bp #Javier Reviews
+from .api.favorite_routes import favorite_bp #Javier Favorites
 from .seeds import seed_commands
 from .config import Config
 
@@ -29,6 +31,8 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(review_productID_bp, url_prefix='/api/reviews') #JAVIER REVIEWS ROUTES
+app.register_blueprint(favorite_bp, url_prefix='/api/favorites') #JAVIER FAVORITE ROUTES
 db.init_app(app)
 Migrate(app, db)
 
@@ -90,71 +94,5 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file('index.html')
 
-# Favorites Create Read Delete
-# Favorite Create
-@app.route('/api/favorites/', methods=['POST'])
-def create_favorite():
-    data = request.get_json() #grab request data
-    user_id = data.get('user_id') #grab user_id from req
-    product_id = data.get('product_id') #grab product_id from req
 
-    if not user_id or not product_id:
-        return jsonify({'error': 'Missing user_id or product_id'}), 400
 
-    #Create Favorite using class
-    new_favorite = Favorite(user_id=user_id, product_id=product_id)
-    #Add Favorite
-    db.session.add(new_favorite)
-    db.session.commit()
-
-    return jsonify(new_favorite.to_dict()), 201
-
-# Favorite Read
-@app.route('/api/favorites/<int:user_id>', methods=['GET'])
-def get_favorites(user_id):
-    #Grab/Query Favorites by user
-    favorites = Favorite.query.filter_by(user_id=user_id).all()
-    #Return Favorites
-    return jsonify([favorite.to_dict() for favorite in favorites]), 200
-
-# Favorite Delete
-@app.route('/api/favorites/<int:id>', methods=['DELETE'])
-def delete_favorite(id):
-    #Grab/Query Favorite by the Favorite's id
-    favorite = Favorite.query.get(id)
-
-    if not favorite:
-        return jsonify({'error': 'Favorite not found'}), 404
-
-    #Delete favorite
-    db.session.delete(favorite)
-    db.session.commit()
-
-    return jsonify({'message': 'Favorite deleted successfully'}), 200
-
-#Reviews CRUD
-#Read (GET) Reviews
-@app.route('/api/reviews/<int:product_id>', methods=['GET'])
-def get_reviews(product_id):
-    # Grab/Query Review by product_id
-    reviews = Review.query.filter_by(productId=product_id).all()
-
-    # Return the reviews as a list of dictionaries
-    return jsonify([review.to_dict() for review in reviews]), 200
-
-#Delete Reviews
-@app.route('/api/reviews/<int:id>', methods=['DELETE'])
-def delete_review(id):
-    # Grab/Query Review by id
-    review = Review.query.get(id)
-
-    # If the review does not exist, return a 404 error
-    if not review:
-        return jsonify({'error': 'Review not found'}), 404
-
-    # Delete Review
-    db.session.delete(review)
-    db.session.commit()
-
-    # Return a success message
-    return jsonify({'message': 'Review deleted successfully'}), 200
