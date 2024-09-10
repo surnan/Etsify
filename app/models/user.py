@@ -13,10 +13,14 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+
+
     # favorites = db.relationship('Favorite', back_populates='user')
-    products = db.relationship('Product', back_populates='seller')
-    review = db.relationship('Review', back_populates='user')
-    shopping_cart = db.relationship('ShoppingCart', back_populates='user')
+    # products = db.relationship('Product', back_populates='seller')
+    # review = db.relationship('Review', back_populates='user')
+    # shopping_cart = db.relationship('ShoppingCart', back_populates='user')
+    
+    
 
     @property
     def password(self):

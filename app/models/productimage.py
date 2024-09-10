@@ -8,11 +8,13 @@ class ProductImage(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
 
+    # productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    productId = db.Column(db.Integer, nullable=False)
+
     # Relationship
-    product = db.relationship('Product', back_populates='product_images')
+    # product = db.relationship('Product', back_populates='product_images')
 
     def to_dict(self):
         return {
