@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-
+from .cartproduct import CartProduct
+# from app.models.cartproduct import CartProduct
 
 class ShoppingCart(db.Model):
     __tablename__ = 'shoppingcarts'
