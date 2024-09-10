@@ -77,13 +77,24 @@ export const deleteProductThunk = (productId) => async (dispatch) => {
 }
 
 export const getProductsAllThunk = () => async (dispatch) => {
-    const response = await fetch('/api/products')
-    if (response.ok) {
+    try {
+        const response = await fetch('/api/products/');
+
+        // console.log(response);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch products');
+        }
+
         const data = await response.json();
-        dispatch(loadProductsAll(data))
-        return data
+        console.log(data, 'data');
+        dispatch(loadProductsAll(data));
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
     }
-}
+};
 
 export const getProductsOwnedThunk = () => async (dispatch) => {
     const response = await fetch("/api/products/current");
@@ -142,7 +153,7 @@ const deleteSpotImages = async (productId) => {
 };
 
 // State Object
-const initialState = { user: null };
+const initialState = { allProducts: [], byId: {}};
 
 // Reducers
 function productReducer(state = initialState, action) {
@@ -168,8 +179,9 @@ function productReducer(state = initialState, action) {
 
         case LOAD_PRODUCTS_ALL: {
             let newState = { ...state }
-            newState.allProducts = action.payload.Products;
-            for (let product of action.payload.Products) {
+            newState.allProducts = action.payload;
+
+            for (let product of newState.allProducts) {
                 newState.byId[product.id] = product
             }
             return newState;

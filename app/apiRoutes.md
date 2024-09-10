@@ -290,36 +290,36 @@ Returns all the info about a particular product.
     - Content-Type: application/json
   - Body:
 
- ```json
- "Product": 
-        {
-          "id": 1,
-          "name": "Product 1",
-          "description": "Description of Product 1",
-          "price": 29.99,
-          "quantity": 2,
-          "images": [
-            {
-              "id": 1,
-              "imageUrl": "https://example.com/image1.jpg"
-            },
-            {
-              "id": 2,
-              "imageUrl": "https://example.com/image2.jpg"
-            }
-          ]
-        }
-      ```
+````json
+"Product":
+       {
+         "id": 1,
+         "name": "Product 1",
+         "description": "Description of Product 1",
+         "price": 29.99,
+         "quantity": 2,
+         "images": [
+           {
+             "id": 1,
+             "imageUrl": "https://example.com/image1.jpg"
+           },
+           {
+             "id": 2,
+             "imageUrl": "https://example.com/image2.jpg"
+           }
+         ]
+       }
+     ```
 
-      - Error Response:
+     - Error Response:
 
- - Status Code: 404
+- Status Code: 404
 
-   ```json
-   {
-     "message": "Product Not Fount"
-   }
-   ```
+  ```json
+  {
+    "message": "Product Not Fount"
+  }
+````
 
 ## SHOPPING CART
 
@@ -469,7 +469,8 @@ Searches for All Products with the Product ID and removes one.
 - Error Response:
 
   - Status Code: 401
-  - Body: 
+  - Body:
+
     ```json
     {
       "message": "Authentication required"
@@ -548,6 +549,7 @@ Get a list of orders for the current User.
 
   - Status Code: 200
   - Body:
+
   ```json
   {
     "order": {
@@ -565,13 +567,16 @@ Get a list of orders for the current User.
               "imageUrl": "https://example.com/image1.jpg"
             }
           ]
-        }]
+        }
+      ]
     }
   }
   ```
 
 - Error Response:
+
   - Status Code: 401 (If the user is not logged in)
+
   ```json
   {
     "message": "Authentication required"
