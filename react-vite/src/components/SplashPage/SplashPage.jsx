@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsAllThunk } from '../../redux/product';
 
+import ProductCard from '../ProductCard/ProductCard';
 
 import './SplashPage.css';
 import { useNavigate } from 'react-router-dom';
@@ -33,8 +34,7 @@ export default function SplashPage() {
             <div className="SplashPage__products">
                 {products.map(product => (
                     <div key={product.id} className="SplashPage__product" onClick={(e) => goToProduct(e, product)}>
-                        <img src={product.image} alt={product.name} />
-                        <p>{product.name}</p>
+                        <ProductCard key={product.id} product={product} />
                     </div>
                 ))}
             </div>
