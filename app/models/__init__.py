@@ -2,9 +2,9 @@ from .db import db
 from .user import User
 from .db import environment, SCHEMA
 
-from .cartproduct import CartProduct
+from .cartproduct import Cartproduct
 from .favorite import Favorite
 from .product import Product
-from .productimage import ProductImage
+from .productimage import Productimage
 from .review import Review
-from .shoppingcart import ShoppingCart
+from .shoppingcart import Shoppingcart

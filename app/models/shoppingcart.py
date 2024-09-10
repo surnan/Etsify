@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 
-class ShoppingCart(db.Model):
+class Shoppingcart(db.Model):
     __tablename__ = 'shoppingcarts'
 
     if environment == "production":
@@ -11,7 +11,7 @@ class ShoppingCart(db.Model):
 
 
     # userId = db.Column(db.Integer, nullable=False, unique=True)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     # Relationships
     # user = db.relationship('User', back_populates='shopping_cart')
