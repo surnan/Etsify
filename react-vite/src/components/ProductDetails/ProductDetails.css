@@ -73,3 +73,26 @@
 .product-details button:hover {
     background-color: #e68a00;
 }
+
+.product-image-gallery img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: border 0.3s ease;
+    border: 1px solid #e1e1e1;
+}
+
+.product-image-gallery img:hover {
+    border: 2px solid #ff9900;
+}
+
+.product-image-gallery img.active-thumbnail {
+    border: 2px solid #ff9900;
+}
+
+.product-main-image img {
+    max-width: 400px;
+    max-height: 400px;
+    object-fit: cover;
+}
