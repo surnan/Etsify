@@ -77,9 +77,10 @@ export const deleteProductThunk = (productId) => async (dispatch) => {
 }
 
 export const getProductsAllThunk = () => async (dispatch) => {
-    const response = await fetch('/api/products')
+    const response = await fetch('/api/products/')
     if (response.ok) {
         const data = await response.json();
+        console.log(response);
         dispatch(loadProductsAll(data))
         return data
     }
