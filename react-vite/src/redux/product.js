@@ -1,3 +1,4 @@
+
 //react-vite/src/redux/product.js
 const ADD_PRODUCT = 'products/addProductOne';
 const DELETE_PRODUCT = "products/deleteProductOne"
@@ -47,13 +48,13 @@ const updateProduct = (data) => ({
 //Thunks
 export const addProductThunk = (product) => async (dispatch) => {
     const { body, imageURLs } = product;
-    const response = await csrfFetch("/api/products", {
+    const response = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
     });
     const data = await response.json();
-    await insertProductImages({ productId: data.id, imageURLs});
+    await insertProductImages({ productId: data.id, imageURLs });
     if (response.ok) {
         dispatch(addProduct(data))
         return data.id
@@ -61,7 +62,7 @@ export const addProductThunk = (product) => async (dispatch) => {
 }
 
 export const deleteProductThunk = (productId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/products/${productId}`, {
+    const response = await fetch(`/api/products/${productId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -76,7 +77,7 @@ export const deleteProductThunk = (productId) => async (dispatch) => {
 }
 
 export const getProductsAllThunk = () => async (dispatch) => {
-    const response = await csrfFetch('/api/products')
+    const response = await fetch('/api/products')
     if (response.ok) {
         const data = await response.json();
         dispatch(loadProductsAll(data))
@@ -85,7 +86,7 @@ export const getProductsAllThunk = () => async (dispatch) => {
 }
 
 export const getProductsOwnedThunk = () => async (dispatch) => {
-    const response = await csrfFetch("/api/products/current");
+    const response = await fetch("/api/products/current");
     if (response.ok) {
         const data = await response.json();
         dispatch(loadProductsOwned(data));
@@ -93,7 +94,7 @@ export const getProductsOwnedThunk = () => async (dispatch) => {
 };
 
 export const getProductsOneThunk = (productId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/products/${productId}`)
+    const response = await fetch(`/api/products/${productId}`)
     if (response.ok) {
         const data = await response.json();
         dispatch(loadProductsOne(data))
@@ -104,7 +105,7 @@ export const getProductsOneThunk = (productId) => async (dispatch) => {
 export const updateProductThunk = (product) => async (dispatch) => {
     const { body, imageURLs, productId } = product;
     await deleteSpotImages(productId);
-    const response = await csrfFetch(`/api/products/${productId}`, {
+    const response = await fetch(`/api/products/${productId}`, {
         method: 'PUT',
         header: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -121,18 +122,18 @@ export const updateProductThunk = (product) => async (dispatch) => {
 const insertProductImages = async ({ productId, imageURLs }) => {
     // post side images
     for (let url of imageURLs) {
-        await csrfFetch(`/api/products/${productId}/images`, {
+        await fetch(`/api/products/${productId}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ url, productId}),
+            body: JSON.stringify({ url, productId }),
         });
     }
 };
 
 const deleteSpotImages = async (productId) => {
-    await csrfFetch(`/api/product-images/spot/${productId}`, {
+    await fetch(`/api/product-images/spot/${productId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -145,74 +146,74 @@ const initialState = { user: null };
 
 // Reducers
 function productReducer(state = initialState, action) {
-  switch (action.type) {
-    case ADD_PRODUCT: {
-        let newState = { ...state }
-        newState.allProducts = [...newState.allProducts, action.payload]
-        newState.byId[action.payload.id] = action.payload;
-        newState.single = action.payload;
-        return newState;
-    }
-
-    case DELETE_PRODUCT: {
-        let newState = { ...state }
-        newState.allProducts = newState.allProducts.filter(product => product.id !== action.payload);
-        delete newState.byId[action.payload];
-
-        if (newState.single.id === action.payload) {
-            newState.single = {};
+    switch (action.type) {
+        case ADD_PRODUCT: {
+            let newState = { ...state }
+            newState.allProducts = [...newState.allProducts, action.payload]
+            newState.byId[action.payload.id] = action.payload;
+            newState.single = action.payload;
+            return newState;
         }
-        return newState
-    }
 
-    case LOAD_PRODUCTS_ALL: {
-        let newState = { ...state }
-        newState.allProducts = action.payload.Products;
-        for (let product of action.payload.Products) {
-            newState.byId[product.id] = product
-        }
-        return newState;
-    }
+        case DELETE_PRODUCT: {
+            let newState = { ...state }
+            newState.allProducts = newState.allProducts.filter(product => product.id !== action.payload);
+            delete newState.byId[action.payload];
 
-    case LOAD_PRODUCTS_ONE: {
-        let newState = { ...state }
-        newState.single = action.payload
-        return newState
-    }
-
-    case LOAD_PRODUCTS_OWNED: {
-        let newState = { ...state }
-        newState.allProducts = action.payload.Products;
-        for (let product of action.payload.Products) {
-            newState.byId[product.id] = product
-        }
-        return newState;
-    }
-
-    case UPDATE_PRODUCT: {
-        let newState = { ...state }
-
-        const reviewId = action.payload.id
-
-        const newAllProducts = [];
-
-        for (let i = 0; i < newState.allProducts.length; i++){
-            let currentReview = newState.allProducts[i]
-            if (currentReview.id === reviewId){
-                newAllProducts.push(action.payload)
-            } else {
-                newAllProducts.push(currentReview)
+            if (newState.single.id === action.payload) {
+                newState.single = {};
             }
+            return newState
         }
 
-        newState.allProducts = newAllProducts
-        newState.byId = {...newState.byId, [reviewId]: action.payload}
-        return newState
-    }
+        case LOAD_PRODUCTS_ALL: {
+            let newState = { ...state }
+            newState.allProducts = action.payload.Products;
+            for (let product of action.payload.Products) {
+                newState.byId[product.id] = product
+            }
+            return newState;
+        }
 
-    default:
-      return state;
-  }
+        case LOAD_PRODUCTS_ONE: {
+            let newState = { ...state }
+            newState.single = action.payload
+            return newState
+        }
+
+        case LOAD_PRODUCTS_OWNED: {
+            let newState = { ...state }
+            newState.allProducts = action.payload.Products;
+            for (let product of action.payload.Products) {
+                newState.byId[product.id] = product
+            }
+            return newState;
+        }
+
+        case UPDATE_PRODUCT: {
+            let newState = { ...state }
+
+            const reviewId = action.payload.id
+
+            const newAllProducts = [];
+
+            for (let i = 0; i < newState.allProducts.length; i++) {
+                let currentReview = newState.allProducts[i]
+                if (currentReview.id === reviewId) {
+                    newAllProducts.push(action.payload)
+                } else {
+                    newAllProducts.push(currentReview)
+                }
+            }
+
+            newState.allProducts = newAllProducts
+            newState.byId = { ...newState.byId, [reviewId]: action.payload }
+            return newState
+        }
+
+        default:
+            return state;
+    }
 }
 
 export default productReducer;
