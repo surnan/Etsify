@@ -10,8 +10,8 @@ class Config:
     # url in the hidden config vars to start with postgres.
     # so the connection uri must be updated here (for production)
 
-    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///app/instance/dev.db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///app/instance/dev.db'
 
     
     
