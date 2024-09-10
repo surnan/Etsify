@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export default function SplashPage() {
 
     const dispatch = useDispatch();
-    const products = useSelector(state => state.product.products);
+    const products = useSelector(state => state.product.allProducts);
     const navigate = useNavigate
 
     useEffect(() => {
@@ -22,6 +22,8 @@ export default function SplashPage() {
         return navigate(`/products/${product.id}`);
     }
 
+    console.log(products, 'products');
+
     return (
         <div className="SplashPage">
             <div className="SplashPage__title">
@@ -29,12 +31,12 @@ export default function SplashPage() {
                 <p>Discover unique products</p>
             </div>
             <div className="SplashPage__products">
-                {/* {products.map(product => (
+                {products.map(product => (
                     <div key={product.id} className="SplashPage__product" onClick={(e) => goToProduct(e, product)}>
                         <img src={product.image} alt={product.name} />
                         <p>{product.name}</p>
                     </div>
-                ))} */}
+                ))}
             </div>
         </div>
     );
