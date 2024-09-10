@@ -11,7 +11,8 @@ class Favorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
 
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    userId = db.Column(db.Integer, nullable=False)
     productId = db.Column(db.Integer, nullable=False)
 
     # Relationship
