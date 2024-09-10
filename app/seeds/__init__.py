@@ -49,8 +49,6 @@ def undo():
     undo_users()
     undo_cart_products()
     undo_favorites()
-    undo_order_products()
-    undo_orders()
     undo_product_images()
     undo_products()
     undo_reviews()
