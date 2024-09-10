@@ -7,4 +7,4 @@ from .favorite import Favorite
 from .product import Product
 from .productimage import ProductImage
 from .review import Review
-# from .shoppingcart import ShoppingCart
+from .shoppingcart import ShoppingCart
