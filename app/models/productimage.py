@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 
-class ProductImage(db.Model):
+class Productimage(db.Model):
     __tablename__ = 'productimages'
 
     if environment == "production":

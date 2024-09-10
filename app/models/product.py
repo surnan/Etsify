@@ -14,9 +14,9 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, nullable=False)
 
-    # sellerId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    sellerId = db.Column(db.Integer, nullable=False)
-
+    # sellerId = db.Column(db.Integer, nullable=False)
+    sellerId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
     # Relationships
     # seller = db.relationship('User', back_populates='products')
     # reviews = db.relationship('Review', back_populates='product', cascade='all, delete-orphan')

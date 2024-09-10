@@ -1,5 +1,7 @@
 # Flask Etsy Project
 
+![db-schema](./DB.png)
+
 ```
 http://localhost:8000/api/products/  <-- products table
 - Assuming Flask is running local & default port is left as 8000
