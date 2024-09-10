@@ -27,14 +27,14 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('shoppingCartId', sa.Integer(), nullable=False),
     sa.Column('productId', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['shoppingCartId'], ['shoppingcarts.id'], ),
+    # sa.ForeignKeyConstraint(['shoppingCartId'], ['shoppingcarts.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('favorites',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
     sa.Column('productId', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
+    # sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('products',
@@ -44,14 +44,14 @@ def upgrade():
     sa.Column('description', sa.String(length=255), nullable=True),
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('stock', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['sellerId'], ['users.id'], ),
+    # sa.ForeignKeyConstraint(['sellerId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('productimages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('productId', sa.Integer(), nullable=False),
     sa.Column('image_url', sa.String(length=255), nullable=False),
-    sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
+    # sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
@@ -60,14 +60,14 @@ def upgrade():
     sa.Column('review', sa.String(length=255), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
     sa.Column('productId', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
+    # sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('shoppingcarts',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
+    # sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('userId')
     )
