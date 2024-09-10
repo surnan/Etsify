@@ -26,8 +26,11 @@ def get_all_products():
 # Get Details of a Specific product
 @product_routes.route('/<int:productId>', methods=['GET'])
 def get_one_product_details(productId):
-    all_products = Product.query.get(productId)
-    return render_template('product_page.html', all_products=[all_products])
+    product = Product.query.get(productId)
+    if product:
+        return jsonify(product.to_dict())  # Assuming your `Product` model has a `to_dict()` method
+    else:
+        return jsonify({"error": "Product not found"}), 404
 
 
 @product_routes.route('/', methods=['POST'])
@@ -102,3 +105,23 @@ def update_product(productId):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+@product_routes.route('/<int:productId>/images', methods=['GET'])
+def get_product_images(productId):
+    product = Product.query.get(productId)
+    
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    product_images = product.product_images
+    return jsonify([image.to_dict() for image in product_images])
+
+@product_routes.route('/<int:productId>/reviews', methods=['GET'])
+def get_product_reviews(productId):
+    product = Product.query.get(productId)
+    
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    product_reviews = product.product_reviews
+    return jsonify([review.to_dict() for review in product_reviews])

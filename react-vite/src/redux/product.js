@@ -87,6 +87,27 @@ export const getProductsAllThunk = () => async (dispatch) => {
         }
 
         const data = await response.json();
+
+        //Add Product Images to Products
+        for (let product of data) {
+            const response = await fetch(`/api/products/${product.id}/images`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch product images');
+            }
+            const images = await response.json();
+            product.images = images;
+        }
+
+        // //Add Reviews to Products
+        // for (let product of data) {
+        //     const response = await fetch(`/api/products/${product.id}/reviews`);
+        //     if (!response.ok) {
+        //         throw new Error('Failed to fetch product reviews');
+        //     }
+        //     const reviews = await response.json();
+        //     product.reviews = reviews;
+        // }
+
         console.log(data, 'data');
         dispatch(loadProductsAll(data));
         return data;

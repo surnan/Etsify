@@ -3,6 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
+import ProductDetails from '../components/ProductDetails';
 
 
 export const router = createBrowserRouter([
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <SplashPage />,
+      },
+      {
+        path: '/products/:productId',
+        element: <ProductDetails />,
       },
       {
         path: "login",

@@ -6,7 +6,8 @@ review_routes = Blueprint('reviews', __name__)
 @review_routes.route('/', methods = ['GET'])
 def get_all_reviews():
     all_reviews = Review.query.all()
-    return render_template('review_page.html', all_reviews=all_reviews)
+    reviews = [review.to_dict() for review in all_reviews]  # Assuming you have a `to_dict()` method in the `Review` model
+    return jsonify(reviews)
 
 
 @review_routes.route('/', methods=['POST'])
