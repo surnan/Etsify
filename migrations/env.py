@@ -17,10 +17,10 @@ fileConfig(config.config_file_name)
 logger = logging.getLogger('alembic.env')
 
 # Import the Flask app and set up the application context
-from your_flask_app import create_app  # Replace 'your_flask_app' with your actual app module
+from flask import current_app  # Replace 'your_flask_app' with your actual app module
 
 # Create an instance of the app
-app = create_app()
+app = current_app()
 
 # Set up the application context
 with app.app_context():
