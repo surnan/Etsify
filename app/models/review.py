@@ -12,19 +12,19 @@ class Review(db.Model):
     stars = db.Column(db.Integer, nullable=False)
     review = db.Column(db.String(255), nullable=False)
 
-    # userId = db.Column(db.Integer, nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    userId = db.Column(db.Integer, nullable=False)
+    # userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
 
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    # productId = db.Column(db.Integer, nullable=False)
+    productId = db.Column(db.Integer, nullable=False)
+    # productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
 
 
 
 
     # Relationships
-    user = db.relationship('User', back_populates='review')
-    product = db.relationship('Product', back_populates='reviews')
+    # user = db.relationship('User', back_populates='review')
+    # product = db.relationship('Product', back_populates='reviews')
 
     def to_dict(self):
         return {
