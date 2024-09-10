@@ -16,6 +16,30 @@ def authenticate():
         return current_user.to_dict()
     return {'errors': {'message': 'Unauthorized'}}, 401
 
+@auth_routes.route('/', methods=['GET'])
+def get_user():
+    try:
+        if g.user is None:
+            return jsonify({'user': None}), 200
+
+        # Assuming user ID is stored in g.user
+        current_user = User.query.get(g.user.id)
+
+        if current_user is None:
+            return jsonify({'user': None}), 200
+
+        user_data = {
+            'id': current_user.id,
+            'firstName': current_user.first_name,
+            'lastName': current_user.last_name,
+            'email': current_user.email,
+            'username': current_user.username
+        }
+
+        return jsonify({'user': user_data}), 200
+    except Exception as error:
+        return jsonify({'error': str(error)}), 500
+
 
 @auth_routes.route('/login', methods=['POST'])
 def login():
