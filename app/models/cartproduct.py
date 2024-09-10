@@ -15,12 +15,12 @@ class Cartproduct(db.Model):
     ##productId needs foreignKey
     
 
-    # shoppingCartId = db.Column(db.Integer, db.ForeignKey('shoppingcarts.id'), nullable=False)
-    shoppingCartId = db.Column(db.Integer, nullable=False)
+    shoppingCartId = db.Column(db.Integer, db.ForeignKey('shoppingcarts.id'), nullable=False)
+    # shoppingCartId = db.Column(db.Integer, nullable=False)
 
 
     # Relationship
-    # shopping_cart = db.relationship('ShoppingCart', back_populates='cart_products')
+    shopping_cart = db.relationship('ShoppingCart', back_populates='cartproducts')
 
     def to_dict(self):
         return {

@@ -11,11 +11,11 @@ class Shoppingcart(db.Model):
 
 
     # userId = db.Column(db.Integer, nullable=False, unique=True)
-    # userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     # Relationships
     # user = db.relationship('User', back_populates='shopping_cart')
-    # cart_products = db.relationship('CartProduct', back_populates='shopping_cart', cascade='all, delete-orphan')
+    cart_products = db.relationship('CartProduct', back_populates='shoppingcarts', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {

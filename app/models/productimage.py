@@ -10,11 +10,11 @@ class Productimage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image_url = db.Column(db.String(255), nullable=False)
 
-    # productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    productId = db.Column(db.Integer, nullable=False)
+    productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    # productId = db.Column(db.Integer, nullable=False)
 
     # Relationship
-    # product = db.relationship('Product', back_populates='product_images')
+    product = db.relationship('Product', back_populates='productimages')
 
     def to_dict(self):
         return {

@@ -13,11 +13,11 @@ class Favorite(db.Model):
 
 
     # userId = db.Column(db.Integer, nullable=False)
-    # userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
     # Relationship
-    # user = db.relationship('User', back_populates='favorites')
+    user = db.relationship('User', back_populates='favorites')
 
     def to_dict(self):
         return {

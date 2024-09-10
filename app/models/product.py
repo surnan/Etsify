@@ -15,12 +15,12 @@ class Product(db.Model):
     stock = db.Column(db.Integer, nullable=False)
 
     # sellerId = db.Column(db.Integer, nullable=False)
-    # sellerId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    sellerId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     # Relationships
-    # seller = db.relationship('User', back_populates='products')
-    # reviews = db.relationship('Review', back_populates='product', cascade='all, delete-orphan')
-    # product_images = db.relationship('ProductImage', back_populates='product', cascade='all, delete-orphan')
+    seller = db.relationship('User', back_populates='products')
+    reviews = db.relationship('Review', back_populates='products', cascade='all, delete-orphan')
+    product_images = db.relationship('ProductImage', back_populates='products', cascade='all, delete-orphan')
   
     def to_dict(self):
         return {
