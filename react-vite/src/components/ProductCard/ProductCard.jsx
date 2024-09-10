@@ -6,14 +6,19 @@ function ProductCard({ product }) {
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
 
+    const productImage = product.images.length ? product.images[0]?.image_url : 'https://i0.wp.com/mikeyarce.com/wp-content/uploads/2021/09/woocommerce-placeholder.png?ssl=1';
+
     useEffect(() => {
         setRating(product.rating);
     }, [product.rating]);
 
+
+    console.log(product, 'product');
+
     return (
         <div className="ProductCard">
             <div className="ProductCard__image">
-                <img src={'https://i.ebayimg.com/images/g/v7EAAOSws5VjoOoM/s-l400.jpg'} alt={product.name} />
+                <img src={productImage} alt={product.name} />
             </div>
             <div className="ProductCard__content">
                 <div className="ProductCard__content__title">

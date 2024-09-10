@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import NavLogo from './NavLogo';
+import Categories from './Categories';
+import SearchBar from './SearchBar';
 
 function Navigation() {
     const sessionUser = useSelector(state => state.session.user);
@@ -9,9 +11,11 @@ function Navigation() {
     return (
         <div className='navigation-list'>
             <NavLogo />
-            {/* <Filters /> */}
+            <div className='cat-search'>
+                <Categories />
+                <SearchBar />
+            </div>
             <div className='profile-container'>
-                {/* <NavBarLinks /> */}
                 <ProfileButton user={sessionUser} />
             </div>
         </div>

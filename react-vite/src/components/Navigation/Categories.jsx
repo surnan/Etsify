@@ -2,8 +2,9 @@ import { FaBars } from "react-icons/fa";
 
 export default function Categories() {
     return (
-        <button>
+        <div className="categories-container" style={{fontSize: "12px"}}>
             <FaBars />
-        </button>
+            Categories
+        </div>
     )
 }
