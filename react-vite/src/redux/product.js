@@ -77,14 +77,23 @@ export const deleteProductThunk = (productId) => async (dispatch) => {
 }
 
 export const getProductsAllThunk = () => async (dispatch) => {
-    const response = await fetch('/api/products/')
-    if (response.ok) {
-        const data = await response.json();
+    try {
+        const response = await fetch('/api/products/');
+
         console.log(response);
-        dispatch(loadProductsAll(data))
-        return data
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch products');
+        }
+
+        const data = await response.json();
+        dispatch(loadProductsAll(data));
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
     }
-}
+};
 
 export const getProductsOwnedThunk = () => async (dispatch) => {
     const response = await fetch("/api/products/current");
