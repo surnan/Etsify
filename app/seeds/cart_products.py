@@ -3,41 +3,43 @@ from sqlalchemy.sql import text
 
 
 def seed_cart_products():
-    # Retrieve shopping carts by user ID or another identifiable field
-    shopping_cart1 = ShoppingCart.query.filter_by(userId=1).first()  # Adjust as needed
-    shopping_cart2 = ShoppingCart.query.filter_by(userId=2).first()  # Adjust as needed
+    a=5
 
-    # Retrieve products by name or another identifiable field
-    product1 = Product.query.get(1)  # Adjust to fetch by a reliable attribute
-    product2 = Product.query.get(2)
-    product3 = Product.query.get(3)
+    # # Retrieve shopping carts by user ID or another identifiable field
+    # shopping_cart1 = ShoppingCart.query.filter_by(userId=1).first()  # Adjust as needed
+    # shopping_cart2 = ShoppingCart.query.filter_by(userId=2).first()  # Adjust as needed
 
-    # Check if all required shopping carts and products exist
-    if not shopping_cart1 or not shopping_cart2:
-        print("Error: One or more shopping carts not found. Ensure shopping carts are seeded correctly.")
-        return
-    if not product1 or not product2 or not product3:
-        print("Error: One or more products not found. Ensure products are seeded correctly.")
-        return
+    # # Retrieve products by name or another identifiable field
+    # product1 = Product.query.get(1)  # Adjust to fetch by a reliable attribute
+    # product2 = Product.query.get(2)
+    # product3 = Product.query.get(3)
 
-    # Create cart products with valid references
-    cart_product1 = CartProduct(
-        shoppingCartId=shopping_cart1.id,
-        productId=product1.id
-    )
-    cart_product2 = CartProduct(
-        shoppingCartId=shopping_cart1.id,
-        productId=product2.id
-    )
-    cart_product3 = CartProduct(
-        shoppingCartId=shopping_cart2.id,
-        productId=product3.id
-    )
+    # # Check if all required shopping carts and products exist
+    # if not shopping_cart1 or not shopping_cart2:
+    #     print("Error: One or more shopping carts not found. Ensure shopping carts are seeded correctly.")
+    #     return
+    # if not product1 or not product2 or not product3:
+    #     print("Error: One or more products not found. Ensure products are seeded correctly.")
+    #     return
 
-    db.session.add(cart_product1)
-    db.session.add(cart_product2)
-    db.session.add(cart_product3)
-    db.session.commit()
+    # # Create cart products with valid references
+    # cart_product1 = CartProduct(
+    #     shoppingCartId=shopping_cart1.id,
+    #     productId=product1.id
+    # )
+    # cart_product2 = CartProduct(
+    #     shoppingCartId=shopping_cart1.id,
+    #     productId=product2.id
+    # )
+    # cart_product3 = CartProduct(
+    #     shoppingCartId=shopping_cart2.id,
+    #     productId=product3.id
+    # )
+
+    # db.session.add(cart_product1)
+    # db.session.add(cart_product2)
+    # db.session.add(cart_product3)
+    # db.session.commit()
 
 def undo_cart_products():
     if environment == "production":
