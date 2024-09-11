@@ -15,12 +15,13 @@ def seed_shopping_carts():
     
     # cart_product1 = CartProduct(shopping_cart_id=shopping_cart.id, product_id=product1.id, quantity=2)
     # cart_product2 = CartProduct(shopping_cart_id=shopping_cart.id, product_id=product2.id, quantity=1)
-    cart_product1 = CartProduct(shoppingCartId=shopping_cart.id, productId=product1.id)
-    cart_product2 = CartProduct(shoppingCartId=shopping_cart.id, productId=product2.id)
 
-    db.session.add(cart_product1)
-    db.session.add(cart_product2)
-    db.session.commit()
+    # cart_product1 = CartProduct(shoppingCartId=shopping_cart.id, productId=product1.id)
+    # cart_product2 = CartProduct(shoppingCartId=shopping_cart.id, productId=product2.id)
+    # db.session.add(cart_product1)
+    # db.session.add(cart_product2)
+    # db.session.commit()
+
 
 
 def undo_shopping_carts():
