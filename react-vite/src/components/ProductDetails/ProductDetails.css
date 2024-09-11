@@ -96,3 +96,8 @@
     max-height: 400px;
     object-fit: cover;
 }
+
+.productReviews{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}

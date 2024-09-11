@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
 import { getReviewsThunk } from "../../redux/review";
 import './ProductDetails.css';
+import ReviewCard from "../Reviews/ReviewCard";
 
 export default function ProductDetails() {
     const dispatch = useDispatch();
@@ -11,20 +12,26 @@ export default function ProductDetails() {
     const { productId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
 
+
     const [mainImage, setMainImage] = useState(null); // State to track the main image
     const [showReviews, setShowReviews] = useState(false);
     const [reviewChecker, setReviewChecker] = useState(false);
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
 
     const product = useSelector(state => state.product.single);
+    const productReviews = useSelector(state => state.review.allReviews);
+
+    console.log('prod ', productReviews);
+    
 
     useEffect(() => {
         dispatch(getProductsOneThunk(parseInt(productId)));
         dispatch(getReviewsThunk(parseInt(productId)))
             .then(() => setShowReviews(true))
-            .then(() => setDeleteReviewChecker(false));
-        if (!product)
-            return navigate('/404');
+            .then(() => setDeleteReviewChecker(false))
+            .then(() => {if (!product)
+                return navigate('/404');})
+      
     }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
 
     useEffect(() => {
@@ -42,6 +49,7 @@ export default function ProductDetails() {
     };
 
     return (
+        <>
         <div className="product-main-container">
             <div className="product-image-gallery">
                 {product.product_images?.map((image, index) => (
@@ -63,6 +71,11 @@ export default function ProductDetails() {
                 <p>${product.price}</p>
                 <button>Add to Cart</button>
             </div>
+          
         </div>
+         <div className = 'productReviews'>
+         {productReviews?.map((rev) => <ReviewCard key = {rev.id} rev = {rev}/>)}
+         </div>
+         </>
     )
 }
