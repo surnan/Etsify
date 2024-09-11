@@ -1,14 +1,29 @@
 # api/product_routes.py
 from flask import Blueprint, jsonify, redirect, render_template, request
-from app.models import db, Review
+from app.models import db, Review, User
 review_routes = Blueprint('reviews', __name__)
 
 @review_routes.route('/', methods = ['GET'])
 def get_all_reviews():
     all_reviews = Review.query.all()
     reviews = [review.to_dict() for review in all_reviews]  # Assuming you have a `to_dict()` method in the `Review` model
+    
+    # Add users to the reviews based on the userId
+    for review in reviews:
+        user = User.query.get(review["userId"])
+        review["user"] = user.to_dict()
+    
     return jsonify(reviews)
 
+@review_routes.route('/<int:reviewId>', methods = ['GET'])
+def get_review(reviewId):
+    review = Review.query.get(reviewId)
+    if not review:
+        return jsonify({"error": "Review not found"}), 404
+    user = User.query.get(review.userId)
+    review_data = review.to_dict()
+    review_data["user"] = user.to_dict()
+    return jsonify(review_data)
 
 @review_routes.route('/', methods=['POST'])
 def add_review():
@@ -18,7 +33,7 @@ def add_review():
     userId = data.get("userId")
     productId = data.get("productId")
     new_review = Review(stars=stars, review=review, userId=userId, productId=productId)
-   
+    
     try:
         db.session.add(new_review)
         db.session.commit()
@@ -76,9 +91,6 @@ def update_review(reviewId):
     #     "userId": userId,
     #     "productId":productId
     # }
-
-  
-   
     try:
         db.session.commit()
         return jsonify({"message": "Review updated successfully", "review": {

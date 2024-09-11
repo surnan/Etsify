@@ -6,9 +6,15 @@ const LOAD_PRODUCTS_ALL = "products/loadProductsAll"
 const LOAD_PRODUCTS_ONE = "products/loadProductsOne"
 const LOAD_PRODUCTS_OWNED = "products/loadProductsOwned"
 const UPDATE_PRODUCT = "products/updateProductOne"
+const GET_REVIEWS = 'reviews/getReviews';
 
 
 // Actions
+const getReviews = (productId) => ({
+    type: GET_REVIEWS,
+    payload: productId
+});
+
 const addProduct = (data) => ({
     type: ADD_PRODUCT,
     payload: data
@@ -46,6 +52,14 @@ const updateProduct = (data) => ({
 })
 
 //Thunks
+export const getProductReviewsThunk = (productId) => async (dispatch) => {
+    const response = await fetch(`/api/products/${productId}/reviews`);
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getReviews(data));
+    }
+};
+
 export const addProductThunk = (product) => async (dispatch) => {
     const { body, imageURLs } = product;
     const response = await fetch("/api/products", {
@@ -174,7 +188,7 @@ const deleteSpotImages = async (productId) => {
 };
 
 // State Object
-const initialState = { allProducts: [], byId: {}};
+const initialState = { allProducts: [], byId: {} };
 
 // Reducers
 function productReducer(state = initialState, action) {
@@ -184,6 +198,12 @@ function productReducer(state = initialState, action) {
             newState.allProducts = [...newState.allProducts, action.payload]
             newState.byId[action.payload.id] = action.payload;
             newState.single = action.payload;
+            return newState;
+        }
+
+        case GET_REVIEWS: {
+            let newState = { ...state }
+            newState.single.reviews = action.payload;
             return newState;
         }
 

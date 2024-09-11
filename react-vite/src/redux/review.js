@@ -1,5 +1,6 @@
 //Constants
 const GET_REVIEWS = 'review/GET_REVIEWS';
+const GET_REVIEW = 'review/GET_REVIEW';
 const ADD_REVIEW = 'review/ADD_REVIEW';
 const DELETE_REVIEW = 'review/DELETE_REVIEW';
 const EDIT_REVIEW = 'review/EDIT_REVIEW';
@@ -8,6 +9,11 @@ const EDIT_REVIEW = 'review/EDIT_REVIEW';
 const getReviews = (reviews) => ({
     type: GET_REVIEWS,
     payload: reviews
+});
+
+const getReview = (review) => ({
+    type: GET_REVIEW,
+    payload: review
 });
 
 const addReview = (review) => ({
@@ -26,12 +32,22 @@ const editReview = (updatedReview) => ({
 });
 
 //Thunks
-export const getReviewsThunk = (product) => async (dispatch) => {
-    const response = await fetch(`/api/products/${product.id}/reviews`);
+export const getReviewsThunk = (productId) => async (dispatch) => {
+    const response = await fetch(`/api/products/${productId}/reviews`);
 
     if (response.ok) {
         const reviews = await response.json();
+        console.log(reviews)
         dispatch(getReviews(reviews));
+    }
+};
+
+export const getReviewThunk = (reviewId) => async (dispatch) => {
+    const response = await fetch(`/api/reviews/${reviewId}`);
+
+    if (response.ok) {
+        const review = await response.json();
+        dispatch(getReview(review));
     }
 };
 
@@ -77,12 +93,12 @@ export const editReviewThunk = (review) => async (dispatch) => {
 
 
 //Reducer
-const initialState = { };
+const initialState = {};
 
 function reviewReducer(state = initialState, action) {
     let newState;
 
-    switch(action.type) {
+    switch (action.type) {
         case GET_REVIEWS: {
             newState = { ...state };
             newState.allReviews = action.payload;
@@ -92,10 +108,16 @@ function reviewReducer(state = initialState, action) {
             return newState;
         }
 
+        case GET_REVIEW: {
+            newState = { ...state };
+            newState.currentReview = action.payload;
+            return newState;
+        }
+
         case ADD_REVIEW: {
             newState = { ...state };
             newState.allReviews = [action.payload, ...newState.allReviews];
-            newState.byId = {...newState.byId, [action.payload.id]: action.payload};
+            newState.byId = { ...newState.byId, [action.payload.id]: action.payload };
             return newState;
         }
 

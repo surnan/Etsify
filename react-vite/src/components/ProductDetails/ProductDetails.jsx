@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
-import { getReviewsThunk } from "../../redux/review";
-import { getProductStarRating } from "../ProductCard/ProductCard";
+// import { getReviewsThunk } from "../../redux/review";
+// import { getProductStarRating } from "../ProductCard/ProductCard";
 import './ProductDetails.css';
 import '../404/Page404.css';
 import Page404 from "../404/Page404";
-import ProductRating from "../ProductCard/ProductRating";
 import ReviewCard from "./ReviewCard";
 
 export default function ProductDetails() {
@@ -15,19 +14,15 @@ export default function ProductDetails() {
     const { productId } = useParams();
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
-    const [showReviews, setShowReviews] = useState(false);
-    const [reviewChecker, setReviewChecker] = useState(false);
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
 
-    
+
     // Fetch product and reviews when component mounts
     useEffect(() => {
-        dispatch(getProductsOneThunk(parseInt(productId)));
-        dispatch(getReviewsThunk(parseInt(productId)))
-        .then(() => setShowReviews(true))
-        .then(() => setDeleteReviewChecker(false));
-    }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
-    
+        dispatch(getProductsOneThunk(parseInt(productId)))
+            .then(() => setDeleteReviewChecker(false));
+    }, [dispatch, productId, deleteReviewChecker]);
+
     const product = useSelector(state => state.product.single);
     // Set the main image after product is fetched
     useEffect(() => {
@@ -45,8 +40,6 @@ export default function ProductDetails() {
     const handleImageClick = (imageUrl) => {
         setMainImage(imageUrl); // Update the main image when a thumbnail is clicked
     };
-
-    const productRating = getProductStarRating(product.reviews);
 
     return (
         <>
@@ -74,10 +67,12 @@ export default function ProductDetails() {
             </div>
             <div className="reviews-container">
                 <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
-                <ProductRating reviews={product.reviews} productRating={productRating} />
                 {product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
-                        <ReviewCard key={index} review={review} />
+                        <>
+                            <ReviewCard key={index} review={review} />
+                            <div className="horizontal-divider"></div>
+                        </>
                     ))
                 ) : (
                     <p>No reviews yet</p>
