@@ -1,4 +1,4 @@
-from app.models import db, Favorite, User, Product, environment, SCHEMA
+from app.models import db, Favorite, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_favorites():
