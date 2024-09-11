@@ -44,25 +44,36 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: start
 }
 
 .product-details h1 {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 10px;
+    text-align: left;
+}
+
+.product-details h2 {
+    font-size: 27px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: left;
+    color: #0f743b;
 }
 
 .product-details p {
     margin-bottom: 12px;
-    font-size: 1.1rem;
+    font-size: 16px;
     color: #333;
 }
 
 .product-details button {
     padding: 12px 20px;
-    background-color: #ff9900;
+    background-color: #222;
     color: white;
     border: none;
+    border-radius: 50px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -71,7 +82,7 @@
 }
 
 .product-details button:hover {
-    background-color: #e68a00;
+    background-color: #3e3e3e;
 }
 
 .product-image-gallery img {
