@@ -26,8 +26,8 @@ const editReview = (updatedReview) => ({
 });
 
 //Thunks
-export const getReviewsThunk = (product) => async (dispatch) => {
-    const response = await fetch(`/api/products/${product.id}/reviews`);
+export const getReviewsThunk = (productId) => async (dispatch) => {
+    const response = await fetch(`/api/reviews/${productId}`);
 
     if (response.ok) {
         const reviews = await response.json();
@@ -86,8 +86,11 @@ function reviewReducer(state = initialState, action) {
         case GET_REVIEWS: {
             newState = { ...state };
             newState.allReviews = action.payload;
+            newState.byId = {}
             for (let review of newState.allReviews) {
-                newState.byId[review.id] = review;
+                console.log(review.id)
+                newState['byId'][review.id] = review;
+                console.log('My state is ', newState)
             }
             return newState;
         }
