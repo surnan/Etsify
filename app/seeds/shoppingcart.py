@@ -12,18 +12,18 @@ def seed_shopping_carts():
     db.session.add(shopping_cart)
     db.session.commit()
 
-    cart_product1 = CartProduct(shoppingCartId=shopping_cart.id, productId=product1.id)
-    cart_product2 = CartProduct(shoppingCartId=shopping_cart.id, productId=product2.id)
-    db.session.add(cart_product1)
-    db.session.add(cart_product2)
-    db.session.commit()
+    # cart_product1 = CartProduct(shoppingCartId=shopping_cart.id, productId=product1.id)
+    # cart_product2 = CartProduct(shoppingCartId=shopping_cart.id, productId=product2.id)
+    # db.session.add(cart_product1)
+    # db.session.add(cart_product2)
+    # db.session.commit()
 
 def undo_shopping_carts():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.cartproducts RESTART IDENTITY CASCADE;")
+        # db.session.execute(f"TRUNCATE table {SCHEMA}.cartproducts RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.shoppingcarts RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM cartproducts"))
+        # db.session.execute(text("DELETE FROM cartproducts"))
         db.session.execute(text("DELETE FROM shoppingcarts"))
         
     db.session.commit()
