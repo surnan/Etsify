@@ -9,8 +9,8 @@ class Favorite(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'),nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    productId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')),nullable=False)
 
     # Relationship
     users = db.relationship('User', back_populates='favorites')

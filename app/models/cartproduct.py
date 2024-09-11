@@ -8,8 +8,8 @@ class CartProduct(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    shoppingCartId = db.Column(db.Integer, db.ForeignKey('shoppingcarts.id'), nullable=False)
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    shoppingCartId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('shoppingcarts.id')), nullable=False)
+    productId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')), nullable=False)
 
     # Relationship
     shoppingcarts = db.relationship('ShoppingCart', back_populates='cartproducts')
