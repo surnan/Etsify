@@ -28,12 +28,12 @@ def seed():
         undo_favorites()
         undo_cart_products()
         undo_shopping_carts()
-        # undo_products()
+        undo_products()
         undo_users()
 
 
     seed_users()
-    # seed_products()
+    seed_products()
     seed_shopping_carts()
     seed_cart_products()
     seed_favorites()
