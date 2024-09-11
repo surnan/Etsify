@@ -16,10 +16,10 @@ def seed_cart_products():
         productId=3
     )
 
-    db.session.add(cart_product1)
-    db.session.add(cart_product2)
-    db.session.add(cart_product3)
-    db.session.commit()
+    # db.session.add(cart_product1)
+    # db.session.add(cart_product2)
+    # db.session.add(cart_product3)
+    # db.session.commit()
 
 def undo_cart_products():
     if environment == "production":
