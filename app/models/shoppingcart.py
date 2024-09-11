@@ -12,6 +12,8 @@ class ShoppingCart(db.Model):
     
     # Relationships
     users = db.relationship('User', back_populates='shoppingcarts')
+    cartproducts = db.relationship('CartProduct', back_populates='shoppingcarts', cascade='all, delete-orphan')
+
 
     def to_dict(self):
         return {
