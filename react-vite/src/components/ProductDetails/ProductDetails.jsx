@@ -3,13 +3,14 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
 import { getReviewsThunk } from "../../redux/review";
+import { FaArrowLeft } from "react-icons/fa6";
 import './ProductDetails.css';
+import '../404/Page404.css';
+import Page404 from "../404/Page404";
 
 export default function ProductDetails() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { productId } = useParams();
-    const sessionUser = useSelector(state => state.session.user);
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
     const [showReviews, setShowReviews] = useState(false);
@@ -18,24 +19,26 @@ export default function ProductDetails() {
 
     const product = useSelector(state => state.product.single);
 
+    // Fetch product and reviews when component mounts
     useEffect(() => {
         dispatch(getProductsOneThunk(parseInt(productId)));
         dispatch(getReviewsThunk(parseInt(productId)))
             .then(() => setShowReviews(true))
             .then(() => setDeleteReviewChecker(false));
-        if (!product)
-            return navigate('/404');
     }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
 
+    // Set the main image after product is fetched
     useEffect(() => {
-        // Set the first image as the main image when the product is loaded
-        if (product && product.product_images?.length > 0) {
-            setMainImage(product.product_images[0]?.image_url);
+        if (product && product.product_images && product.product_images.length > 0) {
+            setMainImage(product.product_images[0].image_url);
         }
     }, [product]);
 
-    if (!product)
-        return navigate('/404');
+    if (!product) {
+        return (
+            <Page404 />
+        );
+    }
 
     const handleImageClick = (imageUrl) => {
         setMainImage(imageUrl); // Update the main image when a thumbnail is clicked
@@ -64,5 +67,5 @@ export default function ProductDetails() {
                 <button>Add to Cart</button>
             </div>
         </div>
-    )
+    );
 }
