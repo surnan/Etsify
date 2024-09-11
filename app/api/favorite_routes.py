@@ -2,21 +2,21 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import db, ShoppingCart, CartProduct, Product, Review, Favorite
 
-favorite_bp = Blueprint('reviews', __name__)
+favorite_bp = Blueprint('favorites', __name__)
 
 # Favorites Create Read Delete
 # Favorite Create
-@favorite_bp.route('/favorites', methods=['POST'])
+@favorite_bp.route('/', methods=['POST'])
 def create_favorite():
     data = request.get_json() #grab request data
-    user_id = data.get('user_id') #grab user_id from req
-    product_id = data.get('product_id') #grab product_id from req
+    userId = data.get('userId') #grab user_id from req
+    productId = data.get('productId') #grab product_id from req
 
-    if not user_id or not product_id:
-        return jsonify({'error': 'Missing user_id or product_id'}), 400
+    if not userId or not productId:
+        return jsonify({'error': 'Missing userId or productId'}), 400
 
     #Create Favorite using class
-    new_favorite = Favorite(user_id=user_id, product_id=product_id)
+    new_favorite = Favorite(userId=userId, productId=productId)
     #Add Favorite
     db.session.add(new_favorite)
     db.session.commit()
@@ -24,15 +24,15 @@ def create_favorite():
     return jsonify(new_favorite.to_dict()), 201
 
 # Favorite Read
-@favorite_bp.route('/api/favorites/<int:user_id>', methods=['GET'])
-def get_favorites(user_id):
+@favorite_bp.route('/<int:userId>', methods=['GET'])
+def get_favorites(userId):
     #Grab/Query Favorites by user
-    favorites = Favorite.query.filter_by(user_id=user_id).all()
+    favorites = Favorite.query.filter_by(userId=userId).all()
     #Return Favorites
     return jsonify([favorite.to_dict() for favorite in favorites]), 200
 
 # Favorite Delete
-@favorite_bp.route('/api/favorites/<int:id>', methods=['DELETE'])
+@favorite_bp.route('/<int:id>', methods=['DELETE'])
 def delete_favorite(id):
     #Grab/Query Favorite by the Favorite's id
     favorite = Favorite.query.get(id)

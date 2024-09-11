@@ -11,7 +11,7 @@ from .api.auth_routes import auth_routes
 from .api.product_routes import product_routes   ##### - surnan
 from .api.productimages_routes import productimage_routes   ##### - surnan
 from .api.review_routes import review_routes   ##### - michelle
-from .api.javier_review_routes import review_productID_bp #Javier Reviews
+# from .api.javier_review_routes import review_productID_bp #Javier Reviews
 from .api.favorite_routes import favorite_bp #Javier Favorites
 from .seeds import seed_commands
 from .config import Config
@@ -38,7 +38,6 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_routes, url_prefix='/api/products') ##### - surnan
 app.register_blueprint(productimage_routes, url_prefix='/api/productimages') ##### - surnan
 app.register_blueprint(review_routes, url_prefix='/api/reviews') ##### - michelle
-app.register_blueprint(review_productID_bp, url_prefix='/api/reviews') #JAVIER REVIEWS ROUTES
 app.register_blueprint(favorite_bp, url_prefix='/api/favorites') #JAVIER FAVORITE ROUTES
 db.init_app(app)
 Migrate(app, db)
