@@ -1,0 +1,14 @@
+.starsBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 5%;
+}
+
+.reviewsModalContainer{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
