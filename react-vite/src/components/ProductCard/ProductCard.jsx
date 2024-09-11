@@ -13,6 +13,12 @@ export function getProductStarRating(reviews) {
     for(let i = 0; i < Math.floor(total / reviews.length); i++) {
         result[i] = 1;
     }
+    for (let el of result) {
+        if (!el) {
+            result.splice(result.indexOf(el), 1, 0);
+        }
+    }
+    // console.log(result)
     return result;
 }
 
