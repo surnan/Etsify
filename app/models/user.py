@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
 
 
     # products = db.relationship('Product', back_populates='seller')
-    products = db.relationship('Product', back_populates='user')
+    products = db.relationship('Product', back_populates='users')
     favorites = db.relationship('Favorite', back_populates='users')
     reviews = db.relationship('Review', back_populates='users')
     shoppingcarts = db.relationship('ShoppingCart', back_populates='users')
