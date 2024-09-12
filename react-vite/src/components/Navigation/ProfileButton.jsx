@@ -1,23 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle, FaBars } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../redux/session';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 
-import './ProfileButton.css'
+import './ProfileButton.css';
 import { useNavigate } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
-
   const navigate = useNavigate();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation(); // Prevent the menu from closing when toggling it
     setShowMenu(!showMenu);
   };
 
@@ -25,14 +24,15 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
+      // Check if the click happened outside the dropdown
+      if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
 
     document.addEventListener('click', closeMenu);
 
-    return () => document.removeEventListener("click", closeMenu);
+    return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
@@ -53,25 +53,21 @@ function ProfileButton({ user }) {
 
   return (
     <div className='nav-bar-dropdown'>
-      <FaBars onClick={toggleMenu} className='hamburger' />
+      {/* <FaBars onClick={toggleMenu} className='hamburger' /> */}
       {user ? (
-        <div className='username-profile'>
+        <div className='username-profile' onClick={toggleMenu}>
           <span>{user.username[0]}</span>
         </div>
-      ) :
-        <FaUserCircle />
-
-      }
-      <ul className={ulClassName} ref={ulRef}>
+      ) : (
+        <FaUserCircle onClick={toggleMenu} />
+      )}
+      <ul className={ulClassName} ref={ulRef} onClick={(e) => e.stopPropagation()}>
         {user ? (
           <>
             <li>Hello, {user.username}</li>
-            {/* <li>{user.email}</li> */}
-            <div className='divider-horizontal'>
-            </div>
+            <div className='divider-horizontal'></div>
             <li onClick={goToManageSpots}>Manage Listings</li>
-            <div className='divider-horizontal'>
-            </div>
+            <div className='divider-horizontal'></div>
             <div>
               <button onClick={logout}>Logout</button>
             </div>
