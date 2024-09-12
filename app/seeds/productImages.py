@@ -128,10 +128,8 @@ def seed_product_images():
    db.session.commit()
 
 def undo_product_images():
-   if environment == "production":
-      db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
-   # else:
-   #    db.session.execute(text("DELETE FROM order_products"))
-   #    db.session.execute(text("DELETE FROM orders"))
-      
-   db.session.commit()
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.productimages RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM productimages"))
+    db.session.commit()
