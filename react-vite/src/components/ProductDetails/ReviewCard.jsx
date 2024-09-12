@@ -58,6 +58,12 @@ export default function ReviewCard({ review }) {
                 {/* Display the username of the review owner */}
                 <span className="review-author">{reviewOwner.username}</span>
             </div>
+            <div className="options">
+            <ul>
+                <li><NavLink to={`reviews/${rev.id}/update`}>Update Review</NavLink></li>
+                <li><NavLink to={`reviews/${rev.id}/delete`}>Delete Review</NavLink></li>
+            </ul>
+            </div>
         </div>
     );
 }
