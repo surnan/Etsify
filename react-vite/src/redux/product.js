@@ -1,4 +1,3 @@
-import { csrfFetch } from "./csrf";
 
 //react-vite/src/redux/product.js
 const ADD_PRODUCT = 'products/addProductOne';
@@ -49,7 +48,7 @@ const updateProduct = (data) => ({
 //Thunks
 export const addProductThunk = (product) => async (dispatch) => {
     const { body, imageURLs } = product;
-    const response = await csrfFetch("/api/products", {
+    const response = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -63,7 +62,7 @@ export const addProductThunk = (product) => async (dispatch) => {
 }
 
 export const deleteProductThunk = (productId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/products/${productId}`, {
+    const response = await fetch(`/api/products/${productId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -78,16 +77,48 @@ export const deleteProductThunk = (productId) => async (dispatch) => {
 }
 
 export const getProductsAllThunk = () => async (dispatch) => {
-    const response = await csrfFetch('/api/products')
-    if (response.ok) {
+    try {
+        const response = await fetch('/api/products/');
+
+        // console.log(response);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch products');
+        }
+
         const data = await response.json();
-        dispatch(loadProductsAll(data))
-        return data
+
+        //Add Product Images to Products
+        for (let product of data) {
+            const response = await fetch(`/api/products/${product.id}/images`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch product images');
+            }
+            const images = await response.json();
+            product.images = images;
+        }
+
+        // //Add Reviews to Products
+        // for (let product of data) {
+        //     const response = await fetch(`/api/products/${product.id}/reviews`);
+        //     if (!response.ok) {
+        //         throw new Error('Failed to fetch product reviews');
+        //     }
+        //     const reviews = await response.json();
+        //     product.reviews = reviews;
+        // }
+
+        console.log(data, 'data');
+        dispatch(loadProductsAll(data));
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
     }
-}
+};
 
 export const getProductsOwnedThunk = () => async (dispatch) => {
-    const response = await csrfFetch("/api/products/current");
+    const response = await fetch("/api/products/current");
     if (response.ok) {
         const data = await response.json();
         dispatch(loadProductsOwned(data));
@@ -95,7 +126,7 @@ export const getProductsOwnedThunk = () => async (dispatch) => {
 };
 
 export const getProductsOneThunk = (productId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/products/${productId}`)
+    const response = await fetch(`/api/products/${productId}`)
     if (response.ok) {
         const data = await response.json();
         dispatch(loadProductsOne(data))
@@ -106,7 +137,7 @@ export const getProductsOneThunk = (productId) => async (dispatch) => {
 export const updateProductThunk = (product) => async (dispatch) => {
     const { body, imageURLs, productId } = product;
     await deleteSpotImages(productId);
-    const response = await csrfFetch(`/api/products/${productId}`, {
+    const response = await fetch(`/api/products/${productId}`, {
         method: 'PUT',
         header: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -123,7 +154,7 @@ export const updateProductThunk = (product) => async (dispatch) => {
 const insertProductImages = async ({ productId, imageURLs }) => {
     // post side images
     for (let url of imageURLs) {
-        await csrfFetch(`/api/products/${productId}/images`, {
+        await fetch(`/api/products/${productId}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -134,7 +165,7 @@ const insertProductImages = async ({ productId, imageURLs }) => {
 };
 
 const deleteSpotImages = async (productId) => {
-    await csrfFetch(`/api/product-images/spot/${productId}`, {
+    await fetch(`/api/product-images/spot/${productId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -143,7 +174,7 @@ const deleteSpotImages = async (productId) => {
 };
 
 // State Object
-const initialState = { user: null };
+const initialState = { allProducts: [], byId: {}};
 
 // Reducers
 function productReducer(state = initialState, action) {
@@ -169,8 +200,9 @@ function productReducer(state = initialState, action) {
 
         case LOAD_PRODUCTS_ALL: {
             let newState = { ...state }
-            newState.allProducts = action.payload.Products;
-            for (let product of action.payload.Products) {
+            newState.allProducts = action.payload;
+
+            for (let product of newState.allProducts) {
                 newState.byId[product.id] = product
             }
             return newState;

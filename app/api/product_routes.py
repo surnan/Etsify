@@ -10,16 +10,27 @@ product_routes = Blueprint('products', __name__)
 # Get All Products
 @product_routes.route('/', methods=['GET'])
 def get_all_products():
-    # database_uri = current_app.config.get('SQLALCHEMY_DATABASE_URI', None)
-    # print(f"Database URI: {database_uri}")
-    all_products = Product.query.all()
-    return render_template('product_page.html', all_products=all_products)
+    try:
+        all_products = Product.query.all()
+        print(f"Fetched products: {all_products}")
+
+        # Convert each product to a dictionary using to_dict
+        products_list = [product.to_dict() for product in all_products]
+        print(f"Products as dict: {products_list}")
+
+        return jsonify(products_list)
+    except Exception as e:
+        print(f"Error fetching products: {e}")
+        return jsonify({'error': 'Something went wrong'}), 500
 
 # Get Details of a Specific product
 @product_routes.route('/<int:productId>', methods=['GET'])
 def get_one_product_details(productId):
-    all_products = Product.query.get(productId)
-    return render_template('product_page.html', all_products=[all_products])
+    product = Product.query.get(productId)
+    if product:
+        return jsonify(product.to_dict())  # Assuming your `Product` model has a `to_dict()` method
+    else:
+        return jsonify({"error": "Product not found"}), 404
 
 
 @product_routes.route('/', methods=['POST'])
@@ -94,3 +105,23 @@ def update_product(productId):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+@product_routes.route('/<int:productId>/images', methods=['GET'])
+def get_product_images(productId):
+    product = Product.query.get(productId)
+    
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    product_images = product.product_images
+    return jsonify([image.to_dict() for image in product_images])
+
+@product_routes.route('/<int:productId>/reviews', methods=['GET'])
+def get_product_reviews(productId):
+    product = Product.query.get(productId)
+    
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    product_reviews = product.product_reviews
+    return jsonify([review.to_dict() for review in product_reviews])
