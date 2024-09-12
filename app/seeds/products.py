@@ -8,7 +8,6 @@ def seed_products():
         description='Beans description', 
         price=1.99, 
         stock=100000,
-        # created_at=??
     )
     product2 = Product(
         sellerId=2, 

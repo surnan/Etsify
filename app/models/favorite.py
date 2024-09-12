@@ -8,12 +8,12 @@ class Favorite(db.Model):
 
     #Create Columns
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    productId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')),nullable=False)
 
-    #Relationship
-    user = db.relationship("User", back_populates="favorites")
-    product = db.relationship("Product", back_populates="favorites")
+    # Relationship
+    users = db.relationship('User', back_populates='favorites')
+    products = db.relationship('Product', back_populates='favorites')
 
     #Format
     def to_dict(self):

@@ -1,3 +1,70 @@
+# Flask Etsy Project
+
+![db-schema](./DB.png)
+
+```
+http://localhost:8000/api/products/  <-- products table
+- Assuming Flask is running local & default port is left as 8000
+```
+
+```
+http://localhost:8000/api/reviews/ <-- reviews table
+- Assuming Flask is running local & default port is left as 8000
+```
+
+```
+GET api/products = return all products
+```
+
+```
+GET api/products/5 = returns product with id=5
+```
+
+```
+DELETE api/products/5' = deletes product with id=5
+```
+
+```
+POST   api/products = add new product & id has auto-incrmement
+UPDATE api/products/5 = update the product with id=5
+```
+
+POST & UPDATE product routes require JSON with following body:
+```
+{
+    "sellerId": 3,
+    "name": "BBQ Potato Chips",
+    "description": "crunchy energy for developers",
+    "price": 5.50,
+    "stock": 20
+}
+```
+
+```
+@review_routes.route('/', methods = ['GET'])
+GET api/reviews = return all reviews
+```
+
+```
+@review_routes.route('/<int:reviewId>', methods=['DELETE'])
+DELETE api/reviews/3 = delete review with id=3
+```
+
+```
+POST api/reviews = post review
+PUT api/reviews/3 = update review with id=3
+```
+
+POST & UPDATE review routes require JSON with following body:
+```
+{
+    <Michelle copy/paste your postman body here>
+}
+```
+
+
+
+
 # Flask React Project
 
 This is the starter for the Flask React project.
