@@ -44,6 +44,14 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
+    op.create_table('productimages',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('productId', sa.Integer(), nullable=False),
+    sa.Column('image_url', sa.String(length=255), nullable=False),
+    sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+
     op.create_table('shoppingcarts',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
@@ -70,13 +78,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
-    op.create_table('productimages',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('productId', sa.Integer(), nullable=False),
-    sa.Column('image_url', sa.String(length=255), nullable=False),
-    sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('stars', sa.Integer(), nullable=False),
