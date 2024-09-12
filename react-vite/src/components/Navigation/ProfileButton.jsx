@@ -39,7 +39,7 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.thunkLogout());
     closeMenu();
     navigate('/');
   };
@@ -56,7 +56,7 @@ function ProfileButton({ user }) {
       <FaBars onClick={toggleMenu} className='hamburger' />
       {user ? (
         <div className='username-profile'>
-          <span>{user.firstName[0]}</span>
+          <span>{user.username[0]}</span>
         </div>
       ) :
         <FaUserCircle />
@@ -65,11 +65,11 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello, {user.firstName}</li>
-            <li>{user.email}</li>
+            <li>Hello, {user.username}</li>
+            {/* <li>{user.email}</li> */}
             <div className='divider-horizontal'>
             </div>
-            <li onClick={goToManageSpots}>Manage Spots</li>
+            <li onClick={goToManageSpots}>Manage Listings</li>
             <div className='divider-horizontal'>
             </div>
             <div>
