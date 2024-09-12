@@ -15,6 +15,9 @@ class Favorite(db.Model):
     users = db.relationship('User', back_populates='favorites')
     products = db.relationship('Product', back_populates='favorites')
 
+    ## TEMP comment to verify git pull.rebase true
+
+
     #Format
     def to_dict(self):
         return {
