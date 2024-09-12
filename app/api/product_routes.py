@@ -16,7 +16,6 @@ def get_all_products():
 
         # Convert each product to a dictionary using to_dict
         products_list = [product.to_dict() for product in all_products]
-        print(f"Products as dict: {products_list}")
 
         return jsonify(products_list)
     except Exception as e:
