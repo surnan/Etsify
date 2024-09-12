@@ -5,29 +5,30 @@ import { useParams } from 'react-router-dom';
 import {editReviewThunk, getReviewThunk} from '../../redux/review';
 import './AddReviewModal.css';
 const UpdateReview = () => {
-    
-    let {reviewId} = useParams();
-    const [stars, setStars] = useState(5.0)
-    const [rating, setRating] = useState('')
-    const navigate = useNavigate();
-
-
-    reviewId = parseInt(reviewId);
 
     const dispatch = useDispatch();
-    let review = useSelector(() => {state.review.currentReview[reviewId]})
+    let {reviewId} = useParams();
+    let review = useSelector(state => state.review.currentReview)
+    let revs = useSelector(state => state.review);
+   
+    console.log(review);
+    reviewId = parseInt(reviewId);
 
     useEffect(() => {
         dispatch(getReviewThunk(reviewId))
     }, [reviewId])
+
+    const [stars, setStars] = useState(review.stars)
+    const [rating, setRating] = useState(review.review)
+    const navigate = useNavigate();
+
    
 
-    let revs = useSelector((state) => state.review);
-   
     const handleSubmit = (e) => {
         e.preventDefault();
+     
         const form = {
-            "id": reviewId,
+            "id": parseInt(reviewId),
             "review": rating,
             stars
         }
