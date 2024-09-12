@@ -1,0 +1,91 @@
+/* Reset list styles */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.signup-container {
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Signup form container styles */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    align-items: center;
+    max-width: 400px;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+/* Heading styles */
+h1 {
+    text-align: center;
+    color: #484848;
+}
+
+/* Signup items styles */
+.signup-items {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Label styles */
+label {
+    display: block;
+    font-weight: 600;
+    color: #484848;
+    margin-bottom: 10px;
+}
+
+/* Input box styles */
+.signup-box {
+    width: 93%;
+    padding: 10px;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #484848;
+    transition: border-color 0.3s ease;
+}
+
+.signup-box:focus {
+    border-color: #007a87;
+    outline: none;
+}
+
+/* Signup button styles */
+#signup-button {
+    inline-size: 100%;
+    padding: 10px 100px 10px 100px;
+    border: none;
+    border-radius: 100px;
+    background-color: #f1641e;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#signup-button:hover {
+    background-color: #f1641e;
+}
+
+#signup-button:disabled {
+    background-color: #ffbacd;
+    cursor: not-allowed;
+}
+
+/* Error message styles */
+.error-message {
+    color: #ff385c;
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}

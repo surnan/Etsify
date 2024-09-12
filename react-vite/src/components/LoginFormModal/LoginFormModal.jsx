@@ -23,7 +23,7 @@ function LoginFormModal() {
   useEffect(() => {
     const newErrors = {};
     if (credential.length > 0 && credential.length < 4) {
-      newErrors.credential = 'Username or Email must be at least 4 characters';
+      newErrors.credential = 'Email must be at least 4 characters';
     }
     if (password.length > 0 && password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
@@ -36,7 +36,7 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
 
-    return dispatch(sessionActions.login({ credential, password }))
+    return dispatch(sessionActions.thunkLogin({ email: credential, password: password }))
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
@@ -48,7 +48,7 @@ function LoginFormModal() {
 
   const demoSubmit = (e) => {
     e.preventDefault();
-    return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
+    return dispatch(sessionActions.thunkLogin({ email: 'demo@aa.io', password: 'password' }))
       .then(closeModal);
   }
 
@@ -62,7 +62,7 @@ function LoginFormModal() {
         )}
         <div className='login-items'>
           <label id='userName-field'>
-            Username or Email
+            Email
             <input
               type="text"
               className='login-box'
