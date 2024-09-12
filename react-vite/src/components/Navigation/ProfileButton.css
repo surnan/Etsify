@@ -119,3 +119,44 @@
     text-align: center;
     font-size: 14px;
 }
+
+.username-profile-main-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    transition: ease 0.3s;
+}
+
+.username-profile-main-container:hover {
+    cursor: pointer;
+    border-radius: 100px;
+    background-color: #CFE8EF;
+    padding: 10px;
+}
+
+.username-profile-main-container:hover .username-profile {
+    background-color: #d05518;
+    transform: scale(1.1);
+}
+
+.shopping-cart-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    transition: ease 0.3s;
+    color: #333;
+}
+
+.shopping-cart-button:hover {
+    cursor: pointer;
+    border-radius: 100px;
+    color: #112966;
+    background-color: #CFE8EF;
+    padding: 10px;
+}

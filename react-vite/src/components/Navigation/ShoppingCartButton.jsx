@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa';
 import * as sessionActions from '../../redux/session';
+import { useSelector } from 'react-redux';
 
 import './ProfileButton.css';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +17,8 @@ function ShoppingCartButton({ shoppingCart }) {
         e.stopPropagation(); // Prevent the menu from closing when toggling it
         setShowMenu(!showMenu);
     };
+
+    const user = useSelector(state => state.session.user);
 
     useEffect(() => {
         if (!showMenu) return;
@@ -49,8 +52,12 @@ function ShoppingCartButton({ shoppingCart }) {
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
-        <div className='nav-bar-dropdown'>
-            <FaShoppingCart onClick={toggleMenu} />
+        <div className='shopping-cart-button'>
+            {
+                user ? (
+                    <FaShoppingCart onClick={toggleMenu} style={{fontSize: "18px"}}/>
+                ) : (<></>)
+            }
             <ul className={ulClassName} ref={ulRef} onClick={(e) => e.stopPropagation()}>
                 {shoppingCart && (
                     <>

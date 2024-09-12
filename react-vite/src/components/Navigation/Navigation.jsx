@@ -15,6 +15,8 @@ function Navigation() {
             <NavLogo />
             <div className='cat-search'>
                 <Categories />
+            </div>
+            <div className='search'>
                 <SearchBar />
             </div>
             <div className='profile-container'>

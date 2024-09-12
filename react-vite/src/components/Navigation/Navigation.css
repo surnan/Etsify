@@ -199,7 +199,15 @@
 .cat-search {
   display: flex;
   flex-direction: row;
-  width: 80%;
+  padding-left: 15px;
+  width: 20%;
   justify-content: space-between;
 
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  justify-content: space-between;
 }

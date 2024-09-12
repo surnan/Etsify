@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
+import { FaAngleDown } from "react-icons/fa6";
 import * as sessionActions from '../../redux/session';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
@@ -52,14 +53,20 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <div className='nav-bar-dropdown'>
+    <div className='nav-bar-dropdown' onClick={toggleMenu}>
       {/* <FaBars onClick={toggleMenu} className='hamburger' /> */}
       {user ? (
-        <div className='username-profile' onClick={toggleMenu}>
-          <span>{user.username[0]}</span>
+        <div className='username-profile-main-container'>
+          <div className='username-profile' onClick={toggleMenu}>
+            <span>{user.username[0]}</span>
+          </div>
+          <FaAngleDown style={{fontSize: "10px"}} onClick={toggleMenu} />
         </div>
       ) : (
-        <FaUserCircle onClick={toggleMenu} />
+        <>
+          <FaUserCircle onClick={toggleMenu} />
+
+        </>
       )}
       <ul className={ulClassName} ref={ulRef} onClick={(e) => e.stopPropagation()}>
         {user ? (
