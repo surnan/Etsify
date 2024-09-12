@@ -4,7 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
 import ProductDetails from '../components/ProductDetails';
-import AddReview from '../components/Reviews/AddReviewForm';
+import AddReviewForm from '../components/Reviews/AddReviewForm';
 import DeleteReview from '../components/Reviews/DeleteReview'
 import UpdateReview from '../components/Reviews/UpdateReview';
 import Page404 from '../components/404';
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/reviews/add',
-        element: <AddReview />,
+        element: <AddReviewForm />,
       },
       {
         path: '/reviews/:reviewId/delete',
@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/reviews/:reviewId/update',
-        element: <UpdateReview />,
+        element: <UpdateReview/>,
       },
       {
         path: "login",

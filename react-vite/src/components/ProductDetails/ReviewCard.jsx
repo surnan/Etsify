@@ -1,5 +1,6 @@
 import { FaStar } from 'react-icons/fa6';
 import './ProductDetails.css';
+import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 function productRating(stars) {
@@ -60,8 +61,8 @@ export default function ReviewCard({ review }) {
             </div>
             <div className="options">
             <ul>
-                <li><NavLink to={`reviews/${rev.id}/update`}>Update Review</NavLink></li>
-                <li><NavLink to={`reviews/${rev.id}/delete`}>Delete Review</NavLink></li>
+                <li><NavLink to={`/reviews/${review.id}/update`}>Update Review</NavLink></li>
+                <li><NavLink to={`/reviews/${review.id}/delete`}>Delete Review</NavLink></li>
             </ul>
             </div>
         </div>
