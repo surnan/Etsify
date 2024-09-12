@@ -3,13 +3,14 @@ import {useDispatch, useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import {editReviewThunk, getReviewThunk} from '../../redux/review';
+console.log('Thunk ', editReviewThunk)
 import './AddReviewModal.css';
 const UpdateReview = () => {
 
     const dispatch = useDispatch();
     let {reviewId} = useParams();
     let review = useSelector(state => state.review.currentReview)
-    let revs = useSelector(state => state.review);
+    // let editedRevs = useSelector(state => state.review.newllReviews[reviewId]);
    
     console.log(review);
     reviewId = parseInt(reviewId);
@@ -18,7 +19,6 @@ const UpdateReview = () => {
         let fetchedRev = dispatch(getReviewThunk(reviewId))
         setStars(fetchedRev.stars)
         setRating(fetchedRev.rating)
-
 
     }, [reviewId])
 
@@ -32,13 +32,14 @@ const UpdateReview = () => {
         e.preventDefault();
      
         const form = {
-            "id": parseInt(reviewId),
+            "id": reviewId,
             "review": rating,
             stars
         }
-        console.log(form);
-        const reviewId = form.id;
-        dispatch(editReviewThunk(form).then(navigate('/')));
+
+        // console.log('The form is --------------->', form)
+        
+       dispatch(editReviewThunk(form));
     }
 
   

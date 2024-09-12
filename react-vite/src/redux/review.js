@@ -77,7 +77,7 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 };
 
 export const editReviewThunk = (review) => async (dispatch) => {
-    console.log('The review is ', review)
+    console.log('The edited review is ', review)
     const response = await fetch(`/api/reviews/${review.id}`, {
         method: 'PUT',
         headers: {
@@ -128,15 +128,10 @@ function reviewReducer(state = initialState, action) {
             const reviewId = action.payload.id;
 
             const newAllReviews = [];
+            console.log('The state is....... ', newState)
 
-            for (let i = 0; i < newState.allReviews.length; i++) {
-                let currentReview = newState.allReviews[i];
-                if (currentReview.id === reviewId) {
-                    newAllReviews.push(action.payload);
-                } else
-                    newAllReviews.push(currentReview);
-            }
-
+            newAllReviews.push(action.payload);
+               
             newState.allReviews = newAllReviews;
             console.log('All Reviews is', newState.allReviews)
             newState.byId = { ...newState.byId, [reviewId]: action.payload };
