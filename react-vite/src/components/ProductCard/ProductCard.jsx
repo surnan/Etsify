@@ -1,7 +1,7 @@
-import { FaStar } from "react-icons/fa";
 import './ProductCard.css';
+import ProductRating from "./ProductRating";
 
-function getProductStarRating(reviews) {
+export function getProductStarRating(reviews) {
     if (reviews.length === 0) {
         return [0, 0, 0, 0, 0];
     }
@@ -13,6 +13,12 @@ function getProductStarRating(reviews) {
     for(let i = 0; i < Math.floor(total / reviews.length); i++) {
         result[i] = 1;
     }
+    for (let el of result) {
+        if (!el) {
+            result.splice(result.indexOf(el), 1, 0);
+        }
+    }
+    // console.log(result)
     return result;
 }
 
@@ -31,12 +37,7 @@ function ProductCard({ product }) {
                 <div className="ProductCard__content__title">
                     <h3>{product.name}</h3>
                 </div>
-                <div className="ProductCard__content__rating">
-                    {productRating.map((star, index) => (
-                        <FaStar key={index} size={14} color={star ? 'gold' : 'gray'} />
-                    ))}
-                    <span>{`(${product.reviews.length})`}</span>
-                </div>
+                <ProductRating reviews={product.reviews} productRating={productRating} />
                 <div className="ProductCard__content__price">
                     <p>${product.price}</p>
                 </div>

@@ -1,6 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
-
 class Favorite(db.Model):
     __tablename__ = 'favorites'
 
@@ -15,6 +14,9 @@ class Favorite(db.Model):
     # Relationship
     users = db.relationship('User', back_populates='favorites')
     products = db.relationship('Product', back_populates='favorites')
+
+    ## TEMP comment to verify git pull.rebase true
+
 
     #Format
     def to_dict(self):
