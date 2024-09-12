@@ -94,7 +94,7 @@ export const getProductsAllThunk = () => async (dispatch) => {
     try {
         const response = await fetch('/api/products/');
 
-        // console.log(response);
+        console.log(response);
 
         if (!response.ok) {
             throw new Error('Failed to fetch products');
