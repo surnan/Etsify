@@ -15,11 +15,15 @@ const UpdateReview = () => {
     reviewId = parseInt(reviewId);
 
     useEffect(() => {
-        dispatch(getReviewThunk(reviewId))
+        let fetchedRev = dispatch(getReviewThunk(reviewId))
+        setStars(fetchedRev.stars)
+        setRating(fetchedRev.rating)
+
+
     }, [reviewId])
 
-    const [stars, setStars] = useState(review.stars)
-    const [rating, setRating] = useState(review.review)
+    const [stars, setStars] = useState(review?.stars)
+    const [rating, setRating] = useState(review?.review)
     const navigate = useNavigate();
 
    
