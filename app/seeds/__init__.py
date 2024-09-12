@@ -34,10 +34,10 @@ def seed():
 
     seed_users()
     seed_products()
+    seed_product_images()
     seed_shopping_carts()
     seed_cart_products()
     seed_favorites()
-    seed_product_images()
     seed_reviews()
 
     # Add other seed functions here
