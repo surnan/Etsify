@@ -1,5 +1,5 @@
 from app.models import db, ProductImage, environment, SCHEMA
-# from sqlalchemy.sql import text
+from sqlalchemy.sql import text
 
 
 # Adds a demo user, you can add other users here if you want
@@ -128,10 +128,8 @@ def seed_product_images():
    db.session.commit()
 
 def undo_product_images():
-   if environment == "production":
-      db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
-   # else:
-   #    db.session.execute(text("DELETE FROM order_products"))
-   #    db.session.execute(text("DELETE FROM orders"))
-      
-   db.session.commit()
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.productimages RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM productimages"))
+    db.session.commit()
