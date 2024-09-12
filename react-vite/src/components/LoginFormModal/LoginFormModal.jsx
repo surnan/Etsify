@@ -1,60 +1,97 @@
-import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import "./LoginForm.css";
+import { useEffect, useState } from 'react';
+import * as sessionActions from '../../redux/session';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
+import './LoginForm.css';
 
 function LoginFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
+  const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { closeModal } = useModal();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Reset state when the modal is opened
+  useEffect(() => {
+    setCredential("");
+    setPassword("");
+    setErrors({});
+    setIsButtonDisabled(true);
+  }, []);
 
-    const serverResponse = await dispatch(
-      thunkLogin({
-        email,
-        password,
-      })
-    );
-
-    if (serverResponse) {
-      setErrors(serverResponse);
-    } else {
-      closeModal();
+  useEffect(() => {
+    const newErrors = {};
+    if (credential.length > 0 && credential.length < 4) {
+      newErrors.credential = 'Username or Email must be at least 4 characters';
     }
+    if (password.length > 0 && password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    setErrors(newErrors);
+    setIsButtonDisabled(credential.length < 4 || password.length < 6);
+  }, [credential, password]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors({});
+
+    return dispatch(sessionActions.login({ credential, password }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.message) {
+          setErrors(data);
+        }
+      })
   };
 
+  const demoSubmit = (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
+      .then(closeModal);
+  }
+
+
   return (
-    <div className="login-container">
-      <h1>Log In</h1>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="login-items">
-          <label>Email</label>
-          <input
-            type="text"
-            className="login-box"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          {errors.email && <p className="error-message">{errors.email}</p>}
+    <div className='login-container'>
+      <form onSubmit={handleSubmit} className='login-form'>
+        <h1>Log In</h1>
+        {errors.message && (
+          <p className='error-message'>{errors.message}</p>
+        )}
+        <div className='login-items'>
+          <label id='userName-field'>
+            Username or Email
+            <input
+              type="text"
+              className='login-box'
+              value={credential}
+              onChange={(e) => setCredential(e.target.value)}
+              required
+            />
+          </label>
+          {errors.credential && (
+            <p className='error-message'>{errors.credential}</p>
+          )}
+          <label id='password-field'>
+            Password
+            <input
+              type="password"
+              className='login-box'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          {errors.password && (
+            <p className='error-message'>{errors.password}</p>
+          )}
         </div>
-        <div className="login-items">
-          <label>Password</label>
-          <input
-            type="password"
-            className="login-box"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {errors.password && <p className="error-message">{errors.password}</p>}
+        <button type="submit" id='login-button' disabled={isButtonDisabled}>Log In</button>
+        <div className='demo-user'>
+          <a onClick={(e) => demoSubmit(e)}>Demo User</a>
         </div>
-        <button id="login-button" type="submit">Log In</button>
       </form>
     </div>
   );
