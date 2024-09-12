@@ -1,48 +1,41 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
-import { getReviewsThunk } from "../../redux/review";
+// import { getReviewsThunk } from "../../redux/review";
+// import { getProductStarRating } from "../ProductCard/ProductCard";
 import './ProductDetails.css';
-import ReviewCard from "../Reviews/ReviewCard";
+import '../404/Page404.css';
+import Page404 from "../404/Page404";
+import ReviewCard from "./ReviewCard";
 
 export default function ProductDetails() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { productId } = useParams();
-    const sessionUser = useSelector(state => state.session.user);
-
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
-    const [showReviews, setShowReviews] = useState(false);
-    const [reviewChecker, setReviewChecker] = useState(false);
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
 
+
+    // Fetch product and reviews when component mounts
+    useEffect(() => {
+        dispatch(getProductsOneThunk(parseInt(productId)))
+            .then(() => setDeleteReviewChecker(false));
+    }, [dispatch, productId, deleteReviewChecker]);
+
     const product = useSelector(state => state.product.single);
-    const productReviews = useSelector(state => state.review.allReviews);
-
-    console.log('prod ', productReviews);
-    
-
+    // Set the main image after product is fetched
     useEffect(() => {
-        dispatch(getProductsOneThunk(parseInt(productId)));
-        dispatch(getReviewsThunk(parseInt(productId)))
-            .then(() => setShowReviews(true))
-            .then(() => setDeleteReviewChecker(false))
-            .then(() => {if (!product)
-                return navigate('/404');})
-      
-    }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
-
-    useEffect(() => {
-        // Set the first image as the main image when the product is loaded
-        if (product && product.product_images?.length > 0) {
-            setMainImage(product.product_images[0]?.image_url);
+        if (product && product.product_images && product.product_images.length > 0) {
+            setMainImage(product.product_images[0].image_url);
         }
     }, [product]);
 
-    if (!product)
-        return navigate('/404');
+    if (!product) {
+        return (
+            <Page404 />
+        );
+    }
 
     const handleImageClick = (imageUrl) => {
         setMainImage(imageUrl); // Update the main image when a thumbnail is clicked
@@ -50,32 +43,41 @@ export default function ProductDetails() {
 
     return (
         <>
-        <div className="product-main-container">
-            <div className="product-image-gallery">
-                {product.product_images?.map((image, index) => (
-                    <img
-                        key={index}
-                        src={image.image_url}
-                        alt={product.name}
-                        onClick={() => handleImageClick(image.image_url)} // Change main image on click
-                        className={image.image_url === mainImage ? 'active-thumbnail' : ''}
-                    />
-                ))}
+            <div className="product-main-container">
+                <div className="product-image-gallery">
+                    {product.product_images?.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image.image_url}
+                            alt={product.name}
+                            onClick={() => handleImageClick(image.image_url)} // Change main image on click
+                            className={image.image_url === mainImage ? 'active-thumbnail' : ''}
+                        />
+                    ))}
+                </div>
+                <div className="product-main-image">
+                    <img src={mainImage} alt={product.name} />
+                </div>
+                <div className="product-details">
+                    <h1>{product.name}</h1>
+                    <h2>${product.price}</h2>
+                    <p>{product.description}</p>
+                    <button>Add to Cart</button>
+                </div>
             </div>
-            <div className="product-main-image">
-                <img src={mainImage} alt={product.name} />
+            <div className="reviews-container">
+                <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
+                {product.reviews.length > 0 ? (
+                    product.reviews.map((review, index) => (
+                        <>
+                            <ReviewCard key={index} review={review} />
+                            <div className="horizontal-divider"></div>
+                        </>
+                    ))
+                ) : (
+                    <p>No reviews yet</p>
+                )}
             </div>
-            <div className="product-details">
-                <h1>{product.name}</h1>
-                <p>{product.description}</p>
-                <p>${product.price}</p>
-                <button>Add to Cart</button>
-            </div>
-          
-        </div>
-         <div className = 'productReviews'>
-         {productReviews?.map((rev) => <ReviewCard key = {rev.id} rev = {rev}/>)}
-         </div>
-         </>
-    )
+        </>
+    );
 }
