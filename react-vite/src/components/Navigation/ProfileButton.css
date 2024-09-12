@@ -59,13 +59,19 @@
 }
 
 .profile-dropdown button {
-    background: #ff385c;
+    background: #f1641e;
     border: none;
+    border-radius: 100px;
     color: white;
     width: auto;
     text-align: center;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+.username-profile span {
+    user-select: none;
+    /* Prevent text selection */
 }
 
 .profile-dropdown .divider-horizontal {
@@ -78,7 +84,7 @@
 }
 
 .profile-dropdown button:hover {
-    background: #c21635;
+    background: #d05518;
 }
 
 .hamburger {
@@ -98,6 +104,13 @@
     background-color: #484848;
     border-radius: 50%;
     padding: 6px;
+    cursor: pointer;
+    transition: ease 0.3s;
+}
+
+.username-profile:hover {
+    background-color: #d05518;
+    transform: scale(1.1);
 }
 
 .username-profile span {
@@ -105,4 +118,45 @@
     color: #fff;
     text-align: center;
     font-size: 14px;
+}
+
+.username-profile-main-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    transition: ease 0.3s;
+}
+
+.username-profile-main-container:hover {
+    cursor: pointer;
+    border-radius: 100px;
+    background-color: #CFE8EF;
+    padding: 10px;
+}
+
+.username-profile-main-container:hover .username-profile {
+    background-color: #d05518;
+    transform: scale(1.1);
+}
+
+.shopping-cart-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    transition: ease 0.3s;
+    color: #333;
+}
+
+.shopping-cart-button:hover {
+    cursor: pointer;
+    border-radius: 100px;
+    color: #112966;
+    background-color: #CFE8EF;
+    padding: 10px;
 }
