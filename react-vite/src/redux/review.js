@@ -51,18 +51,28 @@ export const getReviewThunk = (reviewId) => async (dispatch) => {
     }
 };
 
-export const addReviewThunk = (review, productId) => async (dispatch) => {
-    const response = await fetch(`/api/products/${productId}/reviews`, {
+export const addReviewThunk = (review, productId, userId) => async (dispatch) => {
+
+    const response = await fetch(`/api/reviews/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(review)
+        body: JSON.stringify({
+            "stars":review.stars,
+            "review": review.review,
+            "productId": productId,
+            "userId": userId
+        })
     });
 
+    console.log('The response is', response)
+
     if (response.ok) {
-        const review = await response.json();
-        dispatch(addReview(review, productId));
+        const data = await response.json();
+        
+        dispatch(addReview(data));
+        return data;
     }
 };
 
@@ -118,7 +128,8 @@ function reviewReducer(state = initialState, action) {
 
         case ADD_REVIEW: {
             newState = { ...state };
-            newState.allReviews = [action.payload, ...newState.allReviews];
+            newState.allReviews = {...action.payload};
+            console.log('Mary has a ', newState, ' lamb')
             newState.byId = { ...newState.byId, [action.payload.id]: action.payload };
             return newState;
         }

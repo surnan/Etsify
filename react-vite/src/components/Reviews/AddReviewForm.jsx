@@ -1,18 +1,28 @@
 import {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
 import {addReviewThunk} from '../../redux/review';
+import { getUserThunk} from "../../redux/user";
+
 import { FaStar } from "react-icons/fa";
 import './AddReviewModal.css';
 
-const AddReviewForm = ({product})=> {
+const AddReviewForm = ()=> {
     const [stars, setStars] = useState(0);
     const [review, setReview] = useState('');
     const [buttonOut, setButtonOut] = useState(true);
+    const {productId} = useParams();
+    const sessionUser = useSelector((state) => state.session.user);
+    let userId = sessionUser.id;
     const navigate = useNavigate();
     
     const dispatch = useDispatch();
-   
+
+    
+    useEffect(() => {
+        let user = dispatch(getUserThunk(userId))
+    }, [userId])
+
     useEffect(() => {
         setButtonOut(true);
         if(review.length >= 10 && stars){
@@ -27,13 +37,10 @@ const AddReviewForm = ({product})=> {
            stars,
            review
         }
-        console.log(form);
-        console.log(product.id);
-        const productId = product.id
-      
-        dispatch(addReviewThunk(form, productId)).then(navigate('/'));
+        
+        console.log('The form is ', form)
+        dispatch(addReviewThunk(form, productId, userId));
     }
-
   
     return (
         <div className = "reviewsModalContainer">

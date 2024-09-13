@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
         element: <ProductDetails />,
       },
       {
-        path: '/reviews/add',
+        path: '/reviews/:productId/add',
         element: <AddReviewForm />,
       },
       {

@@ -54,16 +54,18 @@ def get_review(reviewId):
 
 @review_routes.route('/', methods=['POST'])
 def add_review():
+    print("I made it to the route handler")
     data = request.get_json()
     stars = data.get("stars")
     review = data.get("review")
     userId = data.get("userId")
     productId = data.get("productId")
     new_review = Review(stars=stars, review=review, userId=userId, productId=productId)
-    
+    print('My new review is ', new_review)
     try:
         db.session.add(new_review)
         db.session.commit()
+        
         return jsonify({"message": "Review added successfully", "review": {
             "stars": new_review.stars,
             "review": new_review.review,
