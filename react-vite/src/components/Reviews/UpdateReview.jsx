@@ -1,32 +1,44 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import {editReviewThunk} from '../../redux/review';
+import {editReviewThunk, getReviewThunk} from '../../redux/review';
+console.log('Thunk ', editReviewThunk)
 import './AddReviewModal.css';
 const UpdateReview = () => {
 
-    let {reviewId} = useParams();
-    let spot = useSelector((state) => state.reviews.byId[reviewId]);
     const dispatch = useDispatch();
+    let {reviewId} = useParams();
+    let review = useSelector(state => state.review.currentReview)
+    // let editedRevs = useSelector(state => state.review.newllReviews[reviewId]);
    
-    const [rating, setRating] = useState(spot.review);
-    const [stars, setStars] = useState(spot.stars);
+    console.log(review);
+    reviewId = parseInt(reviewId);
+
+    useEffect(() => {
+        let fetchedRev = dispatch(getReviewThunk(reviewId))
+        setStars(fetchedRev.stars)
+        setRating(fetchedRev.rating)
+
+    }, [reviewId])
+
+    const [stars, setStars] = useState(review?.stars)
+    const [rating, setRating] = useState(review?.review)
     const navigate = useNavigate();
 
-    reviewId = parseInt(reviewId);
    
 
     const handleSubmit = (e) => {
         e.preventDefault();
+     
         const form = {
             "id": reviewId,
             "review": rating,
             stars
         }
-        console.log(form);
-        const reviewId = form.id;
-        dispatch(editReviewThunk(form).then(navigate('/')));
+
+      
+       dispatch(editReviewThunk(form));
     }
 
   
