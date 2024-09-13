@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
 import { getReviewsThunk } from "../../redux/review";
+// import { addFavoriteThunk } from "../../redux/favorites";
+import { addFavoriteThunk } from "../../redux/favorite";
 import './ProductDetails.css';
 import ReviewCard from "../Reviews/ReviewCard";
 
@@ -48,6 +50,10 @@ export default function ProductDetails() {
         setMainImage(imageUrl); // Update the main image when a thumbnail is clicked
     };
 
+    const handleFavorite = () => {
+        dispatch(addFavoriteThunk(product.id));
+    };
+
     return (
         <>
         <div className="product-main-container">
@@ -69,6 +75,7 @@ export default function ProductDetails() {
                 <h1>{product.name}</h1>
                 <p>{product.description}</p>
                 <p>${product.price}</p>
+                <button onClick={handleFavorite}>Add to Favorites</button>
                 <button>Add to Cart</button>
             </div>
           

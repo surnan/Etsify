@@ -4,6 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
 import ProductDetails from '../components/ProductDetails';
+import Favorites from '../components/Favorites/Favorite';
 import Page404 from '../components/404';
 
 
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: '/products/:productId',
         element: <ProductDetails />,
+      },
+      {
+        path: '/favorites',
+        element: <Favorites />
       },
       {
         path: "login",
