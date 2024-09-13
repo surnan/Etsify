@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { addProductThunk } from '../../redux/product';
 import { useSelector } from 'react-redux';
 
+import './CreateProduct.css';
+
 export default function CreateProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -36,13 +38,11 @@ export default function CreateProduct() {
 
         setErrors(errors);
     }, [name, description, price, stock]);
-    // console.log(user, 'user');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        // Show errors if any are present
         if (Object.keys(errors).length > 0) {
             setShowErrors(true);
             return;
@@ -66,7 +66,6 @@ export default function CreateProduct() {
         try {
             const res = await dispatch(addProductThunk(product));
             const newProduct = await res;
-            console.log(newProduct);
             navigate(`/products/${newProduct.product.id}`);
         } catch (error) {
             console.error(error);
@@ -74,96 +73,105 @@ export default function CreateProduct() {
     };
 
     return (
-        <div>
-            <h1>Create Product</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Name</label>
+        <div className="create-product-container">
+            <h1 className="form-title">Create Product</h1>
+            <form className="create-product-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="name">Name</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-                    {errors.name && <p>{errors.name}</p>}
+                    {errors.name && <p className="form-error">{errors.name}</p>}
                 </div>
-                <div>
-                    <label htmlFor="description">Description</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="description">Description</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
-                    {errors.description && <p>{errors.description}</p>}
+                    {errors.description && <p className="form-error">{errors.description}</p>}
                 </div>
-                <div>
-                    <label htmlFor="price">Price</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="price">Price</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="price"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                     />
-                    {errors.price && <p>{errors.price}</p>}
+                    {errors.price && <p className="form-error">{errors.price}</p>}
                 </div>
-                <div>
-                    <label htmlFor="stock">Stock</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="stock">Stock</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="stock"
                         value={stock}
                         onChange={(e) => setStock(e.target.value)}
                     />
-                    {errors.stock && <p>{errors.stock}</p>}
+                    {errors.stock && <p className="form-error">{errors.stock}</p>}
                 </div>
-                <div>
-                    <label htmlFor="image1">Image 1</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="image1">Image 1</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="image1"
                         value={image1}
                         onChange={(e) => setImage1(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="image2">Image 2</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="image2">Image 2</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="image2"
                         value={image2}
                         onChange={(e) => setImage2(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="image3">Image 3</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="image3">Image 3</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="image3"
                         value={image3}
                         onChange={(e) => setImage3(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="image4">Image 4</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="image4">Image 4</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="image4"
                         value={image4}
                         onChange={(e) => setImage4(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="image5">Image 5</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="image5">Image 5</label>
                     <input
+                        className="form-input"
                         type="text"
                         id="image5"
                         value={image5}
                         onChange={(e) => setImage5(e.target.value)}
                     />
                 </div>
-                <button type="submit">Create Product</button>
+                <button className="submit-button" type="submit">Create Product</button>
             </form>
         </div>
-    )
+    );
 }
