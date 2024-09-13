@@ -4,7 +4,7 @@ const GET_REVIEW = 'review/GET_REVIEW';
 const ADD_REVIEW = 'review/ADD_REVIEW';
 const DELETE_REVIEW = 'review/DELETE_REVIEW';
 const EDIT_REVIEW = 'review/EDIT_REVIEW';
-
+//mama
 //Action Creators
 const getReviews = (reviews) => ({
     type: GET_REVIEWS,
@@ -77,6 +77,7 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 };
 
 export const editReviewThunk = (review) => async (dispatch) => {
+    console.log('The edited review is ', review)
     const response = await fetch(`/api/reviews/${review.id}`, {
         method: 'PUT',
         headers: {
@@ -87,6 +88,7 @@ export const editReviewThunk = (review) => async (dispatch) => {
 
     if (response.ok) {
         const review = await response.json();
+
         dispatch(editReview(review));
     }
 };
@@ -102,11 +104,8 @@ function reviewReducer(state = initialState, action) {
         case GET_REVIEWS: {
             newState = { ...state };
             newState.allReviews = action.payload;
-            newState.byId = {}
             for (let review of newState.allReviews) {
-                console.log(review.id)
-                newState['byId'][review.id] = review;
-                console.log('My state is ', newState)
+                newState.byId[review.id] = review;
             }
             return newState;
         }
@@ -129,16 +128,12 @@ function reviewReducer(state = initialState, action) {
             const reviewId = action.payload.id;
 
             const newAllReviews = [];
+            console.log('The state is....... ', newState)
 
-            for (let i = 0; i < newState.allReviews.length; i++) {
-                let currentReview = newState.allReviews[i];
-                if (currentReview.id === reviewId) {
-                    newAllReviews.push(action.payload);
-                } else
-                    newAllReviews.push(currentReview);
-            }
-
+            newAllReviews.push(action.payload);
+               
             newState.allReviews = newAllReviews;
+            console.log('All Reviews is', newState.allReviews)
             newState.byId = { ...newState.byId, [reviewId]: action.payload };
 
             return newState;
