@@ -6,6 +6,7 @@ import SplashPage from '../components/SplashPage/SplashPage';
 import ProductDetails from '../components/ProductDetails';
 import Page404 from '../components/404';
 import CreateProduct from '../components/CreateProduct/CreateProduct';
+import MyListings from '../components/MyListings';
 
 
 export const router = createBrowserRouter([
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: '/products/:productId',
         element: <ProductDetails />,
+      },
+      {
+        path: '/user/listings',
+        element: <MyListings />
       },
       {
         path: "login",

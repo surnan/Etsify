@@ -46,7 +46,7 @@ function ProfileButton({ user }) {
   };
 
   const goToManageSpots = () => {
-    navigate('/spots/current');
+    navigate('/user/listings');
     closeMenu();
   };
 

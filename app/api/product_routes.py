@@ -133,3 +133,4 @@ def get_product_reviews(productId):
         review.user = User.query.get(review.userId)
     
     return jsonify([review.to_dict() for review in product_reviews])
+
