@@ -46,13 +46,15 @@ export default function ProductDetails() {
             <div className="product-main-container">
                 <div className="product-image-gallery">
                     {product.product_images?.map((image, index) => (
-                        <img
+                        image.image_url !== '' && (
+                            <img
                             key={index}
                             src={image.image_url}
                             alt={product.name}
                             onClick={() => handleImageClick(image.image_url)} // Change main image on click
                             className={image.image_url === mainImage ? 'active-thumbnail' : ''}
                         />
+                        )
                     ))}
                 </div>
                 <div className="product-main-image">
@@ -66,7 +68,13 @@ export default function ProductDetails() {
                 </div>
             </div>
             <div className="reviews-container">
-                <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
+                {
+                    product.reviews?.length > 0 ? (
+                        <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
+                    ) : (
+                        <h2>No reviews yet</h2>
+                    )
+                }
                 {product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
                         <>

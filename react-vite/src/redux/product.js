@@ -61,19 +61,24 @@ export const getProductReviewsThunk = (productId) => async (dispatch) => {
 };
 
 export const addProductThunk = (product) => async (dispatch) => {
-    const { body, imageURLs } = product;
+    const { images, ...body } = product;  // Spread out product to separate images
+
     const response = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(product),
     });
+
     const data = await response.json();
-    await insertProductImages({ productId: data.id, imageURLs });
+
+    console.log(data, 'data');
+
     if (response.ok) {
-        dispatch(addProduct(data))
-        return data.id
+        await insertProductImages({ productId: data.id, imageURLs: images });
+        dispatch(addProduct(data));
+        return data;
     }
-}
+};
 
 export const deleteProductThunk = (productId) => async (dispatch) => {
     const response = await fetch(`/api/products/${productId}`, {

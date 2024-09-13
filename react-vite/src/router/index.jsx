@@ -5,6 +5,7 @@ import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
 import ProductDetails from '../components/ProductDetails';
 import Page404 from '../components/404';
+import CreateProduct from '../components/CreateProduct/CreateProduct';
 
 
 export const router = createBrowserRouter([
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: '/products/new',
+        element: <CreateProduct />
       },
       {
         path: '/404',
