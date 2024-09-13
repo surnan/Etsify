@@ -7,13 +7,24 @@ favorite_bp = Blueprint('favorites', __name__)
 # Favorites Create Read Delete
 # Favorite Create
 @favorite_bp.route('/', methods=['POST'])
+@login_required
 def create_favorite():
     data = request.get_json() #grab request data
-    userId = data.get('userId') #grab user_id from req
+    # userId = data.get('userId') #grab userId from req
+    userId = current_user.id
     productId = data.get('productId') #grab product_id from req
 
-    if not userId or not productId:
-        return jsonify({'error': 'Missing userId or productId'}), 400
+    if not productId:
+        return jsonify({'error': 'Missing productId'}), 400
+    
+    # does product belong to current user?
+    product = Product.query.get(productId)
+    if product and product.sellerId == userId:
+        return jsonify({'error': 'You cannot favorite your own product'}), 403
+    
+    existing_favorite = Favorite.query.filter_by(userId=userId, productId=productId).first()
+    if existing_favorite:
+        return jsonify({'error': 'Favorite already exists'}), 400
 
     #Create Favorite using class
     new_favorite = Favorite(userId=userId, productId=productId)
@@ -24,21 +35,29 @@ def create_favorite():
     return jsonify(new_favorite.to_dict()), 201
 
 # Favorite Read
-@favorite_bp.route('/<int:userId>', methods=['GET'])
-def get_favorites(userId):
+@favorite_bp.route('/', methods=['GET'])
+@login_required
+def get_favorites():
     #Grab/Query Favorites by user
+    userId = current_user.id
+    print("backend route userId", userId)
     favorites = Favorite.query.filter_by(userId=userId).all()
     #Return Favorites
+    print("backend favorites", favorites)
     return jsonify([favorite.to_dict() for favorite in favorites]), 200
 
 # Favorite Delete
 @favorite_bp.route('/<int:id>', methods=['DELETE'])
+@login_required
 def delete_favorite(id):
     #Grab/Query Favorite by the Favorite's id
     favorite = Favorite.query.get(id)
 
     if not favorite:
         return jsonify({'error': 'Favorite not found'}), 404
+    
+    if favorite.userId != current_user.id:
+        return jsonify({'error': 'Unauthorized action'}), 403
 
     #Delete favorite
     db.session.delete(favorite)

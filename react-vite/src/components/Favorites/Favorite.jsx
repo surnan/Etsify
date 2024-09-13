@@ -8,6 +8,7 @@ import ProductCard from '../ProductCard/ProductCard';
 const Favorites = () => {
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorites.allFavorites);
+    console.log("favorites", favorites)
 
     useEffect(() => {
         dispatch(getFavoritesAllThunk());

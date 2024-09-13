@@ -51,7 +51,16 @@ export default function ProductDetails() {
     };
 
     const handleFavorite = () => {
-        dispatch(addFavoriteThunk(product.id));
+        if (!sessionUser) {
+            return navigate('/login'); // Redirect to login if user is not authenticated
+        }
+
+        const favoriteData = {
+            userId: sessionUser.id,
+            productId: product.id,
+        };
+
+        dispatch(addFavoriteThunk(favoriteData));
     };
 
     return (

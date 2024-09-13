@@ -56,10 +56,12 @@ export const deleteFavoriteThunk = (favoriteId) => async (dispatch) => {
 
 export const getFavoritesAllThunk = () => async (dispatch) => {
     const response = await fetch('/api/favorites');
-
+    console.log("response data in thunk", response)
     if (response.ok) {
         const data = await response.json();
+        console.log("data in thunk before dispatch", data)
         dispatch(loadFavoritesAll(data));
+        console.log("data in thunk after dispatch", data)
         return data;
     }
 };
