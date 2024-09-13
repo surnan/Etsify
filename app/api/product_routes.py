@@ -2,7 +2,7 @@
 from flask import Blueprint, jsonify, redirect, render_template, request
 
 
-from app.models import db, Product
+from app.models import db, Product, ProductImage
 
 product_routes = Blueprint('products', __name__)
 
@@ -40,16 +40,21 @@ def add_product():
     description = data.get('description')
     price = data.get('price')
     stock = data.get('stock')
+    images = data.get('images')  # New
+
     new_product = Product(name=name, price=price, description=description, sellerId=sellerId, stock=stock)
 
     try:
         db.session.add(new_product)
         db.session.commit()
-        return jsonify({"message": "Product added successfully", "product": {
-            "id": new_product.id, 
-            "name": new_product.name, 
-            "price": new_product.price
-            }}), 201
+
+        # Add product images
+        for image_url in images:
+            product_image = ProductImage(productId=new_product.id, image_url=image_url)
+            db.session.add(product_image)
+
+        db.session.commit()
+        return jsonify({"product": new_product.to_dict()}), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
