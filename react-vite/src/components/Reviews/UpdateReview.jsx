@@ -37,8 +37,7 @@ const UpdateReview = () => {
             stars
         }
 
-        // console.log('The form is --------------->', form)
-        
+      
        dispatch(editReviewThunk(form));
     }
 
