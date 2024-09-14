@@ -33,7 +33,6 @@ def seed_favorites():
     db.session.add(marnie2_fav2)
     db.session.add(bobbie3_fav1)
     db.session.add(bobbie3_fav2)
-    db.session.add(bobbie3_fav3)
 
     db.session.commit()
 
