@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import {editReviewThunk, getReviewThunk} from '../../redux/review';
+import { FaStar } from "react-icons/fa";
 // import {getProductsOneThunk} from '../../redux/review';
 console.log('Thunk ', editReviewThunk)
 import './AddReviewModal.css';
@@ -55,8 +56,26 @@ const UpdateReview = () => {
         <form onSubmit={handleSubmit}>
             <fieldset>
                 <legend><strong>What do you want to say?</strong></legend>
+                <div className = "starsBar">
+                 {[1, 2, 3, 4, 5].map((star, idx) => {
+                return (   
+                    <FaStar key = {idx}
+                    style = {{
+                        cursor: 'pointer',
+                        stroke: 'black',
+                        fill: stars >= star ? 'black' : 'gray',
+                        fontSize: `35px`,
+                    }}
+                    onClick={() => {
+                        setStars(star)
+                    }}
+                    />
+                )
+            })}
+                </div>
+                <label>Stars</label>
                 <input  value = {rating}  onChange={(e) => setRating(e.target.value)} placeholder = {`${rating}`}  type ="text" ></input>
-                <input  onChange={(e) => setStars(e.target.value)} value = {stars}  placeholder = {`${stars}`}  type = "decimal"/>
+                {/* <input  onChange={(e) => setStars(e.target.value)} value = {stars}  placeholder = {`${stars}`}  type = "decimal"/> */}
             </fieldset>
            <button type = 'submit'>Update the Review</button>
         </form>
