@@ -49,6 +49,7 @@ export default function ReviewCard({ review }) {
 
     return (
         <div className="review-card">
+            <p>LINE 52</p>
             <div className="review-card__header">
                 {rating.map((star, index) => (
                     <FaStar key={index} size={14} color={star ? 'gold' : 'gray'} />
@@ -58,12 +59,14 @@ export default function ReviewCard({ review }) {
                 <p>{review.review}</p>
                 {/* Display the username of the review owner */}
                 <span className="review-author">{reviewOwner.username}</span>
+                <p>LINE 62</p>
             </div>
             <div className="options">
-            <ul>
-                <li><NavLink to={`/reviews/${review.id}/update`}>Update Review</NavLink></li>
-                <li><NavLink to={`/reviews/${review.id}/delete`}>Delete Review</NavLink></li>
-            </ul>
+                <ul>
+                    <p>LINE 66</p>
+                    <li><NavLink to={`/reviews/${review.id}/update`}>Update Review</NavLink></li>
+                    <li><NavLink to={`/reviews/${review.id}/delete`}>Delete Review</NavLink></li>
+                </ul>
             </div>
         </div>
     );

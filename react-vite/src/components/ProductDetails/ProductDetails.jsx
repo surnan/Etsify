@@ -9,6 +9,7 @@ import './ProductDetails.css';
 import '../404/Page404.css';
 import Page404 from "../404/Page404";
 import ReviewCard from "./ReviewCard";
+import React from "react";
 
 export default function ProductDetails() {
     const dispatch = useDispatch();
@@ -73,10 +74,10 @@ export default function ProductDetails() {
                 <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
                 {product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
-                        <>
+                        <React.Fragment key={index}>
                             <ReviewCard key={index} review={review} />
                             <div className="horizontal-divider"></div>
-                        </>
+                        </React.Fragment>
                     ))
                 ) : (
                     <p>No reviews yet</p>
