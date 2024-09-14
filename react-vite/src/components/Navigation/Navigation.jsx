@@ -4,7 +4,12 @@ import './Navigation.css';
 import NavLogo from './NavLogo';
 import Categories from './Categories';
 import SearchBar from './SearchBar';
+<<<<<<< HEAD
 import ShoppingCartButton from './ShoppingCartButton';
+=======
+// import FavoritesButton from './FavoritesButton'; 
+import FavoritesButton from './FavoriteButton';
+>>>>>>> javier
 
 function Navigation() {
     const sessionUser = useSelector(state => state.session.user);
@@ -20,6 +25,7 @@ function Navigation() {
                 <SearchBar />
             </div>
             <div className='profile-container'>
+                <FavoritesButton />
                 <ProfileButton user={sessionUser} />
                 <ShoppingCartButton shoppingCart={shoppingCart} />
             </div>

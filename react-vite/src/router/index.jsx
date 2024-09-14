@@ -4,9 +4,13 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
 import ProductDetails from '../components/ProductDetails';
+<<<<<<< HEAD
 import AddReviewForm from '../components/Reviews/AddReviewForm';
 import UpdateReview from '../components/Reviews/UpdateReview';
 import DeleteReview from '../components/Reviews/DeleteReview';
+=======
+import Favorites from '../components/Favorites/Favorite';
+>>>>>>> javier
 import Page404 from '../components/404';
 
 
@@ -23,6 +27,7 @@ export const router = createBrowserRouter([
         element: <ProductDetails />,
       },
       {
+<<<<<<< HEAD
         path: '/reviews/:productId/add',
         element: <AddReviewForm />,
       },
@@ -33,6 +38,10 @@ export const router = createBrowserRouter([
       {
         path: '/reviews/:reviewId/update',
         element: <UpdateReview/>,
+=======
+        path: '/favorites',
+        element: <Favorites />
+>>>>>>> javier
       },
       {
         path: "login",
