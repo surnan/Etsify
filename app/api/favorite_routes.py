@@ -19,9 +19,13 @@ def create_favorite():
     
     # does product belong to current user?
     product = Product.query.get(productId)
-    if product and product.sellerId == userId:
+    # if product and product.sellerId == userId:
+    #     return jsonify({'error': 'You cannot favorite your own product'}), 403
+    if not product:
+        return jsonify({'error': 'Product not found'}), 404
+    if product.sellerId == userId:
         return jsonify({'error': 'You cannot favorite your own product'}), 403
-    
+    # does favorite already exist?
     existing_favorite = Favorite.query.filter_by(userId=userId, productId=productId).first()
     if existing_favorite:
         return jsonify({'error': 'Favorite already exists'}), 400

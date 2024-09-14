@@ -26,6 +26,7 @@ export default function ProductDetails() {
     // console.log('prod ', productReviews);
 
     const isFavorite = favorites?.some(favorite => favorite.productId === product?.id);
+    const isSeller = sessionUser?.id === product?.sellerId;
     
     useEffect(() => {
         dispatch(getProductsOneThunk(parseInt(productId)));
@@ -59,13 +60,23 @@ export default function ProductDetails() {
             userId: sessionUser.id,
             productId: product.id,
         };
-        dispatch(addFavoriteThunk(favoriteData));
+        console.log("favoriteData in ProductDetails addFavorite func", favoriteData)
+        dispatch(addFavoriteThunk(favoriteData))
+            .then(() => dispatch(getFavoritesAllThunk()))
+            .catch((error) => {
+                if (error.message === 'You cannot favorite your own product') {
+                    alert('Error: You cannot favorite your own product.');
+                } else {
+                    console.error("Failed to add favorite", error);
+                }
+            });
     };
 
     const handleDeleteFavorite = () => {
         const favorite = favorites.find(fav => fav.productId === product.id);
         if (favorite) {
-            dispatch(deleteFavoriteThunk(favorite.id));
+            dispatch(deleteFavoriteThunk(favorite.id))
+                .then(() => dispatch(getFavoritesAllThunk()))
         }
     };
 
@@ -90,10 +101,12 @@ export default function ProductDetails() {
                 <h1>{product.name}</h1>
                 <p>{product.description}</p>
                 <p>${product.price}</p>
-                {isFavorite ? (
-                    <button onClick={handleDeleteFavorite}>Delete Favorite</button>
-                ) : (
-                    <button onClick={handleAddFavorite}>Add to Favorites</button>
+                {!isSeller && ( // Only show these buttons if the user is not the seller
+                    isFavorite ? (
+                        <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                    ) : (
+                        <button onClick={handleAddFavorite}>Add to Favorites</button>
+                    )
                 )}
                 <button>Add to Cart</button>
             </div>
