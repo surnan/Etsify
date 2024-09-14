@@ -2,6 +2,7 @@ import { FaStar } from 'react-icons/fa6';
 import './ProductDetails.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -21,14 +22,17 @@ async function getUser(userId) {
 export default function ReviewCard({ review }) {
 
     const navigate = useNavigate(); // Add this line
+    
 
     function handleUpdateBtn(rev) {
         navigate(`/reviews/${rev.id}/update`);        
     }
-    
-    function handleDeleteBtn() {
-        console.log("HANDLE delete BUTTON")
+
+    function handleDeleteBtn(rev) {
+        navigate(`/reviews/${rev.id}/delete`);        
     }
+    
+
 
     const [reviewOwner, setReviewOwner] = useState(null); // State to hold the user data
 
@@ -81,10 +85,11 @@ export default function ReviewCard({ review }) {
                 </button>
                 <button
                     className="reviewBtn deleteBtn"
-                    onClick={handleDeleteBtn}
+                    onClick={() => handleDeleteBtn(review)}
                 >
-                    &#128465;
+                    Delete
                 </button>
+               
             </div>
         </div>
     );

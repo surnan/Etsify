@@ -5,8 +5,8 @@ import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
 import ProductDetails from '../components/ProductDetails';
 import AddReviewForm from '../components/Reviews/AddReviewForm';
-import DeleteReview from '../components/Reviews/DeleteReview'
 import UpdateReview from '../components/Reviews/UpdateReview';
+import DeleteReview from '../components/Reviews/DeleteReview';
 import Page404 from '../components/404';
 
 

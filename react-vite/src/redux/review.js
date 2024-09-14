@@ -77,6 +77,7 @@ export const addReviewThunk = (review, productId, userId) => async (dispatch) =>
 };
 
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
+    
     const response = await fetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE'
     });
@@ -151,19 +152,22 @@ function reviewReducer(state = initialState, action) {
         }
 
         case DELETE_REVIEW: {
-            newState = { ...state };
+            newState = {...state}
+            console.log('Marilyn has a ', newState, 'lamb')
+      
+            let reviewId = action.payload;
 
-            const filteredReviews = newState.allReviews.filter((review) => {
-                return review.id !== action.payload.id
-            });
-            newState.allReviews = filteredReviews;
-
-            const newById = { ...newState.byId };
-            delete newById[action.payload.id];
-            newState.byId = newById;
-
+            console.log(newState);
+      
+            const newAllReviewsArr = newState.allReviews.filter(rev => {
+               return rev.id !== reviewId;
+            })
+      
+            newState.allReviews = newAllReviewsArr;
+            delete newState.byId[reviewId];
             return newState;
-        }
+          }
+          
         default: {
             return state;
         }

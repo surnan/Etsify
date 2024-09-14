@@ -89,6 +89,7 @@ def delete_review(reviewId):
         db.session.commit()
         return jsonify({"message": f"Review with ID {reviewId} has been deleted."}), 200
     except Exception as e:
+        print('I commit')
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
     
