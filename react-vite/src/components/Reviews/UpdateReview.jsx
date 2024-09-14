@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import {editReviewThunk, getReviewThunk} from '../../redux/review';
+// import {getProductsOneThunk} from '../../redux/review';
 console.log('Thunk ', editReviewThunk)
 import './AddReviewModal.css';
 const UpdateReview = () => {
@@ -14,11 +15,13 @@ const UpdateReview = () => {
    
     console.log(review);
     reviewId = parseInt(reviewId);
+    const [prodId, setProdId] = useState(1);
 
     useEffect(() => {
         let fetchedRev = dispatch(getReviewThunk(reviewId))
         setStars(fetchedRev.stars)
         setRating(fetchedRev.rating)
+        setProdId(fetchedRev.productId)
 
     }, [reviewId])
 
@@ -28,17 +31,21 @@ const UpdateReview = () => {
 
    
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
      
-        const form = {
-            "id": reviewId,
-            "review": rating,
-            stars
-        }
-
-      
-       dispatch(editReviewThunk(form));
+       const form = {
+        "id": reviewId,
+        "review": rating,
+        stars
+    };
+    
+    try {
+        await dispatch(editReviewThunk(form));
+        navigate(`/products/${prodId}`); // Navigate back to the product details page
+    } catch (error) {
+        console.error("Error submitting review:", error);
+    }
     }
 
   
