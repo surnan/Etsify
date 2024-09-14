@@ -1,6 +1,7 @@
 import { FaStar } from 'react-icons/fa6';
 import './ProductDetails.css';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function productRating(stars) {
     const result = [];
@@ -18,6 +19,8 @@ async function getUser(userId) {
 }
 
 export default function ReviewCard({ review }) {
+
+    const navigate = useNavigate(); // Add this line
 
     function handleUpdateBtn(reviewOwner) {
         console.log('reviewOwner.id = ', reviewOwner.id);
