@@ -3,8 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
 import { getReviewsThunk } from "../../redux/review";
-// import { addFavoriteThunk } from "../../redux/favorites";
-import { addFavoriteThunk } from "../../redux/favorite";
+import { addFavoriteThunk, deleteFavoriteThunk, getFavoritesAllThunk } from "../../redux/favorite";
 import './ProductDetails.css';
 import ReviewCard from "../Reviews/ReviewCard";
 
@@ -22,10 +21,12 @@ export default function ProductDetails() {
 
     const product = useSelector(state => state.product.single);
     const productReviews = useSelector(state => state.review.allReviews);
+    const favorites = useSelector(state => state.favorites.allFavorites);
 
-    console.log('prod ', productReviews);
+    // console.log('prod ', productReviews);
+
+    const isFavorite = favorites?.some(favorite => favorite.productId === product?.id);
     
-
     useEffect(() => {
         dispatch(getProductsOneThunk(parseInt(productId)));
         dispatch(getReviewsThunk(parseInt(productId)))
@@ -33,7 +34,7 @@ export default function ProductDetails() {
             .then(() => setDeleteReviewChecker(false))
             .then(() => {if (!product)
                 return navigate('/404');})
-      
+        dispatch(getFavoritesAllThunk());
     }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
 
     useEffect(() => {
@@ -50,17 +51,22 @@ export default function ProductDetails() {
         setMainImage(imageUrl); // Update the main image when a thumbnail is clicked
     };
 
-    const handleFavorite = () => {
+    const handleAddFavorite = () => {
         if (!sessionUser) {
             return navigate('/login'); // Redirect to login if user is not authenticated
         }
-
         const favoriteData = {
             userId: sessionUser.id,
             productId: product.id,
         };
-
         dispatch(addFavoriteThunk(favoriteData));
+    };
+
+    const handleDeleteFavorite = () => {
+        const favorite = favorites.find(fav => fav.productId === product.id);
+        if (favorite) {
+            dispatch(deleteFavoriteThunk(favorite.id));
+        }
     };
 
     return (
@@ -84,7 +90,11 @@ export default function ProductDetails() {
                 <h1>{product.name}</h1>
                 <p>{product.description}</p>
                 <p>${product.price}</p>
-                <button onClick={handleFavorite}>Add to Favorites</button>
+                {isFavorite ? (
+                    <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                ) : (
+                    <button onClick={handleAddFavorite}>Add to Favorites</button>
+                )}
                 <button>Add to Cart</button>
             </div>
           
