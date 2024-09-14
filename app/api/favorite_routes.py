@@ -39,6 +39,7 @@ def create_favorite():
 @login_required
 def get_favorites():
     #Grab/Query Favorites by user
+    print("backend current_user.id", current_user.id)
     userId = current_user.id
     print("backend route userId", userId)
     favorites = Favorite.query.filter_by(userId=userId).all()

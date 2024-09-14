@@ -20,7 +20,7 @@ function ProductCard({ product }) {
     const productImage = product.images.length ? product.images[0]?.image_url : 'https://i0.wp.com/mikeyarce.com/wp-content/uploads/2021/09/woocommerce-placeholder.png?ssl=1';
     const productRating = getProductStarRating(product.reviews);
 
-    // console.log(productRating, 'productRating');
+    console.log(productRating, 'productRating');
 
     return (
         <div className="ProductCard">
@@ -35,7 +35,7 @@ function ProductCard({ product }) {
                     {productRating.map((star, index) => (
                         <FaStar key={index} size={14} color={star ? 'gold' : 'gray'} />
                     ))}
-                    <span>{`(${product.reviews.length})`}</span>
+                    {/* <span>{`(${product.reviews.length})`}</span> */}
                 </div>
                 <div className="ProductCard__content__price">
                     <p>${product.price}</p>
