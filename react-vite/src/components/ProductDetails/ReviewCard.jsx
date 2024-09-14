@@ -18,6 +18,16 @@ async function getUser(userId) {
 }
 
 export default function ReviewCard({ review }) {
+
+    function handleUpdateBtn(reviewOwner) {
+        console.log('reviewOwner.id = ', reviewOwner.id);
+        navigate(`/reviews/${reviewOwner.id}/update`);        
+    }
+    
+    function handleDeleteBtn() {
+        console.log("HANDLE delete BUTTON")
+    }
+
     const [reviewOwner, setReviewOwner] = useState(null); // State to hold the user data
 
     useEffect(() => {
@@ -57,6 +67,22 @@ export default function ReviewCard({ review }) {
                 <p>{review.review}</p>
                 {/* Display the username of the review owner */}
                 <span className="review-author">{reviewOwner.username}</span>
+            </div>
+            <br />
+            <br />
+            <div className="reviewButton-hflex">
+                <button
+                    className="reviewBtn updateBtn"
+                    onClick={() => handleUpdateBtn(reviewOwner)}
+                >
+                    update
+                </button>
+                <button
+                    className="reviewBtn deleteBtn"
+                    onClick={handleDeleteBtn}
+                >
+                    &#128465;
+                </button>
             </div>
         </div>
     );

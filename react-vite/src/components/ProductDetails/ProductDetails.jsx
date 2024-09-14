@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { getReviewsThunk } from "../../redux/review";
 // import { getProductStarRating } from "../ProductCard/ProductCard";
 import './ProductDetails.css';
@@ -67,8 +67,8 @@ export default function ProductDetails() {
                     <button>Add to Cart</button>
                 </div>
             </div>
-            <div className = "addReview">
-            <Link to = {`/reviews/${productId}/add`}><button>Add Review</button></Link>
+            <div className="addReview">
+                <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
             </div>
             <div className="reviews-container">
                 <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
