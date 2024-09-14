@@ -130,7 +130,6 @@ function reviewReducer(state = initialState, action) {
         case ADD_REVIEW: {
             newState = { ...state };
             newState.allReviews = {...action.payload};
-            console.log('Mary has a ', newState, ' lamb')
             newState.byId = { ...newState.byId, [action.payload.id]: action.payload };
             return newState;
         }
@@ -138,7 +137,7 @@ function reviewReducer(state = initialState, action) {
         case EDIT_REVIEW: {
             newState = { ...state };
             const reviewId = action.payload.id;
-
+           
             const newAllReviews = [];
             console.log('The state is....... ', newState)
 
