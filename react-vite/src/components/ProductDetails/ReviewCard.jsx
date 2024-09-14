@@ -22,9 +22,8 @@ export default function ReviewCard({ review }) {
 
     const navigate = useNavigate(); // Add this line
 
-    function handleUpdateBtn(reviewOwner) {
-        console.log('reviewOwner.id = ', reviewOwner.id);
-        navigate(`/reviews/${reviewOwner.id}/update`);        
+    function handleUpdateBtn(rev) {
+        navigate(`/reviews/${rev.id}/update`);        
     }
     
     function handleDeleteBtn() {
@@ -76,7 +75,7 @@ export default function ReviewCard({ review }) {
             <div className="reviewButton-hflex">
                 <button
                     className="reviewBtn updateBtn"
-                    onClick={() => handleUpdateBtn(reviewOwner)}
+                    onClick={() => handleUpdateBtn(review)}
                 >
                     update
                 </button>
