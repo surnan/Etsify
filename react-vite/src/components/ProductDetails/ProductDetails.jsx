@@ -10,6 +10,8 @@ import '../404/Page404.css';
 import Page404 from "../404/Page404";
 import ReviewCard from "./ReviewCard";
 import React from "react";
+import { getUserThunk} from "../../redux/user";
+
 
 export default function ProductDetails() {
     const dispatch = useDispatch();
@@ -17,6 +19,8 @@ export default function ProductDetails() {
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
+    const sessionUser = useSelector((state) => state.session.user);
+
 
 
     // Fetch product and reviews when component mounts
@@ -24,6 +28,10 @@ export default function ProductDetails() {
         dispatch(getProductsOneThunk(parseInt(productId)))
             .then(() => setDeleteReviewChecker(false));
     }, [dispatch, productId, deleteReviewChecker]);
+
+    useEffect(() => {
+        let user = dispatch(getUserThunk(userId))
+    }, [userId])
 
     const product = useSelector(state => state.product.single);
     // Set the main image after product is fetched
