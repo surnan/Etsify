@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getReviewsThunk } from "../../redux/review";
 import { addFavoriteThunk, deleteFavoriteThunk, getFavoritesAllThunk } from "../../redux/favorite";
 import './ProductDetails.css';
@@ -13,12 +13,14 @@ import React from "react";
 
 export default function ProductDetails() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const { productId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
     const [showReviews, setShowReviews] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
     const reviewChecker = false;
 
     // Fetch product and reviews when component mounts
@@ -32,7 +34,12 @@ export default function ProductDetails() {
     const productReviews = useSelector(state => state.review.allReviews);
     const favorites = useSelector(state => state.favorites.allFavorites);
 
-    const isFavorite = favorites?.some(favorite => favorite.productId === product?.id);
+    useEffect(() => {
+        if (favorites && product) {
+            setIsFavorite(favorites.some(favorite => favorite.productId === product.id));
+        }
+    }, [favorites, product]);
+
     const isSeller = sessionUser?.id === product?.sellerId;
 
     useEffect(() => {
@@ -64,6 +71,7 @@ export default function ProductDetails() {
     };
 
     const handleAddFavorite = () => {
+        console.log("is handleAddFavorite working?")
         if (!sessionUser) {
             return navigate('/login'); // Redirect to login if user is not authenticated
         }

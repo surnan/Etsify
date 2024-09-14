@@ -13,7 +13,7 @@ class Favorite(db.Model):
 
     # Relationship
     users = db.relationship('User', back_populates='favorites')
-    products = db.relationship('Product', back_populates='favorites')
+    product = db.relationship('Product', back_populates='favorites')
 
     ## TEMP comment to verify git pull.rebase true
 
