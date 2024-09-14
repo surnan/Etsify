@@ -54,16 +54,18 @@ def get_review(reviewId):
 
 @review_routes.route('/', methods=['POST'])
 def add_review():
+    print("I made it to the route handler")
     data = request.get_json()
     stars = data.get("stars")
     review = data.get("review")
     userId = data.get("userId")
     productId = data.get("productId")
     new_review = Review(stars=stars, review=review, userId=userId, productId=productId)
-    
+    print('My new review is ', new_review)
     try:
         db.session.add(new_review)
         db.session.commit()
+        
         return jsonify({"message": "Review added successfully", "review": {
             "stars": new_review.stars,
             "review": new_review.review,
@@ -87,6 +89,7 @@ def delete_review(reviewId):
         db.session.commit()
         return jsonify({"message": f"Review with ID {reviewId} has been deleted."}), 200
     except Exception as e:
+        print('I commit')
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
     

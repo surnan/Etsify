@@ -1,6 +1,8 @@
 import { FaStar } from 'react-icons/fa6';
 import './ProductDetails.css';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -18,6 +20,20 @@ async function getUser(userId) {
 }
 
 export default function ReviewCard({ review }) {
+
+    const navigate = useNavigate(); // Add this line
+    
+
+    function handleUpdateBtn(rev) {
+        navigate(`/reviews/${rev.id}/update`);        
+    }
+
+    function handleDeleteBtn(rev) {
+        navigate(`/reviews/${rev.id}/delete`);        
+    }
+    
+
+
     const [reviewOwner, setReviewOwner] = useState(null); // State to hold the user data
 
     useEffect(() => {
@@ -57,6 +73,23 @@ export default function ReviewCard({ review }) {
                 <p>{review.review}</p>
                 {/* Display the username of the review owner */}
                 <span className="review-author">{reviewOwner.username}</span>
+            </div>
+            <br />
+            <br />
+            <div className="reviewButton-hflex">
+                <button
+                    className="reviewBtn updateBtn"
+                    onClick={() => handleUpdateBtn(review)}
+                >
+                    update
+                </button>
+                <button
+                    className="reviewBtn deleteBtn"
+                    onClick={() => handleDeleteBtn(review)}
+                >
+                    Delete
+                </button>
+               
             </div>
         </div>
     );

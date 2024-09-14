@@ -1,4 +1,32 @@
 /* General Styles */
+
+/* SURNAN added css */
+
+.reviewButton-hflex{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 25px;
+}
+
+.reviewBtn{
+    border-radius: 10px;
+    border: none;
+    width: 4rem;
+    height: 2rem;
+    cursor: pointer;
+    color: white;
+}
+
+.updateBtn{
+    background-color: rgb(107, 104, 104);
+}
+
+.deleteBtn{
+    color: yellow;
+    background-color: pink;
+}
+/* SURNAN added css */
 .product-main-container {
     display: flex;
     justify-content: space-between;

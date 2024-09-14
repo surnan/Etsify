@@ -4,7 +4,7 @@ const GET_REVIEW = 'review/GET_REVIEW';
 const ADD_REVIEW = 'review/ADD_REVIEW';
 const DELETE_REVIEW = 'review/DELETE_REVIEW';
 const EDIT_REVIEW = 'review/EDIT_REVIEW';
-
+//mama
 //Action Creators
 const getReviews = (reviews) => ({
     type: GET_REVIEWS,
@@ -51,22 +51,33 @@ export const getReviewThunk = (reviewId) => async (dispatch) => {
     }
 };
 
-export const addReviewThunk = (review, productId) => async (dispatch) => {
-    const response = await fetch(`/api/products/${productId}/reviews`, {
+export const addReviewThunk = (review, productId, userId) => async (dispatch) => {
+
+    const response = await fetch(`/api/reviews/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(review)
+        body: JSON.stringify({
+            "stars":review.stars,
+            "review": review.review,
+            "productId": productId,
+            "userId": userId
+        })
     });
 
+    console.log('The response is', response)
+
     if (response.ok) {
-        const review = await response.json();
-        dispatch(addReview(review, productId));
+        const data = await response.json();
+        
+        dispatch(addReview(data));
+        return data;
     }
 };
 
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
+    
     const response = await fetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE'
     });
@@ -77,6 +88,7 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 };
 
 export const editReviewThunk = (review) => async (dispatch) => {
+    console.log('The edited review is ', review)
     const response = await fetch(`/api/reviews/${review.id}`, {
         method: 'PUT',
         headers: {
@@ -87,6 +99,7 @@ export const editReviewThunk = (review) => async (dispatch) => {
 
     if (response.ok) {
         const review = await response.json();
+
         dispatch(editReview(review));
     }
 };
@@ -102,11 +115,8 @@ function reviewReducer(state = initialState, action) {
         case GET_REVIEWS: {
             newState = { ...state };
             newState.allReviews = action.payload;
-            newState.byId = {}
             for (let review of newState.allReviews) {
-                console.log(review.id)
-                newState['byId'][review.id] = review;
-                console.log('My state is ', newState)
+                newState.byId[review.id] = review;
             }
             return newState;
         }
@@ -119,7 +129,8 @@ function reviewReducer(state = initialState, action) {
 
         case ADD_REVIEW: {
             newState = { ...state };
-            newState.allReviews = [action.payload, ...newState.allReviews];
+            newState.allReviews = {...action.payload};
+            console.log('Mary has a ', newState, ' lamb')
             newState.byId = { ...newState.byId, [action.payload.id]: action.payload };
             return newState;
         }
@@ -129,35 +140,34 @@ function reviewReducer(state = initialState, action) {
             const reviewId = action.payload.id;
 
             const newAllReviews = [];
+            console.log('The state is....... ', newState)
 
-            for (let i = 0; i < newState.allReviews.length; i++) {
-                let currentReview = newState.allReviews[i];
-                if (currentReview.id === reviewId) {
-                    newAllReviews.push(action.payload);
-                } else
-                    newAllReviews.push(currentReview);
-            }
-
+            newAllReviews.push(action.payload);
+               
             newState.allReviews = newAllReviews;
+            console.log('All Reviews is', newState.allReviews)
             newState.byId = { ...newState.byId, [reviewId]: action.payload };
 
             return newState;
         }
 
         case DELETE_REVIEW: {
-            newState = { ...state };
+            newState = {...state}
+            console.log('Marilyn has a ', newState, 'lamb')
+      
+            let reviewId = action.payload;
 
-            const filteredReviews = newState.allReviews.filter((review) => {
-                return review.id !== action.payload.id
-            });
-            newState.allReviews = filteredReviews;
-
-            const newById = { ...newState.byId };
-            delete newById[action.payload.id];
-            newState.byId = newById;
-
+            console.log(newState);
+      
+            const newAllReviewsArr = newState.allReviews.filter(rev => {
+               return rev.id !== reviewId;
+            })
+      
+            newState.allReviews = newAllReviewsArr;
+            delete newState.byId[reviewId];
             return newState;
-        }
+          }
+          
         default: {
             return state;
         }
