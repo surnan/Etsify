@@ -61,19 +61,24 @@ export const getProductReviewsThunk = (productId) => async (dispatch) => {
 };
 
 export const addProductThunk = (product) => async (dispatch) => {
-    const { body, imageURLs } = product;
+    const { images, ...body } = product;  // Spread out product to separate images
+
     const response = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(product),
     });
+
     const data = await response.json();
-    await insertProductImages({ productId: data.id, imageURLs });
+
+    console.log(data, 'data');
+
     if (response.ok) {
-        dispatch(addProduct(data))
-        return data.id
+        await insertProductImages({ productId: data.id, imageURLs: images });
+        dispatch(addProduct(data));
+        return data;
     }
-}
+};
 
 export const deleteProductThunk = (productId) => async (dispatch) => {
     const response = await fetch(`/api/products/${productId}`, {
@@ -131,8 +136,8 @@ export const getProductsAllThunk = () => async (dispatch) => {
     }
 };
 
-export const getProductsOwnedThunk = () => async (dispatch) => {
-    const response = await fetch("/api/products/current");
+export const getProductsOwnedThunk = (userId) => async (dispatch) => {
+    const response = await fetch(`/api/users/${userId}/listings`);
     if (response.ok) {
         const data = await response.json();
         dispatch(loadProductsOwned(data));
@@ -209,13 +214,15 @@ function productReducer(state = initialState, action) {
 
         case DELETE_PRODUCT: {
             let newState = { ...state }
-            newState.allProducts = newState.allProducts.filter(product => product.id !== action.payload);
-            delete newState.byId[action.payload];
 
-            if (newState.single.id === action.payload) {
-                newState.single = {};
-            }
-            return newState
+            const filteredProducts = newState.ownedListings.filter(product => {
+                return product.id !== action.payload
+            });
+            newState.ownedListings = filteredProducts;
+            const newById = { ...newState.byId }
+            delete newById[action.payload]
+            newState.byId = newById;
+            return newState;
         }
 
         case LOAD_PRODUCTS_ALL: {
@@ -236,10 +243,7 @@ function productReducer(state = initialState, action) {
 
         case LOAD_PRODUCTS_OWNED: {
             let newState = { ...state }
-            newState.allProducts = action.payload.Products;
-            for (let product of action.payload.Products) {
-                newState.byId[product.id] = product
-            }
+            newState.ownedListings = action.payload;
             return newState;
         }
 
