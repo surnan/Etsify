@@ -2,14 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
-<<<<<<< HEAD
 import { Link } from 'react-router-dom';
-// import { getReviewsThunk } from "../../redux/review";
-// import { getProductStarRating } from "../ProductCard/ProductCard";
-=======
 import { getReviewsThunk } from "../../redux/review";
 import { addFavoriteThunk, deleteFavoriteThunk, getFavoritesAllThunk } from "../../redux/favorite";
->>>>>>> javier
 import './ProductDetails.css';
 import '../404/Page404.css';
 import Page404 from "../404/Page404";
@@ -19,10 +14,12 @@ import React from "react";
 export default function ProductDetails() {
     const dispatch = useDispatch();
     const { productId } = useParams();
+    const sessionUser = useSelector(state => state.session.user);
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
-
+    const [showReviews, setShowReviews] = useState(false);
+    const reviewChecker = false;
 
     // Fetch product and reviews when component mounts
     useEffect(() => {
@@ -31,27 +28,21 @@ export default function ProductDetails() {
     }, [dispatch, productId, deleteReviewChecker]);
 
     const product = useSelector(state => state.product.single);
-<<<<<<< HEAD
-    // Set the main image after product is fetched
-    useEffect(() => {
-        if (product && product.product_images && product.product_images.length > 0) {
-            setMainImage(product.product_images[0].image_url);
-=======
+
     const productReviews = useSelector(state => state.review.allReviews);
     const favorites = useSelector(state => state.favorites.allFavorites);
 
-    // console.log('prod ', productReviews);
-
     const isFavorite = favorites?.some(favorite => favorite.productId === product?.id);
     const isSeller = sessionUser?.id === product?.sellerId;
-    
+
     useEffect(() => {
         dispatch(getProductsOneThunk(parseInt(productId)));
         dispatch(getReviewsThunk(parseInt(productId)))
             .then(() => setShowReviews(true))
             .then(() => setDeleteReviewChecker(false))
-            .then(() => {if (!product)
-                return navigate('/404');})
+            .then(() => {
+                if (!product) return navigate('/404');
+            });
         dispatch(getFavoritesAllThunk());
     }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
 
@@ -59,7 +50,6 @@ export default function ProductDetails() {
         // Set the first image as the main image when the product is loaded
         if (product && product.product_images?.length > 0) {
             setMainImage(product.product_images[0]?.image_url);
->>>>>>> javier
         }
     }, [product]);
 
@@ -97,7 +87,7 @@ export default function ProductDetails() {
         const favorite = favorites.find(fav => fav.productId === product.id);
         if (favorite) {
             dispatch(deleteFavoriteThunk(favorite.id))
-                .then(() => dispatch(getFavoritesAllThunk()))
+                .then(() => dispatch(getFavoritesAllThunk()));
         }
     };
 
@@ -128,20 +118,19 @@ export default function ProductDetails() {
             <div className="addReview">
                 <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
             </div>
-<<<<<<< HEAD
             <div className="reviews-container">
                 <h2>{`${product.reviews.length}`} <span>reviews</span></h2>
                 {product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
                         <React.Fragment key={index}>
-                            <ReviewCard key={index} review={review} />
+                            <ReviewCard review={review} />
                             <div className="horizontal-divider"></div>
                         </React.Fragment>
                     ))
                 ) : (
                     <p>No reviews yet</p>
                 )}
-=======
+            </div>
             <div className="product-details">
                 <h1>{product.name}</h1>
                 <p>{product.description}</p>
@@ -154,7 +143,6 @@ export default function ProductDetails() {
                     )
                 )}
                 <button>Add to Cart</button>
->>>>>>> javier
             </div>
         </>
     );
