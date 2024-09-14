@@ -43,9 +43,18 @@ def get_favorites():
     userId = current_user.id
     print("backend route userId", userId)
     favorites = Favorite.query.filter_by(userId=userId).all()
+
+    favorites_with_products = [
+        {
+            **favorite.to_dict(),
+            'product': favorite.product.to_dict()  # Assuming your Product model has a to_dict method
+        }
+        for favorite in favorites
+    ]
     #Return Favorites
     print("backend favorites", favorites)
-    return jsonify([favorite.to_dict() for favorite in favorites]), 200
+    # return jsonify([favorite.to_dict() for favorite in favorites]), 200
+    return jsonify(favorites_with_products), 200
 
 # Favorite Delete
 @favorite_bp.route('/<int:id>', methods=['DELETE'])

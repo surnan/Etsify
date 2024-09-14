@@ -35,7 +35,7 @@ function ProductCard({ product }) {
                     {productRating.map((star, index) => (
                         <FaStar key={index} size={14} color={star ? 'gold' : 'gray'} />
                     ))}
-                    {/* <span>{`(${product.reviews.length})`}</span> */}
+                    <span>{`(${product.reviews.length})`}</span>
                 </div>
                 <div className="ProductCard__content__price">
                     <p>${product.price}</p>
