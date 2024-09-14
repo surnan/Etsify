@@ -16,20 +16,27 @@ const UpdateReview = () => {
    
     console.log(review);
     reviewId = parseInt(reviewId);
-    const [prodId, setProdId] = useState(1);
-
-    useEffect(() => {
-        let fetchedRev = dispatch(getReviewThunk(reviewId))
-        setStars(fetchedRev.stars)
-        setRating(fetchedRev.rating)
-        setProdId(fetchedRev.productId)
-
-    }, [reviewId])
-
+    const [prodId, setProdId] = useState(review?.productId);
     const [stars, setStars] = useState(review?.stars)
     const [rating, setRating] = useState(review?.review)
     const navigate = useNavigate();
 
+
+    useEffect(() => {
+        dispatch(getReviewThunk(reviewId))
+     
+        .then((data) => {
+            console.log('Data ', data)
+            setStars(data.stars)
+            setRating(data.rating)
+            setProdId(data.productId)
+        
+
+        }
+        )
+    }, [reviewId])
+    console.log('Yayayayayayay ', review, prodId)
+  
    
 
     const handleSubmit = async(e) => {
