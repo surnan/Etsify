@@ -118,7 +118,9 @@ export default function ProductDetails() {
                     <h1>{product.name}</h1>
                     <h2>${product.price}</h2>
                     <p>{product.description}</p>
-                    {!isSeller && ( // Only show these buttons if the user is not the seller
+                    {isSeller ? (
+                        <h2>You are selling this product.</h2>
+                    ) : (
                         isFavorite ? (
                             <button onClick={handleDeleteFavorite}>Delete Favorite</button>
                         ) : (
