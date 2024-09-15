@@ -116,6 +116,13 @@ export default function ProductDetails() {
                     <h1>{product.name}</h1>
                     <h2>${product.price}</h2>
                     <p>{product.description}</p>
+                    {!isSeller && ( // Only show these buttons if the user is not the seller
+                        isFavorite ? (
+                            <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                        ) : (
+                            <button onClick={handleAddFavorite}>Add to Favorites</button>
+                        )
+                    )}
                     <button>Add to Cart</button>
                 </div>
             </div>
@@ -134,19 +141,6 @@ export default function ProductDetails() {
                 ) : (
                     <p>No reviews yet</p>
                 )}
-            </div>
-            <div className="product-details">
-                <h1>{product.name}</h1>
-                <p>{product.description}</p>
-                <p>${product.price}</p>
-                {!isSeller && ( // Only show these buttons if the user is not the seller
-                    isFavorite ? (
-                        <button onClick={handleDeleteFavorite}>Delete Favorite</button>
-                    ) : (
-                        <button onClick={handleAddFavorite}>Add to Favorites</button>
-                    )
-                )}
-                <button>Add to Cart</button>
             </div>
         </>
     );
