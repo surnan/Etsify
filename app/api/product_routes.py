@@ -134,3 +134,47 @@ def get_product_reviews(productId):
     
     return jsonify([review.to_dict() for review in product_reviews])
 
+@product_routes.route('/<int:productId>/images', methods=['POST'])
+def add_product_image(productId):
+    product = Product.query.get(productId)
+    
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    data = request.get_json()
+    image_url = data.get('image_url')
+
+    product_image = ProductImage(productId=product.id, image_url=image_url)
+
+    try:
+        db.session.add(product_image)
+        db.session.commit()
+        return jsonify({"message": "Product image added successfully", "product_image": product_image.to_dict()}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+    
+@product_routes.route('/<int:productId>/images', methods=['DELETE'])
+def delete_product_images(productId):
+    # Query the product by its ID
+    product = Product.query.get(productId)
+    
+    # Check if the product exists
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    try:
+        # Delete all product images related to the productId
+        db.session.query(ProductImage).filter(ProductImage.productId == productId).delete()
+        
+        # Commit the changes to the database
+        db.session.commit()
+        
+        return jsonify({"message": "Product images deleted successfully"}), 200
+    except Exception as e:
+        # Rollback in case of an error
+        db.session.rollback()
+        return jsonify({"error": f"Failed to delete product images: {str(e)}"}), 500
+
+
+
