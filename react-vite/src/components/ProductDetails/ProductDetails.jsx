@@ -72,7 +72,7 @@ export default function ProductDetails() {
     };
 
     const handleAddFavorite = () => {
-        console.log("is handleAddFavorite working?")
+        // console.log("is handleAddFavorite working?")
         if (!sessionUser) {
             return navigate('/login'); // Redirect to login if user is not authenticated
         }
@@ -126,13 +126,37 @@ export default function ProductDetails() {
                     {isSeller ? (
                         <h2>You are selling this product.</h2>
                     ) : (
-                        isFavorite ? (
-                            <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                        !user ? (
+                            <div className="login-to-review-container">
+                                <span>Login to add as a Favorite and Add to Cart</span>
+                                <button>
+                                    <OpenModalMenuItem
+                                        itemText="Log In"
+                                        modalComponent={<LoginFormModal />}
+                                    />
+                                </button>
+                                <button>
+                                    <OpenModalMenuItem
+                                        itemText="Sign Up"
+                                        modalComponent={<SignupFormModal />}
+                                    />
+                                </button>
+                            </div>
                         ) : (
-                            <button onClick={handleAddFavorite}>Add to Favorites</button>
+                            isFavorite ? (
+                                <>
+                                    <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                                    <button>Add to Cart</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={handleAddFavorite}>Add to Favorites</button>
+                                    <button onClick={window.alert("Feature Coming Soon")}>Add to Cart</button>
+                                </>
+                            )
                         )
                     )}
-                    <button>Add to Cart</button>
+
                 </div>
             </div>
             <div className="addReview">
