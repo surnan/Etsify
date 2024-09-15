@@ -29,17 +29,19 @@ const loadFavoritesOne = (data) => ({
 
 // Thunks
 export const addFavoriteThunk = (favorite) => async (dispatch) => {
-    console.log("Is this working?")
+    // console.log("Is this working?")
     const response = await fetch("/api/favorites/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(favorite),
         credentials: 'include'
     });
-    console.log("response data in thunk", response)
+    // console.log("response data in thunk", response)
     if (response.ok) {
         const data = await response.json();
+        // console.log("data in thunk before dispatch", data)
         dispatch(addFavorite(data));
+        // console.log("data in thunk after dispatch", data)
         return data;
     } else {
         const errorData = await response.json();
@@ -61,20 +63,40 @@ export const deleteFavoriteThunk = (favoriteId) => async (dispatch) => {
 
 export const getFavoritesAllThunk = () => async (dispatch) => {
     const response = await fetch('/api/favorites/');
+    // console.log("response data in thunk", response)
     if (response.ok) {
         const data = await response.json();
+        // console.log("data in thunk before dispatch", data)
         dispatch(loadFavoritesAll(data));
+        // console.log("data in thunk after dispatch", data)
         return data;
     }
 };
 
-export const getFavoritesOneThunk = (favoriteId) => async (dispatch) => {
-    const response = await fetch(`/api/favorites/${favoriteId}`);
+// export const getFavoritesOneThunk = (favoriteId) => async (dispatch) => {
+//     const response = await fetch(`/api/favorites/${favoriteId}`);
 
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(loadFavoritesOne(data));
-        return data;
+//     if (response.ok) {
+//         const data = await response.json();
+//         dispatch(loadFavoritesOne(data));
+//         return data;
+//     }
+// };
+
+
+export const getFavoritesOneThunk = (favoriteId) => async (dispatch) => {
+
+    try {
+        const response = await fetch(`/api/favorites/${favoriteId}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            dispatch(loadFavoritesOne(data));
+            return data;
+        }
+    } catch (e) {
+        console.error('Error: getFavoritesOneThunk: ', e)
+        return e
     }
 };
 
