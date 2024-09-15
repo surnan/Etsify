@@ -127,6 +127,7 @@ def seed_product_images():
    db.session.add(pic38)
    db.session.add(pic39)
    db.session.add(pic40)
+   db.session.add(pic41)
    db.session.commit()
 
 def undo_product_images():
