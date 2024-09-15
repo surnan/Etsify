@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsOneThunk } from "../../redux/product";
 import { Link, useNavigate } from 'react-router-dom';
 import { getReviewsThunk } from "../../redux/review";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 import { addFavoriteThunk, deleteFavoriteThunk, getFavoritesAllThunk } from "../../redux/favorite";
 import './ProductDetails.css';
 import '../404/Page404.css';
@@ -25,6 +28,8 @@ export default function ProductDetails() {
 
     // Fetch product and reviews when component mounts
 
+    const user = useSelector(state => state.session.user);
+
     const product = useSelector(state => state.product.single);
 
     const productReviews = useSelector(state => state.review.allReviews);
@@ -40,12 +45,12 @@ export default function ProductDetails() {
 
     useEffect(() => {
         dispatch(getProductsOneThunk(parseInt(productId)))
-        .then(() => dispatch(getReviewsThunk(parseInt(productId))))
-        .then(() => setShowReviews(true))
-        .then(() => setDeleteReviewChecker(false))
-        .then(() => {
+            .then(() => dispatch(getReviewsThunk(parseInt(productId))))
+            .then(() => setShowReviews(true))
+            .then(() => setDeleteReviewChecker(false))
+            .then(() => {
                 if (!product) return navigate('/404');
-        });
+            });
         dispatch(getFavoritesAllThunk());
     }, [dispatch, productId, reviewChecker, deleteReviewChecker]);
 
@@ -67,7 +72,7 @@ export default function ProductDetails() {
     };
 
     const handleAddFavorite = () => {
-        console.log("is handleAddFavorite working?")
+        // console.log("is handleAddFavorite working?")
         if (!sessionUser) {
             return navigate('/login'); // Redirect to login if user is not authenticated
         }
@@ -95,6 +100,10 @@ export default function ProductDetails() {
         }
     };
 
+    const addToCart = () => {
+        return window.alert("feature coming soon");
+    }
+
     return (
         <>
             <div className="product-main-container">
@@ -102,12 +111,12 @@ export default function ProductDetails() {
                     {product.product_images?.map((image, index) => (
                         image.image_url !== '' && (
                             <img
-                            key={index}
-                            src={image.image_url}
-                            alt={product.name}
-                            onClick={() => handleImageClick(image.image_url)} // Change main image on click
-                            className={image.image_url === mainImage ? 'active-thumbnail' : ''}
-                        />
+                                key={index}
+                                src={image.image_url}
+                                alt={product.name}
+                                onClick={() => handleImageClick(image.image_url)} // Change main image on click
+                                className={image.image_url === mainImage ? 'active-thumbnail' : ''}
+                            />
                         )
                     ))}
                 </div>
@@ -121,17 +130,61 @@ export default function ProductDetails() {
                     {isSeller ? (
                         <h2>You are selling this product.</h2>
                     ) : (
-                        isFavorite ? (
-                            <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                        !user ? (
+                            <div className="login-to-review-container">
+                                <span>Login to add as a Favorite and Add to Cart</span>
+                                <button>
+                                    <OpenModalMenuItem
+                                        itemText="Log In"
+                                        modalComponent={<LoginFormModal />}
+                                    />
+                                </button>
+                                <button>
+                                    <OpenModalMenuItem
+                                        itemText="Sign Up"
+                                        modalComponent={<SignupFormModal />}
+                                    />
+                                </button>
+                            </div>
                         ) : (
-                            <button onClick={handleAddFavorite}>Add to Favorites</button>
+                            isFavorite ? (
+                                <>
+                                    <button onClick={handleDeleteFavorite}>Delete Favorite</button>
+                                    <button onClick={addToCart}>Add to Cart</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={handleAddFavorite}>Add to Favorites</button>
+                                    <button onClick={addToCart}>Add to Cart</button>
+                                </>
+                            )
                         )
                     )}
-                    <button>Add to Cart</button>
+
                 </div>
             </div>
             <div className="addReview">
-                <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
+                {
+                    user ? (
+                        <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
+                    ) : (
+                        <div className="login-to-review-container">
+                            <span>Login to leave a review</span>
+                            <button>
+                                <OpenModalMenuItem
+                                    itemText="Log In"
+                                    modalComponent={<LoginFormModal />}
+                                />
+                            </button>
+                            <button>
+                                <OpenModalMenuItem
+                                    itemText="Sign Up"
+                                    modalComponent={<SignupFormModal />}
+                                />
+                            </button>
+                        </div>
+                    )
+                }
             </div>
             <div className="reviews-container">
                 {
