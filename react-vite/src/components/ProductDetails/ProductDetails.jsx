@@ -10,7 +10,7 @@ import SignupFormModal from "../SignupFormModal";
 import { addFavoriteThunk, deleteFavoriteThunk, getFavoritesAllThunk } from "../../redux/favorite";
 import './ProductDetails.css';
 import '../404/Page404.css';
-import Page404 from "../404/Page404";
+// import Page404 from "../404/Page404";
 import ReviewCard from "./ReviewCard";
 import React from "react";
 
@@ -63,7 +63,7 @@ export default function ProductDetails() {
 
     if (!product) {
         return (
-            <Page404 />
+            <div>loading...</div>
         );
     }
 
@@ -80,7 +80,7 @@ export default function ProductDetails() {
             userId: sessionUser.id,
             productId: product.id,
         };
-        console.log("favoriteData in ProductDetails addFavorite func", favoriteData)
+        // console.log("favoriteData in ProductDetails addFavorite func", favoriteData)
         dispatch(addFavoriteThunk(favoriteData))
             .then(() => dispatch(getFavoritesAllThunk()))
             .catch((error) => {

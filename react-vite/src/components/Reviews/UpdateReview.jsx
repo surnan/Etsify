@@ -14,7 +14,7 @@ const UpdateReview = () => {
     let review = useSelector(state => state.review.currentReview)
     // let editedRevs = useSelector(state => state.review.newllReviews[reviewId]);
 
-    console.log(review);
+    // console.log(review);
     reviewId = parseInt(reviewId);
     const [prodId, setProdId] = useState(review?.productId);
     const [stars, setStars] = useState(review?.stars)
@@ -26,7 +26,7 @@ const UpdateReview = () => {
         dispatch(getReviewThunk(reviewId))
 
             .then((data) => {
-                console.log('Data ', data)
+                // console.log('Data ', data)
                 setStars(data.stars)
                 setRating(data.rating)
                 setProdId(data.productId)
@@ -35,7 +35,7 @@ const UpdateReview = () => {
             }
             )
     }, [reviewId])
-    console.log('Yayayayayayay ', review, prodId)
+    // console.log('Yayayayayayay ', review, prodId)
 
 
 
