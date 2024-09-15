@@ -100,6 +100,10 @@ export default function ProductDetails() {
         }
     };
 
+    const addToCart = () => {
+        return window.alert("feature coming soon");
+    }
+
     return (
         <>
             <div className="product-main-container">
@@ -146,12 +150,12 @@ export default function ProductDetails() {
                             isFavorite ? (
                                 <>
                                     <button onClick={handleDeleteFavorite}>Delete Favorite</button>
-                                    <button>Add to Cart</button>
+                                    <button onClick={addToCart}>Add to Cart</button>
                                 </>
                             ) : (
                                 <>
                                     <button onClick={handleAddFavorite}>Add to Favorites</button>
-                                    <button onClick={window.alert("Feature Coming Soon")}>Add to Cart</button>
+                                    <button onClick={addToCart}>Add to Cart</button>
                                 </>
                             )
                         )
