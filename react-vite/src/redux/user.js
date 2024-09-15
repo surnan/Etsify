@@ -8,12 +8,28 @@ const getUser = (user) => ({
 });
 
 //Thunks
-export const getUserThunk = (userId) => async (dispatch) => {
-    const response = await fetch(`/api/users/${userId}`);
+// export const getUserThunk = (userId) => async (dispatch) => {
+//     const response = await fetch(`/api/users/${userId}`);
 
-    if (response.ok) {
-        const user = await response.json();
-        dispatch(getUser(user));
+//     if (response.ok) {
+//         const user = await response.json();
+//         dispatch(getUser(user));
+//     }
+// };
+
+export const getUserThunk = (userId) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/users/${userId}`);
+
+        if (response.ok) {
+            const user = await response.json();
+            dispatch(getUser(user));
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to fetch user');
+        }
+    } catch (error) {
+        console.error('Error in getUserThunk:', error);
     }
 };
 

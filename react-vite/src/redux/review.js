@@ -32,77 +32,181 @@ const editReview = (updatedReview) => ({
 });
 
 //Thunks
-export const getReviewsThunk = (productId) => async (dispatch) => {
-    const response = await fetch(`/api/products/${productId}/reviews`);
+// export const getReviewsThunk = (productId) => async (dispatch) => {
+//     const response = await fetch(`/api/products/${productId}/reviews`);
 
-    if (response.ok) {
-        const reviews = await response.json();
-        console.log(reviews)
-        dispatch(getReviews(reviews));
-        return reviews;
+//     if (response.ok) {
+//         const reviews = await response.json();
+//         console.log(reviews)
+//         dispatch(getReviews(reviews));
+//         return reviews;
+//     }
+// };
+
+export const getReviewsThunk = (productId) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/products/${productId}/reviews`);
+        if (response.ok) {
+            const reviews = await response.json();
+            console.log(reviews);
+            dispatch(getReviews(reviews));
+            return reviews;
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to fetch reviews');
+        }
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
     }
 };
+
+// export const getReviewThunk = (reviewId) => async (dispatch) => {
+//     const response = await fetch(`/api/reviews/${reviewId}`);
+
+//     if (response.ok) {
+//         const review = await response.json();
+//         dispatch(getReview(review));
+//         return review;
+//     }
+// };
 
 export const getReviewThunk = (reviewId) => async (dispatch) => {
-    const response = await fetch(`/api/reviews/${reviewId}`);
-
-    if (response.ok) {
-        const review = await response.json();
-        dispatch(getReview(review));
-        return review;
+    try {
+        const response = await fetch(`/api/reviews/${reviewId}`);
+        if (response.ok) {
+            const review = await response.json();
+            dispatch(getReview(review));
+            return review;
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to fetch review');
+        }
+    } catch (error) {
+        console.error('Error fetching review:', error);
     }
 };
+
+// export const addReviewThunk = (review, productId, userId) => async (dispatch) => {
+
+//     const response = await fetch(`/api/reviews/`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             "stars":review.stars,
+//             "review": review.review,
+//             "productId": productId,
+//             "userId": userId
+//         })
+//     });
+
+//     console.log('The response is', response)
+
+//     if (response.ok) {
+//         const data = await response.json();
+        
+//         dispatch(addReview(data));
+//         return data;
+//     }
+// };
 
 export const addReviewThunk = (review, productId, userId) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/reviews/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                stars: review.stars,
+                review: review.review,
+                productId: productId,
+                userId: userId,
+            }),
+        });
 
-    const response = await fetch(`/api/reviews/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "stars":review.stars,
-            "review": review.review,
-            "productId": productId,
-            "userId": userId
-        })
-    });
+        console.log('The response is', response);
 
-    console.log('The response is', response)
-
-    if (response.ok) {
-        const data = await response.json();
-        
-        dispatch(addReview(data));
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            dispatch(addReview(data));
+            return data;
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to add review');
+        }
+    } catch (error) {
+        console.error('Error adding review:', error);
     }
 };
+
+// export const deleteReviewThunk = (reviewId) => async (dispatch) => {
+    
+//     const response = await fetch(`/api/reviews/${reviewId}`, {
+//         method: 'DELETE'
+//     });
+
+//     if (response.ok) {
+//         dispatch(deleteReview(reviewId));
+//     }
+// };
 
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
-    
-    const response = await fetch(`/api/reviews/${reviewId}`, {
-        method: 'DELETE'
-    });
+    try {
+        const response = await fetch(`/api/reviews/${reviewId}`, {
+            method: 'DELETE',
+        });
 
-    if (response.ok) {
-        dispatch(deleteReview(reviewId));
+        if (response.ok) {
+            dispatch(deleteReview(reviewId));
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to delete review');
+        }
+    } catch (error) {
+        console.error('Error deleting review:', error);
     }
 };
 
+
+// export const editReviewThunk = (review) => async (dispatch) => {
+//     console.log('The edited review is ', review)
+//     const response = await fetch(`/api/reviews/${review.id}`, {
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(review)
+//     });
+
+//     if (response.ok) {
+//         const review = await response.json();
+
+//         dispatch(editReview(review));
+//     }
+// };
+
 export const editReviewThunk = (review) => async (dispatch) => {
-    console.log('The edited review is ', review)
-    const response = await fetch(`/api/reviews/${review.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(review)
-    });
+    try {
+        console.log('The edited review is ', review);
+        const response = await fetch(`/api/reviews/${review.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(review),
+        });
 
-    if (response.ok) {
-        const review = await response.json();
-
-        dispatch(editReview(review));
+        if (response.ok) {
+            const updatedReview = await response.json();
+            dispatch(editReview(updatedReview));
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to edit review');
+        }
+    } catch (error) {
+        console.error('Error editing review:', error);
     }
 };
 
