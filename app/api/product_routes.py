@@ -127,7 +127,7 @@ def get_product_reviews(productId):
     if not product:
         return jsonify({"error": "Product not found"}), 404
 
-    product_reviews = product.product_reviews
+    product_reviews = product.reviews
     
     for review in product_reviews:
         review.user = User.query.get(review.userId)
