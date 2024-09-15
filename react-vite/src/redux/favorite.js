@@ -73,13 +73,29 @@ export const getFavoritesAllThunk = () => async (dispatch) => {
     }
 };
 
-export const getFavoritesOneThunk = (favoriteId) => async (dispatch) => {
-    const response = await fetch(`/api/favorites/${favoriteId}`);
+// export const getFavoritesOneThunk = (favoriteId) => async (dispatch) => {
+//     const response = await fetch(`/api/favorites/${favoriteId}`);
 
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(loadFavoritesOne(data));
-        return data;
+//     if (response.ok) {
+//         const data = await response.json();
+//         dispatch(loadFavoritesOne(data));
+//         return data;
+//     }
+// };
+
+
+export const getFavoritesOneThunk = (favoriteId) => async (dispatch) => {
+
+    try {
+        const response = await fetch(`/api/favorites/${favoriteId}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            dispatch(loadFavoritesOne(data));
+            return data;
+        }
+    } catch (e) {
+        console.log('Error: getFavoritesOneThunk: ', e)
     }
 };
 
