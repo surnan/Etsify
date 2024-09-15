@@ -39,9 +39,7 @@ export const addFavoriteThunk = (favorite) => async (dispatch) => {
     console.log("response data in thunk", response)
     if (response.ok) {
         const data = await response.json();
-        console.log("data in thunk before dispatch", data)
         dispatch(addFavorite(data));
-        console.log("data in thunk after dispatch", data)
         return data;
     } else {
         const errorData = await response.json();
@@ -63,12 +61,9 @@ export const deleteFavoriteThunk = (favoriteId) => async (dispatch) => {
 
 export const getFavoritesAllThunk = () => async (dispatch) => {
     const response = await fetch('/api/favorites/');
-    console.log("response data in thunk", response)
     if (response.ok) {
         const data = await response.json();
-        console.log("data in thunk before dispatch", data)
         dispatch(loadFavoritesAll(data));
-        console.log("data in thunk after dispatch", data)
         return data;
     }
 };
@@ -105,15 +100,12 @@ function favoriteReducer(state = initialState, action) {
         }
 
         case LOAD_FAVORITES_ALL: {
-            // console.log("is reducer working?")
             const newState = { ...state };
-            // console.log("newState1", newState)
             newState.allFavorites = action.payload;
 
             for (let favorite of newState.allFavorites) {
                 newState.byId[favorite.id] = favorite;
             }
-            // console.log("reducer test newState", newState)
             return newState;
         }
 
