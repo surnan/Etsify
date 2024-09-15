@@ -49,16 +49,12 @@ export default function MyListings() {
     const handleUpdateProduct = (e, productId) => {
         e.preventDefault();
         e.stopPropagation();
+        navigate(`/user/listings/${productId}`);
     }
 
     const handleDeleteProduct = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-    }
-
-    const goToProduct = (e, product) => {
-        e.preventDefault();
-        navigate(`/products/${product.id}`);
     }
 
     const onModalClose = () => {
@@ -72,7 +68,7 @@ export default function MyListings() {
             <div className='products-container'>
             {ownedProducts.map(product => (
                 <div className='product-container' key={product.id}>
-                    <div className="listings-grid" key={product.id} onClick={(e) => { goToProduct(e, product.id) }}>
+                    <div className="listings-grid" key={product.id}>
                         <ProductCard key={product.id} product={product} />
                     </div>
                     <div className="crud-buttons">

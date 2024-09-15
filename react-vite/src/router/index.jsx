@@ -11,6 +11,7 @@ import Favorites from '../components/Favorites/Favorite';
 import Page404 from '../components/404';
 import CreateProduct from '../components/CreateProduct/CreateProduct';
 import MyListings from '../components/MyListings';
+import UpdateProduct from '../components/UpdateProduct/UpdateProduct';
 
 
 export const router = createBrowserRouter([
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: '/user/listings',
         element: <MyListings />
+      },
+      {
+        path: '/user/listings/:productId',
+        element: <UpdateProduct />
       },
       {
         path: "login",

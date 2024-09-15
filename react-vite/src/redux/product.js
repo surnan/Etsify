@@ -1,6 +1,8 @@
 
 //react-vite/src/redux/product.js
 const ADD_PRODUCT = 'products/addProductOne';
+const ADD_PRODUCT_IMAGES = 'products/addProductImages';
+const DELETE_PRODUCT_IMAGES = 'products/deleteProductImages';
 const DELETE_PRODUCT = "products/deleteProductOne"
 const LOAD_PRODUCTS_ALL = "products/loadProductsAll"
 const LOAD_PRODUCTS_ONE = "products/loadProductsOne"
@@ -17,6 +19,16 @@ const getReviews = (productId) => ({
 
 const addProduct = (data) => ({
     type: ADD_PRODUCT,
+    payload: data
+})
+
+const addProductImages = (data) => ({
+    type: ADD_PRODUCT_IMAGES,
+    payload: data
+})
+
+const removeProductImages = (data) => ({
+    type: DELETE_PRODUCT_IMAGES,
     payload: data
 })
 
@@ -153,16 +165,15 @@ export const getProductsOneThunk = (productId) => async (dispatch) => {
     }
 }
 
-export const updateProductThunk = (product) => async (dispatch) => {
-    const { body, imageURLs, productId } = product;
-    await deleteSpotImages(productId);
-    const response = await fetch(`/api/products/${productId}`, {
+export const updateProductThunk = (productForm) => async (dispatch) => {
+    console.log(productForm, 'productForm');
+    const response = await fetch(`/api/products/${productForm.productId}`, {
         method: 'PUT',
-        header: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productForm)
     })
     const data = await response.json();
-    await insertProductImages({ productId: data.id, imageURLs });
+    console.log(data, 'data');
     if (response.ok) {
         dispatch(updateProduct(data))
         return data.id
@@ -170,26 +181,45 @@ export const updateProductThunk = (product) => async (dispatch) => {
 }
 
 
-const insertProductImages = async ({ productId, imageURLs }) => {
-    // post side images
-    for (let url of imageURLs) {
-        await fetch(`/api/products/${productId}/images`, {
-            method: "POST",
+export const insertProductImages = (productId, imageUrl) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/products/${productId}/images`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url, productId }),
+            body: JSON.stringify({ image_url: imageUrl }),
         });
+
+        if (response.ok) {
+            const newImage = await response.json();
+            dispatch({ type: 'ADD_PRODUCT_IMAGE', payload: newImage });
+        } else {
+            // handle errors
+        }
+    } catch (err) {
+        console.error('Error inserting product image:', err);
     }
 };
 
-const deleteSpotImages = async (productId) => {
-    await fetch(`/api/product-images/spot/${productId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+export const deleteProductImages = (productId) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/products/${productId}/images`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            dispatch({ type: DELETE_PRODUCT_IMAGES, payload: productId });
+        } else {
+            // Handle error
+            console.error('Failed to delete product images');
+        }
+    } catch (err) {
+        console.error('Error deleting product images:', err);
+    }
 };
 
 // State Object
@@ -206,9 +236,21 @@ function productReducer(state = initialState, action) {
             return newState;
         }
 
+        case ADD_PRODUCT_IMAGES: {
+            let newState = { ...state }
+            newState.single.images = action.payload;
+            return newState;
+        }
+
         case GET_REVIEWS: {
             let newState = { ...state }
             newState.single.reviews = action.payload;
+            return newState;
+        }
+
+        case DELETE_PRODUCT_IMAGES: {
+            let newState = { ...state }
+            newState.single.images = [];
             return newState;
         }
 
