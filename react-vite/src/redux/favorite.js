@@ -101,7 +101,8 @@ function favoriteReducer(state = initialState, action) {
 
         case LOAD_FAVORITES_ALL: {
             const newState = { ...state };
-            newState.allFavorites = action.payload;
+            newState.allFavorites = Array.isArray(action.payload) ? action.payload : [];
+            // newState.allFavorites = action.payload;
 
             for (let favorite of newState.allFavorites) {
                 newState.byId[favorite.id] = favorite;
