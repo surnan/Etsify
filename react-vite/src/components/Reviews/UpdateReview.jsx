@@ -7,6 +7,8 @@ import { FaStar } from "react-icons/fa";
 // import {getProductsOneThunk} from '../../redux/review';
 // console.log('Thunk ', editReviewThunk)
 import './AddReviewModal.css';
+
+
 const UpdateReview = () => {
 
     const dispatch = useDispatch();
@@ -30,11 +32,8 @@ const UpdateReview = () => {
                 setStars(data.stars)
                 setRating(data.rating)
                 setProdId(data.productId)
-
-
-            }
-            )
-    }, [reviewId])
+            })
+    }, [dispatch, reviewId])
     // console.log('Yayayayayayay ', review, prodId)
 
 
@@ -81,7 +80,8 @@ const UpdateReview = () => {
                         })}
                     </div>
                     <label>Stars</label>
-                    <input value={rating} onChange={(e) => setRating(e.target.value)} placeholder={`${rating}`} type="text" ></input>
+                    <textarea value={rating} onChange={(e) => setRating(e.target.value)}></textarea>
+                    {/* <input value={rating} onChange={(e) => setRating(e.target.value)} type="text" ></input> */}
                     {/* <input  onChange={(e) => setStars(e.target.value)} value = {stars}  placeholder = {`${stars}`}  type = "decimal"/> */}
                 </fieldset>
                 <button type='submit'>Update the Review</button>
