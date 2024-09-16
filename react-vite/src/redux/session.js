@@ -10,6 +10,19 @@ const removeUser = () => ({
   type: REMOVE_USER
 });
 
+//Thunks
+// export const thunkAuthenticate = () => async (dispatch) => {
+// 	const response = await fetch("/api/auth/");
+// 	if (response.ok) {
+// 		const data = await response.json();
+// 		if (data.errors) {
+// 			return;
+// 		}
+
+// 		dispatch(setUser(data));
+// 	}
+// };
+
 export const thunkAuthenticate = () => async (dispatch) => {
   try {
     const response = await fetch("/api/auth/");
@@ -19,11 +32,15 @@ export const thunkAuthenticate = () => async (dispatch) => {
         return;
       }
       dispatch(setUser(data));
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to authenticate user');
     }
-  } catch (e) {
-    console.error('Error: thunkAuthenticate: ', e)
+  } catch (error) {
+    console.error('Error in thunkAuthenticate:', error);
   }
 };
+
 
 // export const thunkLogin = (credentials) => async dispatch => {
 //   const response = await fetch("/api/auth/login", {
@@ -32,7 +49,7 @@ export const thunkAuthenticate = () => async (dispatch) => {
 //     body: JSON.stringify(credentials)
 //   });
 
-//   if (response.ok) {
+//   if(response.ok) {
 //     const data = await response.json();
 //     dispatch(setUser(data));
 //   } else if (response.status < 500) {
@@ -43,27 +60,28 @@ export const thunkAuthenticate = () => async (dispatch) => {
 //   }
 // };
 
+export const thunkLogin = (credentials) => async (dispatch) => {
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
 
-export const thunkLogin = (userCredentials) => async (dispatch) => {
-  const { email, password } = userCredentials;
-
-  const response = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-
-  // If the response is not OK (status not 200), throw an error manually
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw errorData; // This will trigger the .catch block in your component
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+    } else if (response.status < 500) {
+      const errorMessages = await response.json();
+      return errorMessages;
+    } else {
+      return { server: "Something went wrong. Please try again" };
+    }
+  } catch (error) {
+    console.error('Error in thunkLogin:', error);
+    return { server: "An unexpected error occurred. Please try again." };
   }
-
-  const data = await response.json();
-  dispatch(setUser(data)); // Update the Redux store with user info
-  return response;
 };
-
 
 // export const thunkSignup = (user) => async (dispatch) => {
 //   const response = await fetch("/api/auth/signup", {
@@ -72,7 +90,7 @@ export const thunkLogin = (userCredentials) => async (dispatch) => {
 //     body: JSON.stringify(user)
 //   });
 
-//   if (response.ok) {
+//   if(response.ok) {
 //     const data = await response.json();
 //     dispatch(setUser(data));
 //   } else if (response.status < 500) {
@@ -83,12 +101,11 @@ export const thunkLogin = (userCredentials) => async (dispatch) => {
 //   }
 // };
 
-
 export const thunkSignup = (user) => async (dispatch) => {
   try {
-    const response = await fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     });
 
@@ -99,15 +116,13 @@ export const thunkSignup = (user) => async (dispatch) => {
       const errorMessages = await response.json();
       return errorMessages;
     } else {
-      return { server: 'Something went wrong. Please try again' };
+      return { server: "Something went wrong. Please try again" };
     }
-  } catch (e) {
-    console.error('Error: thunkSignup:', e);
-    return { server: 'Network error. Please try again.' };
+  } catch (error) {
+    console.error('Error in thunkSignup:', error);
+    return { server: "An unexpected error occurred. Please try again." };
   }
 };
-
-
 
 // export const thunkLogout = () => async (dispatch) => {
 //   await fetch("/api/auth/logout");
@@ -116,10 +131,17 @@ export const thunkSignup = (user) => async (dispatch) => {
 
 export const thunkLogout = () => async (dispatch) => {
   try {
-    await fetch('/api/auth/logout');
-    dispatch(removeUser());
-  } catch (e) {
-    console.error('Error: thunkLogout:', e);
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+
+    if (response.ok) {
+      dispatch(removeUser());
+    } else {
+      throw new Error('Failed to log out');
+    }
+  } catch (error) {
+    console.error('Error in thunkLogout:', error);
   }
 };
 
