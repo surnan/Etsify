@@ -22,7 +22,8 @@ export default function MyListings() {
                 .then(() => setLoaded(true))
                 .then(() => setProductChecker(false));
         }
-    }, [dispatch, user, productChecker, navigate]);
+    // }, [dispatch, user, productChecker, navigate]);
+    }, [dispatch, user, productChecker, navigate, loaded]);
 
     if (!user) {
         return navigate('/login');

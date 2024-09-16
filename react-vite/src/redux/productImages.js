@@ -21,10 +21,10 @@ const deleteProductImage = (productImageId) => ({
     payload: productImageId
 });
 
-const updateProductImage = (productImage) => ({
-    type: UPDATE_PRODUCT_IMAGE,
-    payload: productImage
-});
+// const updateProductImage = (productImage) => ({
+//     type: UPDATE_PRODUCT_IMAGE,
+//     payload: productImage
+// });
 
 //Thunks
 // export const getProductImagesThunk = (productId) => async (dispatch) => {
@@ -114,6 +114,8 @@ export const deleteProductImageThunk = (productImageId) => async (dispatch) => {
         console.error('Error deleting product image:', error);
     }
 };
+
+const initialState = { allReviews: [], byId: {} };
 
 //Reducer
 const productImageReducer = (state = initialState, action) => {

@@ -31,6 +31,8 @@ def load_user(id):
 
 #this is a test commit
 # Another test comment
+# Another test comment
+
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 

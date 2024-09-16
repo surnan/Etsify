@@ -22,15 +22,15 @@ const addProduct = (data) => ({
     payload: data
 })
 
-const addProductImages = (data) => ({
-    type: ADD_PRODUCT_IMAGES,
-    payload: data
-})
+// const addProductImages = (data) => ({
+//     type: ADD_PRODUCT_IMAGES,
+//     payload: data
+// })
 
-const removeProductImages = (data) => ({
-    type: DELETE_PRODUCT_IMAGES,
-    payload: data
-})
+// const removeProductImages = (data) => ({
+//     type: DELETE_PRODUCT_IMAGES,
+//     payload: data
+// })
 
 const deleteProduct = (data) => ({
     type: DELETE_PRODUCT,

@@ -21,7 +21,7 @@ export default function ProductDetails() {
 
     const [mainImage, setMainImage] = useState(null); // State to track the main image
     const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
-    const [showReviews, setShowReviews] = useState(false);
+    // const [showReviews, setShowReviews] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Add loading state
 
@@ -29,7 +29,7 @@ export default function ProductDetails() {
 
     const user = useSelector(state => state.session.user);
     const product = useSelector(state => state.product.single);
-    const productReviews = useSelector(state => state.review.allReviews);
+    // const productReviews = useSelector(state => state.review.allReviews);
     const favorites = useSelector(state => state.favorites.allFavorites);
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function ProductDetails() {
                 if (!fetchedProduct) {
                     navigate('/404'); // Navigate to 404 only if product not found
                 } else {
-                    setShowReviews(true);
+                    // setShowReviews(true);
                     setDeleteReviewChecker(false);
                 }
             })

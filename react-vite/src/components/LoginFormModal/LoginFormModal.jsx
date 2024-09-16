@@ -40,6 +40,7 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
           // Set the error message for invalid credentials
+          console.error(res)
           setErrors({ invalidCredential: 'Invalid email or password' });
       });
   };

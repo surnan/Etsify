@@ -45,7 +45,8 @@ export default function CreateProduct() {
         if (image5 && !isValidImage(image5)) errors.image5 = 'Image 5 must end with .jpg or .png';
 
         setErrors(errors);
-    }, [name, description, price, stock, image1, image2, image3, image4, image5]);
+    // }, [name, description, price, stock, image1, image2, image3, image4, image5]);
+}, [name, description, price, stock, image1, image2, image3, image4, image5, isValidImage]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,6 +54,7 @@ export default function CreateProduct() {
 
         if (Object.keys(errors).length > 0) {
             setShowErrors(true);
+            console.log(showErrors)
             return;
         }
 

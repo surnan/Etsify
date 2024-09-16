@@ -6,7 +6,7 @@ import { getFavoritesAllThunk } from '../../redux/favorite';
 // import ProductCard from '../ProductCard';
 // import ProductCard from '../ProductCard/ProductCard';
 import FavoriteProductCard from '../FavoriteProductCard/FavoriteProductCard';
-import productReducer from '../../redux/product';
+// import productReducer from '../../redux/product';
 
 const Favorites = () => {
     const dispatch = useDispatch();

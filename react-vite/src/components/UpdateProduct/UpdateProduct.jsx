@@ -77,6 +77,7 @@ export default function UpdateProduct() {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             setShowErrors(true);
+            console.log(showErrors)
             return;
         }
 
