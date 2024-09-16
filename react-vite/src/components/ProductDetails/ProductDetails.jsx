@@ -25,6 +25,8 @@ export default function ProductDetails() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Add loading state
 
+    const [reviewCardChecker, setReviewCardChecker] = useState(false);
+
     const user = useSelector(state => state.session.user);
     const product = useSelector(state => state.product.single);
     const productReviews = useSelector(state => state.review.allReviews);
@@ -45,7 +47,7 @@ export default function ProductDetails() {
             .then(() => dispatch(getReviewsThunk(parseInt(productId))))
             .then(() => dispatch(getFavoritesAllThunk()))
             .finally(() => setIsLoading(false)); // Set loading false once data is fetched
-    }, [dispatch, productId, deleteReviewChecker]);
+    }, [dispatch, productId, deleteReviewChecker, reviewCardChecker, navigate]);
 
     useEffect(() => {
         if (favorites && product) {
@@ -193,7 +195,7 @@ export default function ProductDetails() {
                 {product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
                         <React.Fragment key={index}>
-                            <ReviewCard review={review} />
+                            <ReviewCard review={review} setReviewCardChecker={setReviewCardChecker} />
                             <div className="horizontal-divider"></div>
                         </React.Fragment>
                     ))
