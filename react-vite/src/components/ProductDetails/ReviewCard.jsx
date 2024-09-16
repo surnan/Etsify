@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import EditReviewModal from '../EditReviewModal';
+import { getUserThunk } from '../../redux/user';
+import { useSelector } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -32,6 +34,10 @@ export default function ReviewCard({ review, setReviewCardChecker, sessionUserId
 
         fetchUser();
     }, [review.userId, setReviewCardChecker]);
+    
+    const isLoggedIn = () => {
+        return sessionUser?.id === reviewOwner?.id
+    }
 
     if (!reviewOwner) {
         return (
