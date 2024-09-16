@@ -3,6 +3,9 @@ import './ProductDetails.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import { getUserThunk } from '../../redux/user';
+import { useSelector } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -20,9 +23,8 @@ async function getUser(userId) {
 }
 
 export default function ReviewCard({ review }) {
-
     const navigate = useNavigate(); // Add this line
-    
+    const sessionUser = useSelector(state => state.session.user);
 
     function handleUpdateBtn(rev) {
         navigate(`/reviews/${rev.id}/update`);        
@@ -31,10 +33,6 @@ export default function ReviewCard({ review }) {
     function handleDeleteBtn(rev) {
         navigate(`/reviews/${rev.id}/delete`);        
     }
-    
-
-
-    const [reviewOwner, setReviewOwner] = useState(null); // State to hold the user data
 
     useEffect(() => {
         async function fetchUser() {
@@ -44,6 +42,12 @@ export default function ReviewCard({ review }) {
 
         fetchUser();
     }, [review.userId]); // Only run when the review.userId changes
+
+    const [reviewOwner, setReviewOwner] = useState(null);
+
+    const isLoggedIn = () => {
+        return sessionUser.id === reviewOwner.id
+    }
 
     if (!reviewOwner) {
         return (
@@ -76,7 +80,7 @@ export default function ReviewCard({ review }) {
             </div>
             <br />
             <br />
-            <div className="reviewButton-hflex">
+            {isLoggedIn() && <div className="reviewButton-hflex">
                 <button
                     className="reviewBtn updateBtn"
                     onClick={() => handleUpdateBtn(review)}
@@ -90,7 +94,7 @@ export default function ReviewCard({ review }) {
                     Delete
                 </button>
                
-            </div>
+            </div>}
         </div>
     );
 }
