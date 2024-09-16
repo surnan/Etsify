@@ -188,15 +188,13 @@ function favoriteReducer(state = initialState, action) {
         }
 
         case LOAD_FAVORITES_ALL: {
-            // console.log("is reducer working?")
             const newState = { ...state };
-            // console.log("newState1", newState)
-            newState.allFavorites = action.payload;
+            newState.allFavorites = Array.isArray(action.payload) ? action.payload : [];
+            // newState.allFavorites = action.payload;
 
             for (let favorite of newState.allFavorites) {
                 newState.byId[favorite.id] = favorite;
             }
-            // console.log("reducer test newState", newState)
             return newState;
         }
 

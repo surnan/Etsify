@@ -145,6 +145,7 @@ export const thunkLogout = () => async (dispatch) => {
   }
 };
 
+
 const initialState = { user: null };
 
 function sessionReducer(state = initialState, action) {
