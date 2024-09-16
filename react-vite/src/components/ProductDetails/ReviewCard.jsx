@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import EditReviewModal from '../EditReviewModal';
+import { getUserThunk } from '../../redux/user';
+import { useSelector } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -21,8 +23,25 @@ async function getUser(userId) {
     return result;
 }
 
-export default function ReviewCard({ review, setReviewCardChecker }) {
-    const [reviewOwner, setReviewOwner] = useState(null);
+export default function ReviewCard({ review }) {
+
+    const navigate = useNavigate(); // Add this line
+    const sessionUser = useSelector(state => state.session.user);
+
+
+
+
+    function handleUpdateBtn(rev) {
+        navigate(`/reviews/${rev.id}/update`);
+    }
+
+    function handleDeleteBtn(rev) {
+        navigate(`/reviews/${rev.id}/delete`);
+    }
+
+
+
+    const [reviewOwner, setReviewOwner] = useState(null); // State to hold the user data
 
     useEffect(() => {
         async function fetchUser() {
@@ -31,7 +50,11 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
         }
 
         fetchUser();
-    }, [review.userId, setReviewCardChecker]);
+    }, [review.userId]); // Only run when the review.userId changes
+
+    const isLoggedIn = () => {
+        return sessionUser.id === reviewOwner.id
+    }
 
     if (!reviewOwner) {
         return (
@@ -66,13 +89,14 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 <p>{review.review}</p>
                 <span className="review-author">{reviewOwner.username}</span>
             </div>
-            <div className="reviewButton-hflex">
-                <button className="reviewBtn updateBtn">
-                    <OpenModalMenuItem
-                        itemText="Update"
-                        modalComponent={<EditReviewModal review={review} setReviewChecker={setReviewCardChecker}/>}
-                        onModalClose={async () => await onCloseModal}
-                    />
+            <br />
+            <br />
+            {  isLoggedIn() && <div className="reviewButton-hflex">
+                <button
+                    className="reviewBtn updateBtn"
+                    onClick={() => handleUpdateBtn(review)}
+                >
+                    update
                 </button>
                 <button
                     className="reviewBtn deleteBtn"
@@ -80,7 +104,10 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 >
                     Delete
                 </button>
-            </div>
+                <p>useremail = {reviewOwner.email}</p>
+                <p>sessionUser.email = {sessionUser.email}</p>
+                <p>sisMatch = {isLoggedIn() ? "YES" : "NO"}</p>
+            </div>}
         </div>
     );
 }
