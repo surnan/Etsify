@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import EditReviewModal from '../EditReviewModal';
+import { getUserThunk } from '../../redux/user';
+import { useSelector } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -22,6 +24,7 @@ async function getUser(userId) {
 }
 
 export default function ReviewCard({ review, setReviewCardChecker }) {
+    const sessionUser = useSelector(state => state.session.user)
     const [reviewOwner, setReviewOwner] = useState(null);
 
     useEffect(() => {
@@ -32,6 +35,10 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
 
         fetchUser();
     }, [review.userId, setReviewCardChecker]);
+    
+    const isLoggedIn = () => {
+        return sessionUser?.id === reviewOwner?.id
+    }
 
     if (!reviewOwner) {
         return (
@@ -79,7 +86,7 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 <p>{review.review}</p>
                 <span className="review-author">{reviewOwner.username}</span>
             </div>
-            <div className="reviewButton-hflex">
+         {isLoggedIn() &&   <div className="reviewButton-hflex">
                 <button className="reviewBtn updateBtn">
                     <OpenModalMenuItem
                         itemText="Update"
@@ -93,7 +100,7 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 >
                     Delete
                 </button>
-            </div>
+            </div>}
         </div>
     );
 }
