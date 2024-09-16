@@ -24,8 +24,8 @@ function Navigation() {
 
     return (
         <div className='navigation-list'>
-            <NavLogo />
             <div className='cat-search'>
+                <NavLogo />
                 <Categories />
             </div>
             <div className='search'>
@@ -33,8 +33,8 @@ function Navigation() {
             </div>
             <div className='profile-container'>
                 <FavoritesButton />
-                <ProfileButton user={sessionUser} />
                 <ShoppingCartButton shoppingCart={shoppingCart} />
+                <ProfileButton user={sessionUser} />
             </div>
         </div>
     );

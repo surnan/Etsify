@@ -52,25 +52,12 @@ function ShoppingCartButton({ shoppingCart }) {
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
-        <div className='shopping-cart-button'>
+        <div className='shopping-cart-button' onClick={() => window.alert("Feature Coming Soon")}>
             {
                 user ? (
-                    <FaShoppingCart onClick={toggleMenu} style={{fontSize: "18px"}}/>
+                    <FaShoppingCart style={{fontSize: "18px"}}/>
                 ) : (<></>)
             }
-            <ul className={ulClassName} ref={ulRef} onClick={(e) => e.stopPropagation()}>
-                {shoppingCart && (
-                    <>
-                        {/* <li>Hello, {user.username}</li> */}
-                        <div className='divider-horizontal'></div>
-                        <li onClick={goToManageSpots}>Manage Listings</li>
-                        <div className='divider-horizontal'></div>
-                        <div>
-                            <button onClick={logout}>Logout</button>
-                        </div>
-                    </>
-                )}
-            </ul>
         </div>
     );
 }

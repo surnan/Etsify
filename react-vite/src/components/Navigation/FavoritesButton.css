@@ -1,0 +1,18 @@
+.favorites-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    transition: ease 0.3s;
+    color: #333;
+}
+
+.favorites-button:hover {
+    cursor: pointer;
+    border-radius: 100px;
+    color: #112966;
+    background-color: #CFE8EF;
+    padding: 10px;
+}
