@@ -91,12 +91,15 @@ export default function ReviewCard({ review }) {
             </div>
             <br />
             <br />
-            {  isLoggedIn() && <div className="reviewButton-hflex">
+            {isLoggedIn() && <div className="reviewButton-hflex">
                 <button
                     className="reviewBtn updateBtn"
-                    onClick={() => handleUpdateBtn(review)}
                 >
-                    update
+                    <OpenModalMenuItem
+                        itemText="Update"
+                        modalComponent={<EditReviewModal review={review} setReviewChecker={setReviewCardChecker} />}
+                        onModalClose={async () => await onCloseModal}
+                    />
                 </button>
                 <button
                     className="reviewBtn deleteBtn"
