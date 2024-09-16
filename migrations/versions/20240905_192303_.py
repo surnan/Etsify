@@ -33,6 +33,9 @@ def upgrade():
     sa.UniqueConstraint('username')
     )
 
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+
     op.create_table('products',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('sellerId', sa.Integer(), nullable=False),
@@ -44,6 +47,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
+    if environment == "production":
+        op.execute(f"ALTER TABLE products SET SCHEMA {SCHEMA};")
+
     op.create_table('productimages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('productId', sa.Integer(), nullable=False),
@@ -52,6 +58,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
+    if environment == "production":
+        op.execute(f"ALTER TABLE productimages SET SCHEMA {SCHEMA};")
+
     op.create_table('shoppingcarts',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
@@ -59,6 +68,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('userId')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE shoppingcarts SET SCHEMA {SCHEMA};")
 
     op.create_table('cartproducts',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -69,6 +81,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
+    if environment == "production":
+        op.execute(f"ALTER TABLE cartproducts SET SCHEMA {SCHEMA};")
+
     op.create_table('favorites',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
@@ -77,6 +92,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE favorites SET SCHEMA {SCHEMA};")
 
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -90,8 +108,8 @@ def upgrade():
     )
 
     if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-  
+        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
+
     # ### end Alembic commands ###
 
 
