@@ -93,13 +93,13 @@ const updateProduct = (data) => ({
 // };
 
 export const addProductThunk = (product) => async (dispatch) => {
-    try {
-        const { images, ...body } = product;  // Spread out product to separate images
-        const response = await fetch("/api/products", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-        });
+    const { images } = product;  // Spread out product to separate images
+
+    const response = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+    });
 
         const data = await response.json();
 

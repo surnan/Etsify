@@ -1,8 +1,12 @@
 import { FaStar } from 'react-icons/fa6';
 import './ProductDetails.css';
 import { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import EditReviewModal from '../EditReviewModal';
+import { getUserThunk } from '../../redux/user';
+import { useSelector } from 'react-redux';
 
 function productRating(stars) {
     const result = [];
@@ -19,7 +23,7 @@ async function getUser(userId) {
     return result;
 }
 
-export default function ReviewCard({ review, setReviewCardChecker }) {
+export default function ReviewCard({ review, setReviewCardChecker, sessionUserId }) {
     const [reviewOwner, setReviewOwner] = useState(null);
 
     useEffect(() => {
@@ -30,6 +34,10 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
 
         fetchUser();
     }, [review.userId, setReviewCardChecker]);
+    
+    const isLoggedIn = () => {
+        return sessionUser?.id === reviewOwner?.id
+    }
 
     if (!reviewOwner) {
         return (
@@ -53,6 +61,19 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
         setReviewCardChecker(prev => !prev);
     }
 
+    const handleDeleteBtn = async (review) => {
+        const response = await fetch(`/api/reviews/${review.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            setReviewCardChecker(prev => !prev);
+        }
+    }
+
     return (
         <div className="review-card">
             <div className="review-card__header">
@@ -64,7 +85,8 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 <p>{review.review}</p>
                 <span className="review-author">{reviewOwner.username}</span>
             </div>
-            <div className="reviewButton-hflex">
+            {sessionUserId === review.userId && (
+                <div className="reviewButton-hflex">
                 <button className="reviewBtn updateBtn">
                     <OpenModalMenuItem
                         itemText="Update"
@@ -74,11 +96,27 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 </button>
                 <button
                     className="reviewBtn deleteBtn"
-                    // onClick={() => handleDeleteBtn(review)}
+                    onClick={() => handleDeleteBtn(review)}
                 >
                     Delete
                 </button>
             </div>
+            )}
+            {/* <div className="reviewButton-hflex">
+                <button className="reviewBtn updateBtn">
+                    <OpenModalMenuItem
+                        itemText="Update"
+                        modalComponent={<EditReviewModal review={review} setReviewChecker={setReviewCardChecker}/>}
+                        onModalClose={async () => await onCloseModal}
+                    />
+                </button>
+                <button
+                    className="reviewBtn deleteBtn"
+                    onClick={() => handleDeleteBtn(review)}
+                >
+                    Delete
+                </button>
+            </div> */}
         </div>
     );
 }

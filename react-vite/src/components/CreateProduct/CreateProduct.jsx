@@ -17,7 +17,7 @@ export default function CreateProduct() {
     const [image4, setImage4] = useState('');
     const [image5, setImage5] = useState('');
     const [errors, setErrors] = useState({});
-    const [showErrors, setShowErrors] = useState(false);
+    // const [showErrors, setShowErrors] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -45,16 +45,14 @@ export default function CreateProduct() {
         if (image5 && !isValidImage(image5)) errors.image5 = 'Image 5 must end with .jpg or .png';
 
         setErrors(errors);
-    // }, [name, description, price, stock, image1, image2, image3, image4, image5]);
-}, [name, description, price, stock, image1, image2, image3, image4, image5, isValidImage]);
+    }, [name, description, price, stock, image1, image2, image3, image4, image5]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
         if (Object.keys(errors).length > 0) {
-            setShowErrors(true);
-            console.log(showErrors)
+            // setShowErrors(true);
             return;
         }
 

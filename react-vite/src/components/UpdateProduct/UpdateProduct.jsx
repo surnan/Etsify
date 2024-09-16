@@ -16,7 +16,7 @@ export default function UpdateProduct() {
     const [image4, setImage4] = useState('');
     const [image5, setImage5] = useState('');
     const [errors, setErrors] = useState({});
-    const [showErrors, setShowErrors] = useState(false);
+    // const [showErrors, setShowErrors] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const dispatch = useDispatch();
@@ -76,8 +76,7 @@ export default function UpdateProduct() {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
-            setShowErrors(true);
-            console.log(showErrors)
+            // setShowErrors(true);
             return;
         }
 
