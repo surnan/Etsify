@@ -167,7 +167,10 @@ export default function ProductDetails() {
             </div>
             <div className="addReview">
                 {user ? (
-                    <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
+                    <div>
+                        <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
+                        <p>HELLO WORLD</p>
+                    </div>
                 ) : (
                     <div className="login-to-review-container">
                         <span>Login to leave a review</span>
