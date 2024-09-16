@@ -106,6 +106,11 @@ export default function ProductDetails() {
         return window.alert("feature coming soon");
     }
 
+    const handleModalClose = () => {
+        // refetches data from update modal
+        setReviewCardChecker(prev => !prev);
+    };
+
     return (
         <>
             <div className="product-main-container">
@@ -195,7 +200,11 @@ export default function ProductDetails() {
                 {product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
                         <React.Fragment key={index}>
-                            <ReviewCard review={review} setReviewCardChecker={setReviewCardChecker} />
+                            <ReviewCard 
+                                review={review} 
+                                setReviewCardChecker={setReviewCardChecker}
+                                sessionUserId={user?.id} //passing use id
+                            />
                             <div className="horizontal-divider"></div>
                         </React.Fragment>
                     ))

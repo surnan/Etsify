@@ -21,7 +21,7 @@ async function getUser(userId) {
     return result;
 }
 
-export default function ReviewCard({ review, setReviewCardChecker }) {
+export default function ReviewCard({ review, setReviewCardChecker, sessionUserId }) {
     const [reviewOwner, setReviewOwner] = useState(null);
 
     useEffect(() => {
@@ -79,7 +79,8 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                 <p>{review.review}</p>
                 <span className="review-author">{reviewOwner.username}</span>
             </div>
-            <div className="reviewButton-hflex">
+            {sessionUserId === review.userId && (
+                <div className="reviewButton-hflex">
                 <button className="reviewBtn updateBtn">
                     <OpenModalMenuItem
                         itemText="Update"
@@ -94,6 +95,22 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
                     Delete
                 </button>
             </div>
+            )}
+            {/* <div className="reviewButton-hflex">
+                <button className="reviewBtn updateBtn">
+                    <OpenModalMenuItem
+                        itemText="Update"
+                        modalComponent={<EditReviewModal review={review} setReviewChecker={setReviewCardChecker}/>}
+                        onModalClose={async () => await onCloseModal}
+                    />
+                </button>
+                <button
+                    className="reviewBtn deleteBtn"
+                    onClick={() => handleDeleteBtn(review)}
+                >
+                    Delete
+                </button>
+            </div> */}
         </div>
     );
 }
