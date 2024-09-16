@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {addReviewThunk} from '../../redux/review';
-import { getUserThunk} from "../../redux/user";
+// import { getUserThunk} from "../../redux/user";
 
 import { FaStar } from "react-icons/fa";
 import './AddReviewModal.css';
@@ -19,9 +19,9 @@ const AddReviewForm = ()=> {
     const dispatch = useDispatch();
 
     
-    useEffect(() => {
-        let user = dispatch(getUserThunk(userId))
-    }, [userId])
+    // useEffect(() => {
+    //     let user = dispatch(getUserThunk(userId))
+    // }, [userId])
 
     useEffect(() => {
         setButtonOut(true);

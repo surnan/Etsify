@@ -22,15 +22,15 @@ const addProduct = (data) => ({
     payload: data
 })
 
-const addProductImages = (data) => ({
-    type: ADD_PRODUCT_IMAGES,
-    payload: data
-})
+// const addProductImages = (data) => ({
+//     type: ADD_PRODUCT_IMAGES,
+//     payload: data
+// })
 
-const removeProductImages = (data) => ({
-    type: DELETE_PRODUCT_IMAGES,
-    payload: data
-})
+// const removeProductImages = (data) => ({
+//     type: DELETE_PRODUCT_IMAGES,
+//     payload: data
+// })
 
 const deleteProduct = (data) => ({
     type: DELETE_PRODUCT,
@@ -73,7 +73,7 @@ const updateProduct = (data) => ({
 // };
 
 export const addProductThunk = (product) => async (dispatch) => {
-    const { images, ...body } = product;  // Spread out product to separate images
+    const { images } = product;  // Spread out product to separate images
 
     const response = await fetch("/api/products", {
         method: "POST",

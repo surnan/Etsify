@@ -1,5 +1,5 @@
 // Modal.js
-import React from 'react';
+// import React from 'react';
 import './Modal.css'; // Create this file for styling the modal
 
 export default function Modal({ isOpen, onClose, children }) {

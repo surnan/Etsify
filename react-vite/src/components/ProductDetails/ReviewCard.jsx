@@ -1,8 +1,8 @@
 import { FaStar } from 'react-icons/fa6';
 import './ProductDetails.css';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+// import { useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import EditReviewModal from '../EditReviewModal';
 
@@ -51,8 +51,21 @@ export default function ReviewCard({ review, setReviewCardChecker }) {
     const rating = productRating(review.stars);
 
     const onCloseModal = () => {
-        setReviewChecker(prev => !prev);
+        // setReviewChecker(prev => !prev);
         setReviewCardChecker(prev => !prev);
+    }
+
+    const handleDeleteBtn = async (review) => {
+        const response = await fetch(`/api/reviews/${review.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            setReviewCardChecker(prev => !prev);
+        }
     }
 
     return (

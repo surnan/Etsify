@@ -3,7 +3,7 @@ const GET_PRODUCT_IMAGES = 'GET_PRODUCT_IMAGES';
 // const GET_PRODUCT_IMAGE = 'GET_PRODUCT_IMAGE';
 const CREATE_PRODUCT_IMAGE = 'CREATE_PRODUCT_IMAGE';
 const DELETE_PRODUCT_IMAGE = 'DELETE_PRODUCT_IMAGE';
-const UPDATE_PRODUCT_IMAGE = 'UPDATE_PRODUCT_IMAGE';
+// const UPDATE_PRODUCT_IMAGE = 'UPDATE_PRODUCT_IMAGE';
 
 //Action Creators
 const getProductImages = (productImages) => ({
@@ -21,10 +21,10 @@ const deleteProductImage = (productImageId) => ({
     payload: productImageId
 });
 
-const updateProductImage = (productImage) => ({
-    type: UPDATE_PRODUCT_IMAGE,
-    payload: productImage
-});
+// const updateProductImage = (productImage) => ({
+//     type: UPDATE_PRODUCT_IMAGE,
+//     payload: productImage
+// });
 
 //Thunks
 export const getProductImagesThunk = (productId) => async (dispatch) => {
