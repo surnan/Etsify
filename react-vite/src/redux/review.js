@@ -143,7 +143,7 @@ function reviewReducer(state = initialState, action) {
 
             const reviewId = action.payload.review.id;
 
-            console.log(reviewId, 'is the review id');
+            // console.log(reviewId, 'is the review id');
 
             const newAllReviews = [];
 
@@ -156,7 +156,7 @@ function reviewReducer(state = initialState, action) {
                 }
             }
 
-            console.log(newAllReviews, 'is the new all reviews array');
+            // console.log(newAllReviews, 'is the new all reviews array');
 
             newState.allReviews = newAllReviews;
             newState.byId = { ...newState.byId, [reviewId]: action.payload.review };

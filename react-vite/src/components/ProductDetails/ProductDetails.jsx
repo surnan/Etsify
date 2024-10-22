@@ -174,7 +174,6 @@ export default function ProductDetails() {
                 {user ? (
                     <div>
                         <Link to={`/reviews/${productId}/add`}><button>Add Review</button></Link>
-                        <p>HELLO WORLD</p>
                     </div>
                 ) : (
                     <div className="login-to-review-container">
