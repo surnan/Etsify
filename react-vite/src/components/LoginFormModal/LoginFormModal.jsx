@@ -38,7 +38,7 @@ function LoginFormModal() {
 
     return dispatch(sessionActions.thunkLogin({ email: credential, password: password }))
       .then(closeModal)
-      .catch(async () => {
+      .catch(async (res) => {
           // Set the error message for invalid credentials
           console.error(res)
           setErrors({ invalidCredential: 'Invalid email or password' });
