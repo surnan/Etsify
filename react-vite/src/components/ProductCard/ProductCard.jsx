@@ -22,7 +22,7 @@ export function getProductStarRating(reviews) {
     return result;
 }
 
-function ProductCard({ product }) {
+export function ProductCard({ product }) {
     const productImage = product.product_images?.length ? product.product_images[0]?.image_url : 'https://i0.wp.com/mikeyarce.com/wp-content/uploads/2021/09/woocommerce-placeholder.png?ssl=1';
     const productRating = getProductStarRating(product.reviews || null);
 

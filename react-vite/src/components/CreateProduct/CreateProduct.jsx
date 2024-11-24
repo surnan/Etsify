@@ -45,6 +45,7 @@ export default function CreateProduct() {
         if (image5 && !isValidImage(image5)) errors.image5 = 'Image 5 must end with .jpg or .png';
 
         setErrors(errors);
+    // }, [name, description, price, stock, image1, image2, image3, image4, image5]);
     }, [name, description, price, stock, image1, image2, image3, image4, image5]);
 
     const handleSubmit = async (e) => {
